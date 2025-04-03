@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_page"
+    android:paddingTop="@dimen/statusbar_height">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="107dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_user_a"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:src="@mipmap/icon_main_account"
+                android:padding="@dimen/dp_5"
+                android:background="@drawable/click_btn_transparent_line_black"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center"
+                android:text="@string/account"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_22" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list_a"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="120dp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_layout_a"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="107dp"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginStart="107dp"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:id="@+id/ll_tips"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="170dp"
+            android:gravity="end"
+            android:visibility="gone"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_tips"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/instruction_tip"
+                android:lineSpacingExtra="@dimen/dp_5"
+                android:padding="@dimen/dp_10"
+                android:background="@drawable/bg_tips"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="107dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list_b"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="240dp" />
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/line_color"
+            android:layout_marginTop="@dimen/dp_10"
+            />
+        <FrameLayout
+            android:id="@+id/frame_layout_b"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</LinearLayout>

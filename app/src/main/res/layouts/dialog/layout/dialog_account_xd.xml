@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="550dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:paddingStart="@dimen/dp_50"
+    android:paddingEnd="@dimen/dp_50"
+    android:paddingTop="@dimen/dp_40"
+    android:paddingBottom="@dimen/dp_40"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/buy_xd"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:text="@string/mode_payment"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_24" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_zfb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rb_bg_zfb"
+            android:button="@null"
+            android:buttonTint="@color/black"
+            android:checked="true"
+            android:drawablePadding="20dp"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_wx"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/rb_bg_wx"
+            android:button="@null"
+            android:buttonTint="@color/black"
+            android:textColor="@color/black"
+            android:visibility="gone"
+             />
+    </RadioGroup>
+
+    <include
+        layout="@layout/common_dialog_ok"
+        />
+</LinearLayout>

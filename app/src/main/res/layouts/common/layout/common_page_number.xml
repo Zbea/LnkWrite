@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_page_number"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="@dimen/dp_10"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/btn_page_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/black"
+        android:padding="@dimen/dp_10"
+        android:background="@drawable/click_btn_transparent_line_black"
+        android:text="@string/page_last"/>
+
+    <TextView
+        android:id="@+id/tv_page_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/black_50"
+        android:textSize="22sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:layout_margin="5dp"
+        android:textColor="@color/black_50"
+        android:textSize="22sp"/>
+    <TextView
+        android:id="@+id/tv_page_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/black_50"
+        android:textSize="22sp"/>
+
+    <TextView
+        android:id="@+id/btn_page_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:padding="@dimen/dp_10"
+        android:background="@drawable/click_btn_transparent_line_black"
+        android:text="@string/page_next"/>
+
+</LinearLayout>

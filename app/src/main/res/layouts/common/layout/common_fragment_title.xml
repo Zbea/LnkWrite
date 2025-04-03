@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navigation_height">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/navigation_type_height"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_course"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:drawableRight="@mipmap/icon_arrow_down"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_24"
+            android:visibility="gone"
+            android:text="@string/selector_subject"
+            android:ellipsize="end"
+            android:lines="1"
+            android:background="@drawable/bg_black_stroke_5dp_corner"
+            />
+
+        <TextView
+            android:id="@+id/tv_student"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:drawableRight="@mipmap/icon_arrow_down"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_24"
+            android:visibility="gone"
+            android:ellipsize="end"
+            android:lines="1"
+            android:background="@drawable/bg_black_stroke_5dp_corner"
+            />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_manager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:visibility="gone"
+            android:src="@mipmap/icon_manager"/>
+
+        <TextView
+            android:id="@+id/tv_setting"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_24"
+            android:visibility="gone"
+            android:ellipsize="end"
+            android:lines="1"
+            android:background="@drawable/click_btn_line_black_5dp"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

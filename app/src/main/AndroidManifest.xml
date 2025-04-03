@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <!--      android:sharedUserId="android.uid.system"  -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <!--位置信息-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--如果是安卓10.0，需要后台获取连接的wifi名称则添加进程获取位置信息权限 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!--android 10.0使用wifi api新添加的权限-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <uses-permission  android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions,ReservedSystemPermission" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission  android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission  android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.DELETE_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECOVERY"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.rockchip.update.permission.SHOW_UI" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:name=".MyApplication"
+        android:usesCleartextTraffic="true"
+        android:exported="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        >
+
+        <receiver
+            android:name=".MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="com.bll.lnkcommon.refresh"/>
+                <action android:name="com.htfyun.blackwhitebar.uploaddata"/>
+                <action android:name="com.htfyun.blackwhitebar.refresh"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".ui.activity.AccountLoginActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:configChanges="locale"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".ui.activity.NotebookManagerActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.NoteDrawingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
+            />
+        <activity android:name=".ui.activity.book.BookcaseTypeListActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.book.BookStoreActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.book.TextBookStoreActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.TextbookDetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.book.BookStoreTypeActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.OperatingGuideActivity"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".ui.activity.ResourceCenterActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.AccountInfoActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.AccountRegisterActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.DateActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.DateEventActivity"
+            android:theme="@style/activityCustom1"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.ScoreActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.HomeworkCorrectActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".ui.activity.WalletActivity"
+            android:theme="@style/activityCustom"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.FreeNoteActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.PlanOverviewActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.CalenderMyActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.AppToolActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.DiaryActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.WallpaperMyActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.CloudStorageActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.MessageListActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.PermissionSettingActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.FileDrawingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.PaintingDrawingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.ScreenshotManagerActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.HomeworkDetailsActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".ui.activity.drawing.ExamDetailsActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.bll.lnkwrite"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
