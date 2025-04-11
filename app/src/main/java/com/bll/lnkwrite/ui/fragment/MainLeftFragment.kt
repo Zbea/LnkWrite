@@ -82,13 +82,13 @@ class MainLeftFragment:BaseFragment(){
         val lunar=LunarSolarConverter.SolarToLunar(solar)
 
         val str = if (!solar.solar24Term.isNullOrEmpty()) {
-            "24节气   "+solar.solar24Term
+            solar.solar24Term
         } else {
             if (!solar.solarFestivalName.isNullOrEmpty()) {
-                "节日   "+solar.solarFestivalName
+                solar.solarFestivalName
             } else {
                 if (!lunar.lunarFestivalName.isNullOrEmpty()) {
-                    "节日   "+lunar.lunarFestivalName
+                    lunar.lunarFestivalName
                 }
                 else{
                     ""

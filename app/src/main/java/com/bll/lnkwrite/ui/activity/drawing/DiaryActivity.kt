@@ -13,15 +13,20 @@ import com.bll.lnkwrite.dialog.InputContentDialog
 import com.bll.lnkwrite.dialog.ModuleItemDialog
 import com.bll.lnkwrite.manager.DiaryDaoManager
 import com.bll.lnkwrite.mvp.model.DiaryBean
-import com.bll.lnkwrite.utils.*
-import kotlinx.android.synthetic.main.ac_diary.*
-import kotlinx.android.synthetic.main.ac_plan_overview.v_content
+import com.bll.lnkwrite.utils.DateUtils
+import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.SPUtil
+import com.bll.lnkwrite.utils.ToolUtils
+import kotlinx.android.synthetic.main.ac_diary.ll_date
+import kotlinx.android.synthetic.main.ac_diary.tv_digest
 import kotlinx.android.synthetic.main.common_date_arrow.iv_down
 import kotlinx.android.synthetic.main.common_date_arrow.iv_up
 import kotlinx.android.synthetic.main.common_date_arrow.tv_date
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_a
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_total_a
-import kotlinx.android.synthetic.main.common_drawing_tool.*
+import kotlinx.android.synthetic.main.common_drawing_tool.iv_btn
+import kotlinx.android.synthetic.main.common_drawing_tool.tv_page
+import kotlinx.android.synthetic.main.common_drawing_tool.tv_page_total
 import java.io.File
 
 class DiaryActivity:BaseDrawingActivity() {

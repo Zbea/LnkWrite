@@ -225,8 +225,8 @@ class CloudBookcaseFragment:BaseCloudFragment() {
     }
 
     override fun onCloudType(types: MutableList<String>) {
-        types.remove("全部")
-        types.add(0,"全部")
+        types.remove(getString(R.string.all))
+        types.add(0,getString(R.string.all))
         this.types=types
         if (types.size>0){
             initTab()

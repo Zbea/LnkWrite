@@ -40,11 +40,7 @@ class BookcaseFragment : BaseFragment() {
         findBook()
 
         tv_book_type.setOnClickListener {
-            if (MethodManager.isLogin()) {
-                customStartActivity(Intent(activity, BookcaseTypeListActivity::class.java))
-            } else {
-                customStartActivity(Intent(activity, AccountLoginActivity::class.java))
-            }
+            customStartActivity(Intent(activity, BookcaseTypeListActivity::class.java))
         }
 
         ll_book_top.setOnClickListener {
@@ -73,17 +69,12 @@ class BookcaseFragment : BaseFragment() {
      * 查找本地书籍
      */
     private fun findBook() {
-        if (MethodManager.isLogin()) {
-            books = BookDaoManager.getInstance().queryAllBook(true)
-            if (books.size == 0) {
-                bookTopBean = null
-            } else {
-                bookTopBean = books[0]
-                books.removeFirst()
-            }
-        } else {
-            books.clear()
+        books = BookDaoManager.getInstance().queryAllBook(true,13)
+        if (books.size == 0) {
             bookTopBean = null
+        } else {
+            bookTopBean = books[0]
+            books.removeFirst()
         }
         mAdapter?.setNewData(books)
         onChangeTopView()
@@ -136,7 +127,7 @@ class BookcaseFragment : BaseFragment() {
                             type = 1
                             zipUrl = book.downloadUrl
                             downloadUrl = it
-                            subTypeStr = book.subtypeStr.ifEmpty { "全部" }
+                            subTypeStr = book.subtypeStr.ifEmpty { getString(R.string.all) }
                             date = System.currentTimeMillis()
                             listJson = Gson().toJson(book)
                             bookId = book.bookId
@@ -149,7 +140,7 @@ class BookcaseFragment : BaseFragment() {
                 cloudList.add(CloudListBean().apply {
                     type = 1
                     zipUrl = book.downloadUrl
-                    subTypeStr = book.subtypeStr.ifEmpty { "全部" }
+                    subTypeStr = book.subtypeStr.ifEmpty { getString(R.string.all)  }
                     date = System.currentTimeMillis()
                     listJson = Gson().toJson(book)
                     bookId = book.bookId

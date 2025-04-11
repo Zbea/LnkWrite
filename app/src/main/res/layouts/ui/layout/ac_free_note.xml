@@ -126,9 +126,11 @@
 
         <TextView
             android:id="@+id/tv_save"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_45"
             android:layout_marginEnd="@dimen/dp_30"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
             android:gravity="center"
             android:text="@string/save"
             android:textColor="@color/black"
@@ -137,9 +139,11 @@
             />
         <TextView
             android:id="@+id/tv_delete"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_45"
             android:layout_marginEnd="@dimen/dp_50"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
             android:text="@string/delete"
             android:textColor="@color/black"
             android:textSize="24sp"
@@ -154,7 +158,7 @@
         />
 
     <com.android.internal.widget.PreferenceImageView
-        android:id="@+id/v_content"
+        android:id="@+id/v_content_b"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_function"

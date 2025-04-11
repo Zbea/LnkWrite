@@ -37,7 +37,7 @@ class CalendarSingleDialog(private val context: Context,private val x:Float,priv
         val iv_right = dialog?.findViewById<ImageView>(R.id.iv_right)
         val calendarView = dialog?.findViewById<CalendarView>(R.id.dp_date)
 
-        tv_year?.text="${calendarView?.curYear} 年  ${calendarView?.curMonth} 月"
+        tv_year?.text="${calendarView?.curYear}  -  ${calendarView?.curMonth} "
 
         iv_left?.setOnClickListener {
             calendarView?.scrollToPre()
@@ -48,7 +48,7 @@ class CalendarSingleDialog(private val context: Context,private val x:Float,priv
         }
 
         calendarView?.setOnMonthChangeListener { year, month ->
-            tv_year?.text="$year 年  $month 月"
+            tv_year?.text="$year  -  $month "
         }
 
         calendarView?.setOnCalendarSelectListener(object : CalendarView.OnCalendarSelectListener {

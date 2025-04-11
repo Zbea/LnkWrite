@@ -30,7 +30,7 @@ class PrivacyPasswordCreateDialog(private val context: Context,private val type:
         window.setBackgroundDrawableResource(android.R.color.transparent)
         val layoutParams = window.attributes
         layoutParams.gravity = Gravity.CENTER_VERTICAL or Gravity.END
-        layoutParams.x=(Constants.WIDTH- DP2PX.dip2px(context,500f))/2
+        layoutParams.x=(Constants.WIDTH- DP2PX.dip2px(context,600f))/2
         dialog.show()
 
         popWindowBeans.add(

@@ -33,7 +33,7 @@ class NotebookManagerActivity : BaseActivity() {
     }
 
     override fun initView() {
-        setPageTitle("笔记本管理")
+        setPageTitle(R.string.notebook_manager)
         disMissView(ll_page_number)
         initRecyclerView()
     }
@@ -78,7 +78,7 @@ class NotebookManagerActivity : BaseActivity() {
 
     //删除
     private fun deleteNotebook(){
-        CommonDialog(this).setContent("确定删除笔记本？").builder()
+        CommonDialog(this).setContent(R.string.tips_is_delete).builder()
             .setDialogClickListener(object : CommonDialog.OnDialogClickListener {
                 override fun cancel() {
                 }
@@ -86,7 +86,7 @@ class NotebookManagerActivity : BaseActivity() {
                     val noteType=noteBooks[position]
                     val notes= NoteDaoManager.getInstance().queryAll(noteType.title)
                     if (notes.isNotEmpty()){
-                        showToast("笔记本还有主题,无法删除")
+                        showToast(R.string.toast_type_exist_no_delete)
                     }
                     else{
                         noteBooks.removeAt(position)
@@ -102,7 +102,7 @@ class NotebookManagerActivity : BaseActivity() {
     private fun editNoteBook(content:String){
         InputContentDialog(this,content).builder().setOnDialogClickListener { string ->
             if (ItemTypeDaoManager.getInstance().isExist(string,1)){
-                showToast("已存在")
+                showToast(R.string.existed)
                 return@setOnDialogClickListener
             }
             val noteBook=noteBooks[position]

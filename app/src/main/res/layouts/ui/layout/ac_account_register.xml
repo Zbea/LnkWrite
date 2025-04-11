@@ -21,7 +21,7 @@
         <LinearLayout
             android:id="@+id/ll_user"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             >
@@ -38,7 +38,7 @@
             <EditText
                 android:id="@+id/ed_user"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:hint="@string/user_tip"
                 android:textColorHint="@color/color_text_hint"
                 android:textColor="@color/black"
@@ -50,7 +50,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_30"
             android:orientation="horizontal"
             android:gravity="center_vertical"
@@ -69,7 +69,7 @@
             <EditText
                 android:id="@+id/ed_password"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:hint="@string/psw_tip"
                 android:textColorHint="@color/color_text_hint"
                 android:textColor="@color/black"
@@ -182,7 +182,9 @@
 
                 <Button
                     android:id="@+id/btn_code"
-                    android:layout_width="160dp"
+                    android:layout_width="wrap_content"
+                    android:paddingStart="@dimen/dp_10"
+                    android:paddingEnd="@dimen/dp_10"
                     android:layout_height="50dp"
                     android:background="@drawable/click_btn_black_solid_5dp"
                     android:text="@string/get_verification_code_str"

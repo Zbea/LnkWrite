@@ -12,7 +12,7 @@
     <string name="psw_tip">请输入6–20数字、字母的密码</string>
     <string name="phone_tip">请正确输入11位手机号码</string>
     <string name="net_tip">长按WiFi或4G图标打开设置连接网络</string>
-    <string name="instruction_tip">长按WiFi或4G图标打开设置连接网络</string>
+    <string name="instruction_tip">点击打开管理中心仔细阅读操作手册</string>
 
     <string name="permission_apply">权限申请</string>
     <string name="permission_successfully">获取成功的权限</string>
@@ -40,6 +40,7 @@
     <string name="toast_content_null_no_upload">暂无内容，无需上传</string>
     <string name="toast_current_format_unsupported">不支持当前格式</string>
     <string name="toast_bind_student">请关联学生</string>
+    <string name="toast_date_no_select">当前日期无法选择</string>
 
     <string name="input_password_hint">请输入密码</string>
     <string name="input_name_hint">请输入姓名</string>
@@ -131,6 +132,9 @@
     <string name="correct">批改</string>
     <string name="notice">通知</string>
     <string name="no_content">暂无</string>
+    <string name="start">开始</string>
+    <string name="end">结束</string>
+    <string name="plan">规划</string>
 
     <string name="semester_last">上学期</string>
     <string name="semester_next">下学期</string>
@@ -150,13 +154,6 @@
     <string name="diary_save_str">结集保存</string>
     <string name="diary_cloud_str">云库日记</string>
 
-    <string name="textbook_tab_text">我的课本</string>
-    <string name="textbook_tab_course">参考课本</string>
-    <string name="textbook_tab_homework">我的教辅</string>
-    <string name="textbook_tab_homework_other">参考教辅</string>
-
-    <string name="password_login">登录密码</string>
-    <string name="password_check">隐私密码</string>
     <string name="password_edit">修改密码</string>
     <string name="password_set">设置密码</string>
     <string name="password_create">创建密码</string>
@@ -178,7 +175,6 @@
     <string name="password_question_birthday">我的爱好？</string>
     <string name="password_question_movie">最爱电影？</string>
     <string name="password_set_question">设置密保</string>
-    <string name="main_menu_str">首页菜单</string>
     <string name="retrieve">检索</string>
     <string name="geometry_hint_lint_distance">输入直线距离(mm)</string>
     <string name="geometry_hint_rectangle_width">输入矩形宽度(mm)</string>
@@ -209,7 +205,6 @@
     <string name="book_details_str">书籍明细</string>
     <string name="document_details_str">文档明细</string>
     <string name="type_set_str">设置分类</string>
-    <string name="book_list_str">书籍列表</string>
     <string name="existed">已存在</string>
     <string name="downloaded">已下载</string>
     <string name="download_success">下载完成</string>
@@ -242,6 +237,7 @@
     <string name="free_note">随笔</string>
     <string name="schedule">日程</string>
     <string name="message">消息</string>
+    <string name="book">书籍</string>
 
     <string name="teacher_homework_str">老师作业</string>
     <string name="classGroup_exam_str">班级测验</string>
@@ -317,7 +313,6 @@
 
     <string name="search_editing_str">搜索编辑</string>
     <string name="my_bookshelf">我的阅读</string>
-    <string name="categorized_display">分类展示</string>
 
     <string name="my_wallet_str">我的钱包</string>
     <string name="student_transfer_str">学生转账</string>

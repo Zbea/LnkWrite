@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="105dp"
                 android:button="@null"
-                android:text="月计划"
+                android:text="@string/plan_month_str"
                 android:textSize="@dimen/sp_26"
                 android:textColor="@drawable/color_black_gray_selector"
                 android:textStyle="bold"
@@ -47,7 +47,7 @@
                 android:layout_marginStart="35dp"
                 android:button="@null"
                 android:gravity="center"
-                android:text="周计划"
+                android:text="@string/plan_week_str"
                 android:textSize="@dimen/sp_26"
                 android:textStyle="bold"
                 android:textColor="@drawable/color_black_gray_selector"
@@ -68,7 +68,7 @@
     </RelativeLayout>
 
     <com.android.internal.widget.PreferenceImageView
-        android:id="@+id/v_content"
+        android:id="@+id/v_content_b"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_function"

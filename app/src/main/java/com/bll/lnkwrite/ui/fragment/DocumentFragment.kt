@@ -2,6 +2,7 @@ package com.bll.lnkwrite.ui.fragment
 
 import PopupClick
 import android.media.MediaScannerConnection
+import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -53,8 +54,7 @@ class DocumentFragment : BaseFragment() {
                                 return@setOnDialogClickListener
                             }
                             val path = FileAddress().getPathDocument(it)
-                            FileUtils.mkdirs("$path/1")
-                            scanPath("$path/1")
+                            MethodManager.createFileScan(requireActivity(),path)
 
                             val itemTypeBean = ItemTypeBean()
                             itemTypeBean.type = 6
@@ -76,9 +76,10 @@ class DocumentFragment : BaseFragment() {
                         }
                         CommonDialog(requireActivity(), 1).setContent(R.string.tips_is_delete).builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
                             override fun ok() {
-                                ItemTypeDaoManager.getInstance().deleteBean(itemTabTypes[tabPos])
-                                FileUtils.delete(itemTabTypes[tabPos].path)
-                                scanPath(itemTabTypes[tabPos].path)
+                                val itemTypeBean=itemTabTypes[tabPos]
+                                ItemTypeDaoManager.getInstance().deleteBean(itemTypeBean)
+                                FileUtils.delete(itemTypeBean.path)
+                                MediaScannerConnection.scanFile(requireActivity(), arrayOf(itemTypeBean.path),null, null)
                                 mTabTypeAdapter?.remove(tabPos)
                                 tabPos = 0
                                 itemTabTypes[0].isCheck = true
@@ -101,17 +102,11 @@ class DocumentFragment : BaseFragment() {
     override fun lazyLoad() {
         for (item in itemTabTypes){
             val path=item.path
-            if (!FileUtils.isExist(path)){
-                FileUtils.mkdirs("$path/1")
-                scanPath("$path/1")
-            }
+            MethodManager.createFileScan(requireActivity(),path)
         }
         fetchData()
     }
 
-    private fun scanPath(path: String) {
-        MediaScannerConnection.scanFile(requireActivity(), arrayOf(path),null, null)
-    }
 
     private fun initTab() {
         pageIndex = 1
@@ -174,18 +169,8 @@ class DocumentFragment : BaseFragment() {
         mAdapter?.setNewData(files)
     }
 
-    private fun delete(){
-        for (item in itemTabTypes){
-            val path=item.path+"/1"
-            if (FileUtils.isExist(path)){
-                FileUtils.delete(path)
-                scanPath(path)
-            }
-        }
-    }
 
     override fun onRefreshData() {
-        delete()
         lazyLoad()
     }
 }

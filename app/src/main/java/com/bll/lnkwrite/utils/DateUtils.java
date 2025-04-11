@@ -7,9 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by seatrend on 2018/8/21.
- */
 
 public class DateUtils {
 
@@ -43,29 +40,12 @@ public class DateUtils {
      *
      * @return
      */
-    public static String longToStringData(long date) {
-        if(0 == date){
-            return null;
-        }
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
-            return sdf.format(new Date(date10ToDate13(date)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
-     * 时间戳转换为字符串类型
-     *
-     * @return
-     */
     public static String longToStringNoYear(long date) {
         if(0 == date){
             return null;
         }
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
+            SimpleDateFormat sdf = new SimpleDateFormat("MM - dd HH:mm", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
             return sdf.format(new Date(date10ToDate13(date)));
         } catch (Exception e) {
             return null;
@@ -77,7 +57,7 @@ public class DateUtils {
             return null;
         }
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmSS", Locale.CHINA);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
             return sdf.format(new Date(date10ToDate13(date)));
         } catch (Exception e) {
             return null;
@@ -106,23 +86,6 @@ public class DateUtils {
      *
      * @return
      */
-    public static String longToHour1(long date) {
-        if(0 == date){
-            return null;
-        }
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("H:m", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
-            return sdf.format(new Date(date10ToDate13(date)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
-     * 时间戳转换为字符串类型
-     *
-     * @return
-     */
     public static String longToHour2(long date) {
         if(0 == date){
             return null;
@@ -140,31 +103,7 @@ public class DateUtils {
             return null;
         }
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日  E", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
-            return sdf.format(new Date(date10ToDate13(date)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static String longToStringWeek2(long date) {
-        if(0 == date){
-            return null;
-        }
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日HH:mm  E", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
-            return sdf.format(new Date(date10ToDate13(date)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static String longToStringWeek1(long date) {
-        if(0 == date){
-            return null;
-        }
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日  E", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
+            SimpleDateFormat sdf = new SimpleDateFormat("MM - dd  EE"); // "yyyy-MM-dd HH:mm:ss"
             return sdf.format(new Date(date10ToDate13(date)));
         } catch (Exception e) {
             return null;
@@ -200,7 +139,7 @@ public class DateUtils {
             return null;
         }
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
+            SimpleDateFormat sdf = new SimpleDateFormat("MM - dd", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
             return sdf.format(new Date(date10ToDate13(date)));
         } catch (Exception e) {
             return null;
@@ -246,24 +185,6 @@ public class DateUtils {
         int month = a.get(Calendar.MONTH) + 1;
         int day=a.get(Calendar.DAY_OF_MONTH);
         return new int[]{year,month,day};
-    }
-
-
-    /**
-     *  把秒换算成 "yyyy-MM-dd"
-     * @param date
-     * @return
-     */
-    public static String intToStringDataNoHour(long date) {
-        if(0 == date){
-            return null;
-        }
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA); // "yyyy-MM-dd HH:mm:ss"
-            return sdf.format(new Date(date10ToDate13(date)));
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     /**
@@ -340,44 +261,6 @@ public class DateUtils {
         return 0;
     }
 
-    public static long date2Stamp(String s) {
-
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-            Date date = simpleDateFormat.parse(s);
-            return date.getTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
-
-    public static long date3Stamp(String s) {
-
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.CHINA);
-            Date date = simpleDateFormat.parse(s);
-            return date.getTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
-
-    public static long date4Stamp(String s) {
-
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日HH:mm",Locale.CHINA);
-            Date date = simpleDateFormat.parse(s);
-            return date.getTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
 
     /**
      * 字符串日期时间格式化为long型

@@ -63,8 +63,10 @@
 
             <TextView
                 android:id="@+id/btn_edit_name"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:paddingStart="@dimen/dp_20"
+                android:paddingEnd="@dimen/dp_20"
                 android:gravity="center"
                 android:text="@string/account_edit_name_str"
                 android:background="@drawable/click_btn_black_solid_5dp"
@@ -96,6 +98,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_student"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -121,8 +124,10 @@
 
             <TextView
                 android:id="@+id/btn_add"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:paddingStart="@dimen/dp_20"
+                android:paddingEnd="@dimen/dp_20"
                 android:gravity="center"
                 android:text="@string/account_bind_student_str"
                 android:background="@drawable/click_btn_black_solid_5dp"

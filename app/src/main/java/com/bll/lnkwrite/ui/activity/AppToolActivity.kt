@@ -2,6 +2,7 @@ package com.bll.lnkwrite.ui.activity
 
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bll.lnkwrite.Constants
+import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseActivity
 import com.bll.lnkwrite.dialog.CommonDialog
@@ -118,14 +119,16 @@ class AppToolActivity:BaseActivity() {
 
     private fun setData(){
         apps.clear()
-        if (!AppDaoManager.getInstance().isExist(Constants.PACKAGE_GEOMETRY)){
-            AppDaoManager.getInstance().insertOrReplace(AppBean().apply {
-                appName=getString(R.string.geometry_title_str)
-                imageByte = BitmapUtils.drawableToByte(getDrawable(R.mipmap.icon_app_geometry))
-                packageName=Constants.PACKAGE_GEOMETRY
-                type=0
-                subType=1
-            })
+        if (MethodManager.isCN()){
+            if (!AppDaoManager.getInstance().isExist(Constants.PACKAGE_GEOMETRY)){
+                AppDaoManager.getInstance().insertOrReplace(AppBean().apply {
+                    appName=getString(R.string.geometry_title_str)
+                    imageByte = BitmapUtils.drawableToByte(getDrawable(R.mipmap.icon_app_geometry))
+                    packageName=Constants.PACKAGE_GEOMETRY
+                    type=0
+                    subType=1
+                })
+            }
         }
         apps=AppDaoManager.getInstance().queryAPPTool()
         for (item in apps){

@@ -39,7 +39,7 @@ class CalendarDiaryDialog(private val context: Context,private val screen:Int,pr
         val iv_right = dialog?.findViewById<ImageView>(R.id.iv_right)
         calendarView = dialog!!.findViewById(R.id.dp_date)
 
-        tv_year?.text="${calendarView?.curYear} 年  ${calendarView?.curMonth} 月"
+        tv_year?.text="${calendarView?.curYear}  -  ${calendarView?.curMonth} "
         diaryTimes=DiaryDaoManager.getInstance().queryLongList(calendarView!!.curYear, calendarView!!.curMonth,uploadId)
 
         if (uploadId==0){
@@ -57,7 +57,7 @@ class CalendarDiaryDialog(private val context: Context,private val screen:Int,pr
         }
 
         calendarView?.setOnMonthChangeListener { year, month ->
-            tv_year?.text="$year 年  $month 月"
+            tv_year?.text="$year  -  $month "
             diaryTimes=DiaryDaoManager.getInstance().queryLongList(year, month,uploadId)
             if (month==DateUtils.getMonth()){
                 if (uploadId==0){
@@ -95,7 +95,7 @@ class CalendarDiaryDialog(private val context: Context,private val screen:Int,pr
             }
 
             override fun onCalendarInterceptClick(calendar: Calendar?, isClick: Boolean) {
-                SToast.showText(screen,"当前日期无法选择")
+                SToast.showText(screen,R.string.toast_date_no_select)
             }
         })
 

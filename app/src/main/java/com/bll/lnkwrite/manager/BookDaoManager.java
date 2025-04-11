@@ -79,9 +79,9 @@ public class BookDaoManager {
      * @param isLook
      * @return
      */
-    public List<Book> queryAllBook(boolean isLook) {
+    public List<Book> queryAllBook(boolean isLook,int count) {
         WhereCondition whereCondition1=BookDao.Properties.IsLook.eq(isLook);
-        return bookDao.queryBuilder().where(whereUser,whereCondition1).orderDesc(BookDao.Properties.Time).limit(13).build().list();
+        return bookDao.queryBuilder().where(whereUser,whereCondition1).orderDesc(BookDao.Properties.Time).limit(count).build().list();
     }
 
     //根据类别 细分子类

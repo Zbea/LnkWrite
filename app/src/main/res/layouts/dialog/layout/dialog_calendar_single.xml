@@ -63,8 +63,8 @@
         app:week_text_size="@dimen/sp_20"
         app:select_mode="single_mode"
         app:month_view_show_mode="mode_only_current"
-        app:month_view="com.bll.lnkcommon.widget.calender.SingleMonthView"
-        app:week_view="com.bll.lnkcommon.widget.calender.SingleWeekView"
+        app:month_view="com.bll.lnkwrite.widget.calender.SingleMonthView"
+        app:week_view="com.bll.lnkwrite.widget.calender.SingleWeekView"
         />
 
 </LinearLayout>

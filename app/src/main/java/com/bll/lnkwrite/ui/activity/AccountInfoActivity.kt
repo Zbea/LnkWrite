@@ -56,12 +56,17 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView {
 
     override fun initData() {
         mUser=MethodManager.getUser()
-        presenter.getStudents()
+        if (MethodManager.isCN())
+            presenter.getStudents()
     }
 
     @SuppressLint("WrongConstant")
     override fun initView() {
         setPageTitle(R.string.account)
+
+        if (!MethodManager.isCN()){
+            disMissView(ll_student,rv_list)
+        }
 
         initRecyclerView()
 

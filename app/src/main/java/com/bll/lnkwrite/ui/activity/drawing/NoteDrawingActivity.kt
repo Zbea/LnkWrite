@@ -13,13 +13,12 @@ import com.bll.lnkwrite.mvp.model.ItemList
 import com.bll.lnkwrite.mvp.model.Note
 import com.bll.lnkwrite.mvp.model.NoteContentBean
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.ToolUtils
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.ac_plan_overview.v_content
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_a
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_total_a
-import kotlinx.android.synthetic.main.common_drawing_tool.*
+import kotlinx.android.synthetic.main.common_drawing_tool.iv_btn
+import kotlinx.android.synthetic.main.common_drawing_tool.tv_page
+import kotlinx.android.synthetic.main.common_drawing_tool.tv_page_total
 import java.io.File
 
 class NoteDrawingActivity : BaseDrawingActivity() {

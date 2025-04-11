@@ -73,6 +73,7 @@ class WalletActivity:BaseActivity(),IContractView.IWalletView{
     }
 
     override fun initView() {
+        setPageTitle(R.string.my_wallet_str)
 
         tv_buy.setOnClickListener {
             if (xdList.size>0){

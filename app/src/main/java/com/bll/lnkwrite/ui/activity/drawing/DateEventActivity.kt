@@ -9,13 +9,13 @@ import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseDrawingActivity
 import com.bll.lnkwrite.dialog.CalendarSingleDialog
 import com.bll.lnkwrite.utils.DateUtils
-import kotlinx.android.synthetic.main.ac_plan_overview.v_content
 import kotlinx.android.synthetic.main.common_date_arrow.iv_down
 import kotlinx.android.synthetic.main.common_date_arrow.iv_up
 import kotlinx.android.synthetic.main.common_date_arrow.tv_date
 import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class DateEventActivity:BaseDrawingActivity() {
     private var nowLong=0L
@@ -53,7 +53,7 @@ class DateEventActivity:BaseDrawingActivity() {
     }
 
     private fun setContentView(){
-        tv_date.text= SimpleDateFormat("MM月dd日 E", Locale.CHINA).format(Date(nowLong))
+        tv_date.text= DateUtils.longToStringWeek(nowLong)
         val path=FileAddress().getPathDate(DateUtils.longToStringCalender(nowLong))+"/draw.png"
         elik_b?.setLoadFilePath(path, true)
     }

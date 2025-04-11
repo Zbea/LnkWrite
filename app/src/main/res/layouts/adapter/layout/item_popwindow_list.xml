@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:lines="1"
         android:ellipsize="end"
-        android:maxWidth="180dp"
+        android:maxWidth="250dp"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_22" />
 

@@ -3,8 +3,10 @@ package com.bll.lnkwrite.ui.fragment
 import PopupClick
 import android.content.Intent
 import android.graphics.BitmapFactory
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bll.lnkwrite.Constants.AUTO_REFRESH_EVENT
+import com.bll.lnkwrite.Constants.BOOK_EVENT
 import com.bll.lnkwrite.Constants.DATE_DRAWING_EVENT
 import com.bll.lnkwrite.Constants.MESSAGE_EVENT
 import com.bll.lnkwrite.Constants.NOTE_EVENT
@@ -19,6 +21,7 @@ import com.bll.lnkwrite.dialog.DiaryManageDialog
 import com.bll.lnkwrite.dialog.DiaryUploadListDialog
 import com.bll.lnkwrite.dialog.PrivacyPasswordCreateDialog
 import com.bll.lnkwrite.dialog.PrivacyPasswordDialog
+import com.bll.lnkwrite.manager.BookDaoManager
 import com.bll.lnkwrite.manager.DiaryDaoManager
 import com.bll.lnkwrite.manager.NoteDaoManager
 import com.bll.lnkwrite.mvp.model.CloudListBean
@@ -26,6 +29,7 @@ import com.bll.lnkwrite.mvp.model.MessageList
 import com.bll.lnkwrite.mvp.model.Note
 import com.bll.lnkwrite.mvp.model.PopupBean
 import com.bll.lnkwrite.mvp.model.StudentBean
+import com.bll.lnkwrite.mvp.model.book.Book
 import com.bll.lnkwrite.mvp.presenter.MessagePresenter
 import com.bll.lnkwrite.mvp.presenter.RelationPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
@@ -34,17 +38,21 @@ import com.bll.lnkwrite.ui.activity.MessageListActivity
 import com.bll.lnkwrite.ui.activity.drawing.DateEventActivity
 import com.bll.lnkwrite.ui.activity.drawing.DiaryActivity
 import com.bll.lnkwrite.ui.activity.drawing.FreeNoteActivity
+import com.bll.lnkwrite.ui.adapter.BookAdapter
 import com.bll.lnkwrite.ui.adapter.MainNoteAdapter
 import com.bll.lnkwrite.ui.adapter.MessageAdapter
 import com.bll.lnkwrite.utils.DateUtils
 import com.bll.lnkwrite.utils.FileUploadManager
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.NetworkUtil
+import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_main_right.iv_bg
 import kotlinx.android.synthetic.main.fragment_main_right.iv_date
+import kotlinx.android.synthetic.main.fragment_main_right.ll_book
 import kotlinx.android.synthetic.main.fragment_main_right.ll_message
 import kotlinx.android.synthetic.main.fragment_main_right.ll_schedule
+import kotlinx.android.synthetic.main.fragment_main_right.rv_main_book
 import kotlinx.android.synthetic.main.fragment_main_right.rv_main_message
 import kotlinx.android.synthetic.main.fragment_main_right.rv_main_note
 import kotlinx.android.synthetic.main.fragment_main_right.tv_diary_btn
@@ -59,6 +67,9 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
     private var messages= mutableListOf<MessageList.MessageBean>()
     private var mMessageAdapter: MessageAdapter?=null
 
+    private var books= mutableListOf<Book>()
+    private var mMainBookAdapter: BookAdapter?=null
+
     private var notes= mutableListOf<Note>()
     private var mNoteAdapter: MainNoteAdapter?=null
     private var privacyPassword= MethodManager.getPrivacyPassword(0)
@@ -69,16 +80,18 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
     private var nowDay=0L
 
     override fun onListStudents(list: MutableList<StudentBean>) {
-        if (list.size>0){
-            showView(rv_main_message)
-            findMessages()
-        }
-        else{
-            disMissView(rv_main_message)
-        }
-        if (DataBeanManager.students != list){
-            DataBeanManager.students=list
-            EventBus.getDefault().post(STUDENT_EVENT)
+        if (MethodManager.isCN()){
+            if (list.size>0){
+                showView(rv_main_message)
+                findMessages()
+            }
+            else{
+                disMissView(rv_main_message)
+            }
+            if (DataBeanManager.students != list){
+                DataBeanManager.students=list
+                EventBus.getDefault().post(STUDENT_EVENT)
+            }
         }
     }
 
@@ -93,6 +106,15 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
 
     override fun initView() {
         MethodManager.setImageResource(requireActivity(), R.mipmap.icon_date_event_bg,iv_bg)
+
+        if (MethodManager.isCN()){
+            showView(ll_message)
+            disMissView(ll_book)
+        }
+        else{
+            showView(ll_book)
+            disMissView(ll_message)
+        }
 
         tv_free_note.setOnClickListener {
             customStartActivity(Intent(requireActivity(), FreeNoteActivity::class.java))
@@ -125,6 +147,7 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
         setScheduleView()
         initMessageView()
         initNoteView()
+        initBookView()
     }
 
     override fun lazyLoad() {
@@ -132,6 +155,7 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
             presenter.getStudents()
         }
         findNotes()
+        findBooks()
     }
 
     private fun setScheduleView(){
@@ -164,6 +188,18 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
         mMessageAdapter=MessageAdapter(R.layout.item_main_message, null).apply {
             rv_main_message.adapter = this
             bindToRecyclerView(rv_main_message)
+        }
+    }
+
+    private fun initBookView(){
+        rv_main_book.layoutManager = GridLayoutManager(requireActivity(),3)//创建布局管理
+        mMainBookAdapter=BookAdapter(R.layout.item_main_book, null).apply {
+            rv_main_book.adapter = this
+            bindToRecyclerView(rv_main_book)
+            rv_main_book.addItemDecoration(SpaceGridItemDeco(3,10))
+            setOnItemClickListener { adapter, view, position ->
+                MethodManager.gotoBookDetails(requireActivity(),1,books[position])
+            }
         }
     }
 
@@ -264,6 +300,11 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
         mNoteAdapter?.setNewData(notes)
     }
 
+    private fun findBooks(){
+        books= BookDaoManager.getInstance().queryAllBook(true,6)
+        mMainBookAdapter?.setNewData(books)
+    }
+
     override fun onRefreshData() {
         onCheckUpdate()
         lazyLoad()
@@ -284,6 +325,9 @@ class MainRightFragment : BaseFragment(), IContractView.IRelationView,IContractV
                 if (NetworkUtil.isNetworkConnected()) {
                     presenter.getStudents()
                 }
+            }
+            BOOK_EVENT->{
+                findBooks()
             }
         }
     }

@@ -2,6 +2,7 @@ package com.bll.lnkwrite.manager;
 
 import com.bll.lnkwrite.MethodManager;
 import com.bll.lnkwrite.MyApplication;
+import com.bll.lnkwrite.R;
 import com.bll.lnkwrite.greendao.DaoSession;
 import com.bll.lnkwrite.greendao.NoteDao;
 import com.bll.lnkwrite.mvp.model.Note;
@@ -59,7 +60,7 @@ public class NoteDaoManager {
      * @return
      */
     public List<Note> queryListOther(int size) {
-        WhereCondition whereCondition=NoteDao.Properties.TypeStr.notEq("我的密本");
+        WhereCondition whereCondition=NoteDao.Properties.TypeStr.notEq(MyApplication.Companion.getMContext().getString(R.string.note_tab_diary));
         return dao.queryBuilder().where(whereUser,whereCondition).orderDesc(NoteDao.Properties.Date).limit(size).build().list();
     }
 

@@ -28,7 +28,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/dp_40"
             android:gravity="center"
-            android:text="@string/categorized_display"
+            android:text="@string/type_list_str"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_25"
             android:background="@drawable/click_btn_transparent_line_black"

@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开始"
+                android:text="@string/start"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="26sp" />
@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="结束"
+                android:text="@string/end"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="26sp" />

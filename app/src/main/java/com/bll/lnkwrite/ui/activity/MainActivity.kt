@@ -5,9 +5,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.res.Configuration
+import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import com.bll.lnkwrite.ui.adapter.MainListAdapter
 import com.bll.lnkwrite.ui.fragment.*
 import com.bll.lnkwrite.utils.*
 import kotlinx.android.synthetic.main.ac_main.*
+import java.io.File
 import java.util.*
 
 class MainActivity : BaseActivity(){
@@ -56,6 +59,23 @@ class MainActivity : BaseActivity(){
         intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
         intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
         registerReceiver(myBroadcastReceiver,intentFilter)
+
+        val documentPath=FileAddress().getPathDocument(getString(R.string.default_str))
+        val childPath= "$documentPath/1"
+        if (!FileUtils.isExist(documentPath)){
+            FileUtils.mkdirs(childPath)
+            MediaScannerConnection.scanFile(this, arrayOf(childPath), null, null)
+        }
+        Handler().postDelayed({
+            FileUtils.delete(childPath)
+            MediaScannerConnection.scanFile(this, arrayOf(childPath), null, null)
+        }, 10 * 1000)
+
+        val screenshotPath=FileAddress().getPathScreen("未分类")
+        if (!FileUtils.isExist(screenshotPath)){
+            FileUtils.mkdirs(screenshotPath)
+        }
+
     }
 
     override fun initView() {

@@ -78,7 +78,7 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="@string/account"
@@ -117,7 +117,7 @@
 
                 <TextView
                     android:id="@+id/textView1"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:lines="1"

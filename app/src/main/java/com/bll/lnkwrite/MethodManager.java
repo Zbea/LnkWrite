@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -332,6 +333,18 @@ public class MethodManager {
             list.get(position).isCheck=true;
         }
         return list;
+    }
+
+    public static void createFileScan(Context context,String path){
+        if (!FileUtils.isExist(path)){
+            File file=new File(path+"/1");
+            file.mkdirs();
+            MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()},null, null);
+            new Handler().postDelayed(() -> {
+                FileUtils.deleteFile(file);
+                MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()},null, null);
+            },10*1000);
+        }
     }
 
 }

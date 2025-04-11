@@ -39,9 +39,9 @@ class PlanOverviewActivity: BaseDrawingActivity() {
     }
     override fun initView() {
         disMissView(iv_catalog,iv_btn)
-        setPageTitle("规划")
+        setPageTitle(R.string.plan)
 
-        MethodManager.setImageResource(this,R.mipmap.icon_freenote_bg_1,v_content)
+        MethodManager.setImageResource(this,R.mipmap.icon_freenote_bg_1,v_content_b)
 
         rg_group.setOnCheckedChangeListener { radioGroup, i ->
             type = if (i==R.id.rb_month){
@@ -137,7 +137,7 @@ class PlanOverviewActivity: BaseDrawingActivity() {
 
     private fun setChangeDate(){
         if (type==1){
-            tv_date.text=nowYear.toString()+"年"+ToolUtils.getFormatNum(nowMonth,"00")+"月"
+            tv_date.text=nowYear.toString()+" - "+ToolUtils.getFormatNum(nowMonth,"00")
         }
         else{
             tv_date.text= DateUtils.longToStringDataNoYear(weekStartDate)+"~"+DateUtils.longToStringDataNoYear(weekEndDate)

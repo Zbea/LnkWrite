@@ -16,7 +16,6 @@ import com.bll.lnkwrite.mvp.view.IContractView.IFreeNoteView
 import com.bll.lnkwrite.utils.*
 import com.liulishuo.filedownloader.BaseDownloadTask
 import kotlinx.android.synthetic.main.ac_free_note.*
-import kotlinx.android.synthetic.main.ac_free_note.v_content
 import kotlinx.android.synthetic.main.common_drawing_tool.*
 import java.io.File
 
@@ -131,7 +130,7 @@ class FreeNoteActivity:BaseDrawingActivity(), IFreeNoteView {
 
     }
     override fun initView() {
-        disMissView(iv_expand,iv_catalog,iv_btn)
+        disMissView(iv_expand,iv_btn)
 
         tv_save.setOnClickListener {
             freeNoteBean?.isSave=true
@@ -151,7 +150,7 @@ class FreeNoteActivity:BaseDrawingActivity(), IFreeNoteView {
         iv_btn.setOnClickListener {
             ModuleItemDialog(this,getCurrentScreenPos(),getString(R.string.free_note),DataBeanManager.freenoteModules).builder()
                 .setOnDialogClickListener { moduleBean ->
-                    MethodManager.setImageResource(this,moduleBean.resContentId,v_content)
+                    MethodManager.setImageResource(this,moduleBean.resContentId,v_content_b)
                     bgResList[posImage]=ToolUtils.getImageResStr(this, moduleBean.resContentId)
                 }
         }
@@ -323,7 +322,7 @@ class FreeNoteActivity:BaseDrawingActivity(), IFreeNoteView {
      * 更换内容
      */
     private fun setContentImage(){
-        MethodManager.setImageResource(this,ToolUtils.getImageResId(this,bgResList[posImage]),v_content)
+        MethodManager.setImageResource(this,ToolUtils.getImageResId(this,bgResList[posImage]),v_content_b)
         val path=getPath(posImage)
         tv_page.text="${posImage+1}"
         tv_page_total.text="${images.size}"

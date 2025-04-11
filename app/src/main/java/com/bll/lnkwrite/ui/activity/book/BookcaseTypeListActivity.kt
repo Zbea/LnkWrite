@@ -51,7 +51,7 @@ class BookcaseTypeListActivity : BaseActivity() {
     }
 
     override fun initView() {
-        setPageTitle(R.string.categorized_display)
+        setPageTitle(R.string.type_list_str)
         showView(iv_manager)
 
         iv_manager?.setOnClickListener {

@@ -18,9 +18,9 @@
         />
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我的钱包"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -34,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_40"
-        android:text="青豆"
         android:gravity="center"
         android:textSize="24sp"
         android:textColor="@color/black"
@@ -42,7 +41,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_48"
         android:layout_marginTop="@dimen/dp_50"
         android:layout_marginBottom="@dimen/dp_50"
         android:layout_marginStart="@dimen/dp_40"
@@ -52,8 +51,10 @@
         >
         <TextView
             android:id="@+id/tv_buy"
-            android:layout_width="142dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_20"
             android:text="@string/buy_xd"
             android:textSize="@dimen/sp_24"
             android:textColor="@color/black"
@@ -67,8 +68,10 @@
 
         <TextView
             android:id="@+id/tv_student"
-            android:layout_width="142dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_20"
             android:text="@string/student_transfer_str"
             android:textSize="@dimen/sp_24"
             android:textColor="@color/black"
