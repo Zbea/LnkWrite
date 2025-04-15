@@ -64,9 +64,9 @@ class ResourceCenterActivity: BaseActivity(){
     }
 
     private fun initTab(){
-        for (i in DataBeanManager.resources.indices) {
+        for (i in DataBeanManager.resources().indices) {
             itemTabTypes.add(ItemTypeBean().apply {
-                title=DataBeanManager.resources[i]
+                title=DataBeanManager.resources()[i]
                 isCheck=i==0
             })
         }

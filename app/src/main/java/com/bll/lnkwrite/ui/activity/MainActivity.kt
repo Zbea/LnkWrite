@@ -71,7 +71,7 @@ class MainActivity : BaseActivity(){
             MediaScannerConnection.scanFile(this, arrayOf(childPath), null, null)
         }, 10 * 1000)
 
-        val screenshotPath=FileAddress().getPathScreen("未分类")
+        val screenshotPath=FileAddress().getPathScreen(getString(R.string.untype))
         if (!FileUtils.isExist(screenshotPath)){
             FileUtils.mkdirs(screenshotPath)
         }

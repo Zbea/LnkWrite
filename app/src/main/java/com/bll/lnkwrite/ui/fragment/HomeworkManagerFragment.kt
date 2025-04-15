@@ -101,7 +101,7 @@ class HomeworkManagerFragment:BaseFragment() {
     }
 
     private fun initTab(){
-        val tabStrs = DataBeanManager.homeworkType
+        val tabStrs = DataBeanManager.homeworkType()
         for (i in tabStrs.indices) {
             itemTabTypes.add(ItemTypeBean().apply {
                 title=tabStrs[i]

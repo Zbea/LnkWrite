@@ -128,7 +128,7 @@ public class MethodManager {
         intent.putExtra("path", bookBean.bookPath);
         intent.putExtra("key_book_id",bookBean.bookId+"");
         intent.putExtra("bookName", bookBean.bookName);
-        intent.putExtra("tool",getJsonArray().toString());
+        intent.putExtra("zh/tool",getJsonArray().toString());
         intent.putExtra("userId",getUser()!=null?getUser().accountId:0);
         intent.putExtra("type", type);
         intent.putExtra("drawPath", bookBean.bookDrawPath);
@@ -208,7 +208,7 @@ public class MethodManager {
             intent.setPackage(Constants.PACKAGE_READER);
             intent.putExtra("path", file.getPath());
             intent.putExtra("bookName", fileName);
-            intent.putExtra("tool", getJsonArray().toString());
+            intent.putExtra("zh/tool", getJsonArray().toString());
             intent.putExtra("userId", getAccountId());
             intent.putExtra("type", 1);
             intent.putExtra("drawPath", drawPath);
@@ -306,7 +306,7 @@ public class MethodManager {
         String title=MyApplication.Companion.getMContext().getString(R.string.untype);
         ItemTypeBean itemTypeBean=new ItemTypeBean();
         itemTypeBean.type=3;
-        itemTypeBean.path=new FileAddress().getPathScreen("未分类");
+        itemTypeBean.path=new FileAddress().getPathScreen(title);
         itemTypeBean.title=title;
         return itemTypeBean;
     }

@@ -67,7 +67,7 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
                 Manifest.permission.WRITE_CALENDAR,
                 Manifest.permission.READ_PHONE_STATE
             )){
-            EasyPermissions.requestPermissions(this,"请求权限",1,
+            EasyPermissions.requestPermissions(this,getString(R.string.permission_apply),1,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_CALENDAR,

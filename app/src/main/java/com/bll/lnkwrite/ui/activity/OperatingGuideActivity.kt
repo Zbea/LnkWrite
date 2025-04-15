@@ -1,6 +1,7 @@
 package com.bll.lnkwrite.ui.activity
 
 import android.view.View
+import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseActivity
 import com.bll.lnkwrite.dialog.PopupOperatingGuideCatalog
@@ -24,7 +25,11 @@ class OperatingGuideActivity :BaseActivity() {
     override fun initData() {
         pageSize=1
         val types= mutableListOf(getString(R.string.instruction_main),getString(R.string.instruction_manager),getString(R.string.instruction_tool))
-        val paths= mutableListOf("main","manager","tool")
+        val paths = if (MethodManager.isCN()){
+            mutableListOf("zh/main","zh/manager","zh/tool")
+        } else{
+            mutableListOf("en/main","en/manager","en/tool")
+        }
         for (i in types.indices) {
             itemTabTypes.add(ItemTypeBean().apply {
                 title=types[i]

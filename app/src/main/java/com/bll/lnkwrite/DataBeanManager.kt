@@ -15,11 +15,17 @@ object DataBeanManager {
     var versions= mutableListOf<ItemList>()
     var students= mutableListOf<StudentBean>()
 
-    val homeworkType = arrayOf(mContext.getString(R.string.teacher_homework_str),mContext.getString(R.string.classGroup_exam_str),mContext.getString(R.string.school_exam_str)
-        ,mContext.getString(R.string.my_homework),mContext.getString(R.string.my_homework_correct))
+    fun homeworkType():Array<String>{
+        val homeworkType = arrayOf(mContext.getString(R.string.teacher_homework_str),mContext.getString(R.string.classGroup_exam_str),mContext.getString(R.string.school_exam_str)
+            ,mContext.getString(R.string.my_homework),mContext.getString(R.string.my_homework_correct))
+        return homeworkType
+    }
 
-    var resources = arrayOf(mContext.getString(R.string.app_news_str),mContext.getString(R.string.app_book_str),mContext.getString(R.string.app_journal_str)
-        ,mContext.getString(R.string.app_tool_str),mContext.getString(R.string.wallpaper_str),mContext.getString(R.string.calender_str))
+    fun resources(): Array<String> {
+        val resources = arrayOf(mContext.getString(R.string.app_news_str),mContext.getString(R.string.app_book_str),mContext.getString(R.string.app_journal_str)
+            ,mContext.getString(R.string.app_tool_str),mContext.getString(R.string.wallpaper_str),mContext.getString(R.string.calender_str))
+        return resources
+    }
 
     val popupGrades: MutableList<PopupBean>
         get() {
@@ -384,11 +390,11 @@ object DataBeanManager {
     fun operatingGuideInfo():List<MultiItemEntity>{
         val list= mutableListOf<MultiItemEntity>()
         val types= mutableListOf("一、"+ mContext.getString(R.string.instruction_main),"二、"+mContext.getString(R.string.instruction_manager),"三、"+mContext.getString(R.string.instruction_tool))
-        val mainStrs= mutableListOf(mContext.getString(R.string.register),mContext.getString(R.string.key_interface),mContext.getString(R.string.status_bar),mContext.getString(R.string.home)
-            ,mContext.getString(R.string.bookcase),mContext.getString(R.string.note),mContext.getString(R.string.app),mContext.getString(R.string.free_note),mContext.getString(R.string.diary)
-            ,mContext.getString(R.string.project),mContext.getString(R.string.screenshot),mContext.getString(R.string.message))
-        val managerStrs= mutableListOf(mContext.getString(R.string.instruction_manager))
-        val toolStrs= mutableListOf(mContext.getString(R.string.Toolkit),mContext.getString(R.string.calender),mContext.getString(R.string.screenshot),mContext.getString(R.string.geometry_title_str))
+        val mainStrs= mutableListOf(mContext.getString(R.string.register),mContext.getString(R.string.key_interface),mContext.getString(R.string.status_bar),mContext.getString(R.string.diary_freenote)
+            ,mContext.getString(R.string.book_note),mContext.getString(R.string.document_screeshot),mContext.getString(R.string.app_draw),mContext.getString(R.string.teaching_homework))
+        val managerStrs= mutableListOf(mContext.getString(R.string.instruction_manager),mContext.getString(R.string.bookstore),mContext.getString(R.string.resource),mContext.getString(R.string.screenshot),mContext.getString(R.string.Toolkit)
+        ,mContext.getString(R.string.calender))
+        val toolStrs= mutableListOf(mContext.getString(R.string.painting),mContext.getString(R.string.geometry_title_str))
         val childTypes= mutableListOf(mainStrs,managerStrs,toolStrs)
         for (type in types){
             val index=types.indexOf(type)

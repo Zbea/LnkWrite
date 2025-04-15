@@ -214,6 +214,7 @@ class NoteDrawingActivity : BaseDrawingActivity() {
         page = noteContents.size
 
         noteContents.add(note_Content_b!!)
+        NoteContentDaoManager.getInstance().insertOrReplaceNote(note_Content_b)
     }
 
 

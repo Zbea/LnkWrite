@@ -322,8 +322,14 @@
 
     <string name="Toolkit">我的工具</string>
     <string name="tool_bar">工具栏</string>
-    <string name="key_interface">按键/接口</string>
+    <string name="key_interface">按键/接口</string>F
     <string name="status_bar">状态栏按钮</string>
+    <string name="diary_freenote">日记/随笔</string>
+    <string name="book_note">书架/笔记</string>
+    <string name="document_screeshot">文档/截图</string>
+    <string name="app_draw">应用/绘画</string>
+    <string name="teaching_homework">教材/作业</string>
+    <string name="bookstore">书城</string>
 
     <string name="permission_setting">权限设置</string>
     <string name="wallet_payment">钱包付费</string>

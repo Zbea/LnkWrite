@@ -241,6 +241,7 @@ class PaintingDrawingActivity : BaseDrawingActivity() {
         page = items.size
 
         items.add(item_b!!)
+        PaintingContentDaoManager.getInstance().insertOrReplace(item_b)
     }
 
 

@@ -34,7 +34,7 @@ class PaintingLinerSelectDialog(private val context: Context){
         val window = dialog?.window
         val layoutParams = window?.attributes
         layoutParams?.gravity = Gravity.CENTER_VERTICAL or Gravity.END
-        layoutParams?.x=(Constants.WIDTH- DP2PX.dip2px(context,400F))/2
+        layoutParams?.x=(Constants.WIDTH- DP2PX.dip2px(context,425F))/2
         dialog!!.show()
 
         val switch=dialog!!.findViewById<Switch>(R.id.sw_image)
