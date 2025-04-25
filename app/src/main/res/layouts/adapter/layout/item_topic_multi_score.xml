@@ -33,16 +33,17 @@
                 android:textSize="@dimen/sp_26" />
             <TextView
                 android:id="@+id/tv_score"
-                android:layout_width="70dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="@dimen/sp_26" />
+                android:textSize="@dimen/sp_25" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=")"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_26" />
         </LinearLayout>
@@ -62,6 +63,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        />
 
 </LinearLayout>
