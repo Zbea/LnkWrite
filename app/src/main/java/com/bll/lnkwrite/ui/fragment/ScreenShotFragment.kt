@@ -168,13 +168,13 @@ class ScreenShotFragment: BaseFragment() {
                             lists.add(ItemList(types.indexOf(ite),ite.title))
                         }
                         ItemSelectorDialog(requireActivity(),2,getString(R.string.type_set_str),lists).builder().setOnDialogClickListener{ pos->
-                            FileUtils.copyFile(file.path,types[pos].path+"/"+file.name)
+                            FileUtils.moveFile(file.path,types[pos].path+"/"+file.name)
                             mAdapter?.remove(position)
                         }
                     }
                     else{
                         val path= FileAddress().getPathScreen(getString(R.string.untype))
-                        FileUtils.copyFile(file.path,path+"/"+file.name)
+                        FileUtils.moveFile(file.path,path+"/"+file.name)
                         mAdapter?.remove(position)
                     }
                 }

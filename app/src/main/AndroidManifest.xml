@@ -74,7 +74,7 @@
             android:exported="true"
             >
             <intent-filter>
-                <action android:name="com.bll.lnkcommon.refresh"/>
+                <action android:name="com.bll.lnkwrite.refresh"/>
                 <action android:name="com.htfyun.blackwhitebar.uploaddata"/>
                 <action android:name="com.htfyun.blackwhitebar.refresh"/>
             </intent-filter>

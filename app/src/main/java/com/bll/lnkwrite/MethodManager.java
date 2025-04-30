@@ -195,7 +195,7 @@ public class MethodManager {
     }
 
     public static void gotoDocument(Context context,File file){
-        if (FileUtils.getUrlFormat(file.getPath()).equals(".png") || FileUtils.getUrlFormat(file.getPath()).equals(".jpg")){
+        if (FileUtils.getUrlFormat(file.getPath()).equals(".png") || FileUtils.getUrlFormat(file.getPath()).equals(".jpg")|| FileUtils.getUrlFormat(file.getPath()).equals(".jpeg")){
             List<String> images=new ArrayList<>();
             images.add(file.getPath());
             new ImageDialog(context,1, images).builder();

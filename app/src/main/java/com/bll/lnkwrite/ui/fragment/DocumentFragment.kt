@@ -2,7 +2,6 @@ package com.bll.lnkwrite.ui.fragment
 
 import PopupClick
 import android.media.MediaScannerConnection
-import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -14,7 +13,10 @@ import com.bll.lnkwrite.base.BaseFragment
 import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.dialog.DocumentDetailsDialog
 import com.bll.lnkwrite.dialog.InputContentDialog
+import com.bll.lnkwrite.dialog.ItemSelectorDialog
+import com.bll.lnkwrite.dialog.LongClickManageDialog
 import com.bll.lnkwrite.manager.ItemTypeDaoManager
+import com.bll.lnkwrite.mvp.model.ItemList
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.PopupBean
 import com.bll.lnkwrite.ui.adapter.DocumentAdapter
@@ -30,6 +32,8 @@ class DocumentFragment : BaseFragment() {
     private var popupBeans = mutableListOf<PopupBean>()
     private var tabPos = 0
     private var mAdapter: DocumentAdapter? = null
+    private var longBeans = mutableListOf<ItemList>()
+    private var position=0
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_list_tab
@@ -143,21 +147,69 @@ class DocumentFragment : BaseFragment() {
                 MethodManager.gotoDocument(requireActivity(), file!!)
             }
             setOnItemLongClickListener { adapter, view, position ->
-                val file = mAdapter?.data?.get(position)
-                val fileName = FileUtils.getUrlName(file?.path)
-                val drawPath = file?.parent + "/${fileName}draw/"
-                CommonDialog(requireActivity(),1).setContent(R.string.tips_is_delete).builder()
-                    .setDialogClickListener(object : CommonDialog.OnDialogClickListener {
-                        override fun ok() {
-                            FileUtils.deleteFile(file)
-                            FileUtils.deleteFile(File(drawPath))
-                            MediaScannerConnection.scanFile(requireActivity(), arrayOf(file?.absolutePath),null, null)
-                            fetchData()
-                        }
-                    })
+                this@DocumentFragment.position=position
+                onLongClick()
                 true
             }
         }
+    }
+
+    private fun onLongClick() {
+        longBeans.clear()
+        longBeans.add(ItemList().apply {
+            name=getString(R.string.delete)
+            resId=R.mipmap.icon_setting_delete
+        })
+        if (tabPos==0){
+            longBeans.add(ItemList().apply {
+                name=getString(R.string.set)
+                resId=R.mipmap.icon_setting_set
+            })
+        }
+        else{
+            longBeans.add(ItemList().apply {
+                name=getString(R.string.shift_out)
+                resId=R.mipmap.icon_setting_out
+            })
+        }
+        val file= mAdapter?.data?.get(position)!!
+        val fileName = FileUtils.getUrlName(file.path)
+        val drawPath = file.parent + "/${fileName}draw/"
+        LongClickManageDialog(requireActivity(),1,file.name,longBeans).builder()
+            .setOnDialogClickListener {
+                if (it==0){
+                    FileUtils.deleteFile(file)
+                    FileUtils.deleteFile(File(drawPath))
+                    MediaScannerConnection.scanFile(requireActivity(), arrayOf(file.absolutePath),null, null)
+                    fetchData()
+                }
+                else{
+                    if (tabPos==0){
+                        val types= ItemTypeDaoManager.getInstance().queryAll(6)
+                        val lists= mutableListOf<ItemList>()
+                        for (ite in types){
+                            lists.add(ItemList(types.indexOf(ite),ite.title))
+                        }
+                        ItemSelectorDialog(requireActivity(),getString(R.string.type_set_str),lists).builder().setOnDialogClickListener{ pos->
+                            val newPath=types[pos].path+"/"+file.name
+                            FileUtils.moveFile(file.path,newPath)
+                            MediaScannerConnection.scanFile(requireActivity(), arrayOf(file.path,newPath),null, null)
+                            val newDrawPath=File(newPath).parent+"/${fileName}draw/"
+                            FileUtils.moveDirectory(drawPath,newDrawPath)
+                            mAdapter?.remove(position)
+                        }
+                    }
+                    else{
+                        val path= FileAddress().getPathDocument(getString(R.string.default_str))
+                        val newPath=path+"/"+file.name
+                        FileUtils.moveFile(file.path,newPath)
+                        MediaScannerConnection.scanFile(requireActivity(), arrayOf(file.path,newPath),null, null)
+                        val newDrawPath=File(newPath).parent+"/${fileName}draw/"
+                        FileUtils.moveDirectory(drawPath,newDrawPath)
+                        mAdapter?.remove(position)
+                    }
+                }
+            }
     }
 
     override fun fetchData() {

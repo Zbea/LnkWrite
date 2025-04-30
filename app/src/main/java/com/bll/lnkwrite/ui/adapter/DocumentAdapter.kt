@@ -13,7 +13,7 @@ class DocumentAdapter(layoutResId: Int, data: List<File>?) : BaseQuickAdapter<Fi
     override fun convert(helper: BaseViewHolder, file: File) {
         helper.setText(R.id.tv_name,file.name)
         val ivImage=helper.getView<ImageView>(R.id.iv_image)
-        if (FileUtils.getUrlFormat(file.path).equals(".png")|| FileUtils.getUrlFormat(file.path).equals(".jpg")){
+        if (FileUtils.getUrlFormat(file.path).equals(".png")|| FileUtils.getUrlFormat(file.path).equals(".jpg")|| FileUtils.getUrlFormat(file.path).equals(".jpeg")){
             GlideUtils.setImageRoundUrl(mContext,file.path,ivImage,8)
             ivImage.setBackgroundResource(R.drawable.bg_black_stroke_5dp_corner)
         }

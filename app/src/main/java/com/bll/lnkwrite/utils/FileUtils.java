@@ -341,12 +341,52 @@ public class FileUtils {
     }
 
     /**
+     * 移动文件夹
+     * @param oldPath
+     * @param newPath
+     * @return
+     */
+    public static boolean moveDirectory(String oldPath,String newPath){
+        try {
+            File oldFile = new File(oldPath);
+            if (!oldFile.exists()) {
+                Log.d("debug", "copyFile:  oldFile not exist.");
+                return false;
+            }
+            File newFile = new File(newPath);
+            if(!newFile.exists()){
+                newFile.mkdirs();
+            }
+
+            // 遍历源目录中的所有文件和文件夹
+            File[] files = newFile.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    File destFile= new File(newPath, file.getName());
+                    if (file.isDirectory()) {
+                        // 如果是目录，递归调用moveFolder
+                        moveDirectory(file.getPath(), destFile.getPath());
+                    } else {
+                        // 如果是文件，使用文件通道进行高效复制和删除
+                        moveFile(file.getPath(), destFile.getPath());
+                    }
+                }
+            }
+            oldFile.delete();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * 复制文件到指定文件夹
      * @param oldPathName
      * @param newPathName
      * @return
      */
-    public static boolean copyFile(String oldPathName, String newPathName) {
+    public static boolean moveFile(String oldPathName, String newPathName) {
         try {
             File oldFile = new File(oldPathName);
             if (!oldFile.exists()) {

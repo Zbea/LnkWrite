@@ -40,7 +40,7 @@ class DiaryUploadListDialog(val context: Context) {
         }
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id==R.id.iv_delete){
-                CommonDialog(context).setContent("确定删除？").builder()
+                CommonDialog(context).setContent(R.string.tips_is_delete).builder()
                     .setDialogClickListener(object : CommonDialog.OnDialogClickListener {
                         override fun cancel() {
                         }
