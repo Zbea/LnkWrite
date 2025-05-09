@@ -28,6 +28,8 @@ public class ItemTypeBean {
     public int cloudId;
     @Transient
     public String downloadUrl;
+    @Transient
+    public String contentJson;
 
     @Generated(hash = 484241845)
     public ItemTypeBean(Long id, long userId, String title, int type, long date, String path,

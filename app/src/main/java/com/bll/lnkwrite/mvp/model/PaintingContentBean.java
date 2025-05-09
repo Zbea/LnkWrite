@@ -17,17 +17,16 @@ public class PaintingContentBean implements Serializable {
     @Id(autoincrement = true)
     public Long id;
     public long userId= MethodManager.getAccountId();
-    public String typeStr;//分类
+    public int typeId;//分类
     public long date;//创建时间
     public String title;
     public String path;//文件路径
-
-    @Generated(hash = 1788159887)
-    public PaintingContentBean(Long id, long userId, String typeStr, long date,
+    @Generated(hash = 1273624020)
+    public PaintingContentBean(Long id, long userId, int typeId, long date,
             String title, String path) {
         this.id = id;
         this.userId = userId;
-        this.typeStr = typeStr;
+        this.typeId = typeId;
         this.date = date;
         this.title = title;
         this.path = path;
@@ -47,11 +46,11 @@ public class PaintingContentBean implements Serializable {
     public void setUserId(long userId) {
         this.userId = userId;
     }
-    public String getTypeStr() {
-        return this.typeStr;
+    public int getTypeId() {
+        return this.typeId;
     }
-    public void setTypeStr(String typeStr) {
-        this.typeStr = typeStr;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
     public long getDate() {
         return this.date;
@@ -71,5 +70,5 @@ public class PaintingContentBean implements Serializable {
     public void setPath(String path) {
         this.path = path;
     }
-
+    
 }

@@ -49,13 +49,13 @@ public class PaintingContentDaoManager {
     }
 
 
-    public List<PaintingContentBean> queryAll(String type) {
-        WhereCondition whereCondition=PaintingContentBeanDao.Properties.TypeStr.eq(type);
+    public List<PaintingContentBean> queryAll(int typeId) {
+        WhereCondition whereCondition=PaintingContentBeanDao.Properties.TypeId.eq(typeId);
         return dao.queryBuilder().where(whereUser,whereCondition).orderAsc(PaintingContentBeanDao.Properties.Date).build().list();
     }
 
-    public void deleteType(String type){
-        WhereCondition whereCondition=PaintingContentBeanDao.Properties.TypeStr.eq(type);
+    public void deleteType(int typeId){
+        WhereCondition whereCondition=PaintingContentBeanDao.Properties.TypeId.eq(typeId);
         List<PaintingContentBean> list = dao.queryBuilder().where(whereUser,whereCondition).build().list();
         dao.deleteInTx(list);
     }

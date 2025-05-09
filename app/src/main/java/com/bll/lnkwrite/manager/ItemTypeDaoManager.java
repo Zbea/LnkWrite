@@ -56,6 +56,12 @@ public class ItemTypeDaoManager {
         return dao.queryBuilder().where(whereUser,whereUser1,whereUser2).build().unique();
     }
 
+    public ItemTypeBean queryBeanByTypeId(int type,int typeId) {
+        WhereCondition whereUser1= ItemTypeBeanDao.Properties.Type.eq(type);
+        WhereCondition whereUser2= ItemTypeBeanDao.Properties.TypeId.eq(typeId);
+        return dao.queryBuilder().where(whereUser,whereUser1,whereUser2).build().unique();
+    }
+
     public List<ItemTypeBean> queryAll(int type) {
         WhereCondition whereUser1= ItemTypeBeanDao.Properties.Type.eq(type);
         return dao.queryBuilder().where(whereUser,whereUser1).orderAsc(ItemTypeBeanDao.Properties.Date).build().list();
@@ -80,13 +86,12 @@ public class ItemTypeDaoManager {
     }
 
     /**
-     * 查看日记分类是否已经下载
      * @param typeId
      * @return
      */
-    public Boolean isExistDiaryType(int typeId){
+    public Boolean isExistByType(int type,int typeId){
         WhereCondition whereUser1= ItemTypeBeanDao.Properties.TypeId.eq(typeId);
-        WhereCondition whereUser2= ItemTypeBeanDao.Properties.Type.eq(4);
+        WhereCondition whereUser2= ItemTypeBeanDao.Properties.Type.eq(type);
         return !dao.queryBuilder().where(whereUser, whereUser1, whereUser2).build().list().isEmpty();
     }
 

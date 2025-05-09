@@ -135,6 +135,7 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="plan">Plan</string>
+    <string name="upload">Upload</string>
 
     <string name="semester_last">Last semester</string>
     <string name="semester_next">Next semester</string>

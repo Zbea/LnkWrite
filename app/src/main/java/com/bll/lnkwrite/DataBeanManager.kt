@@ -107,11 +107,19 @@ object DataBeanManager {
             icon_check = mContext.getDrawable(R.mipmap.icon_tab_screenshot_check)
             name = mContext.getString(R.string.main_screenshot_title)
         }
+
+        val h6 = ItemList().apply {
+            icon = mContext.getDrawable(R.mipmap.icon_tab_painting)
+            icon_check = mContext.getDrawable(R.mipmap.icon_tab_painting_check)
+            name = mContext.getString(R.string.main_painting_title)
+        }
+
         list.add(h1)
         list.add(h2)
         list.add(h3)
         list.add(h4)
         list.add(h5)
+        list.add(h6)
         return list
     }
 

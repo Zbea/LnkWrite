@@ -86,8 +86,8 @@ class FileAddress {
     /**
      * 画本保存地址
      */
-    fun getPathPainting(typeStr: String):String{
-        return "$IMAGE_PATH/${getUserId()}/painting/$typeStr"
+    fun getPathPainting(typeId: Int):String{
+        return "$IMAGE_PATH/${getUserId()}/painting/$typeId"
     }
 
     /**

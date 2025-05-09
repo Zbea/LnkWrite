@@ -20,6 +20,7 @@ class CloudStorageActivity:BaseActivity() {
     private var noteFragment: CloudNoteFragment? = null
     private var diaryFragment: CloudDiaryFragment? = null
     private var screenshotFragment: CloudScreenshotFragment? = null
+    private var paintingFragment: CloudPaintingFragment? = null
 
     override fun layoutId(): Int {
         return R.layout.ac_cloud_storage
@@ -36,6 +37,7 @@ class CloudStorageActivity:BaseActivity() {
         noteFragment= CloudNoteFragment()
         diaryFragment = CloudDiaryFragment()
         screenshotFragment = CloudScreenshotFragment()
+        paintingFragment = CloudPaintingFragment()
 
         switchFragment(lastFragment, bookcaseFragment)
 
@@ -52,6 +54,7 @@ class CloudStorageActivity:BaseActivity() {
                     2 -> switchFragment(lastFragment, noteFragment)//笔记
                     3 -> switchFragment(lastFragment, diaryFragment)//日记
                     4 -> switchFragment(lastFragment, screenshotFragment)//截图
+                    5 -> switchFragment(lastFragment, paintingFragment)//画本
                 }
                 lastPosition=position
             }

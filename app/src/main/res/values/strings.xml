@@ -135,6 +135,7 @@
     <string name="start">开始</string>
     <string name="end">结束</string>
     <string name="plan">规划</string>
+    <string name="upload">上传</string>
 
     <string name="semester_last">上学期</string>
     <string name="semester_next">下学期</string>

@@ -65,7 +65,7 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView {
         setPageTitle(R.string.account)
 
         if (!MethodManager.isCN()){
-            disMissView(ll_student,rv_list)
+            disMissView(ll_student,rv_list,btn_logout)
         }
 
         initRecyclerView()

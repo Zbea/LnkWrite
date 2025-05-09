@@ -151,7 +151,7 @@ class ScreenshotManagerActivity : BaseActivity(), ICloudUploadView, IContractVie
                 setCallBack{
                     cloudList.add(CloudListBean().apply {
                         type=6
-                        subTypeStr="截图"
+                        subTypeStr=getString(R.string.screenshot)
                         date=System.currentTimeMillis()
                         listJson= Gson().toJson(item)
                         downloadUrl=it

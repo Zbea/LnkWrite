@@ -26,7 +26,7 @@ public class PaintingContentBeanDao extends AbstractDao<PaintingContentBean, Lon
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UserId = new Property(1, long.class, "userId", false, "USER_ID");
-        public final static Property TypeStr = new Property(2, String.class, "typeStr", false, "TYPE_STR");
+        public final static Property TypeId = new Property(2, int.class, "typeId", false, "TYPE_ID");
         public final static Property Date = new Property(3, long.class, "date", false, "DATE");
         public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
         public final static Property Path = new Property(5, String.class, "path", false, "PATH");
@@ -47,7 +47,7 @@ public class PaintingContentBeanDao extends AbstractDao<PaintingContentBean, Lon
         db.execSQL("CREATE TABLE " + constraint + "\"PAINTING_CONTENT_BEAN\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"USER_ID\" INTEGER NOT NULL ," + // 1: userId
-                "\"TYPE_STR\" TEXT," + // 2: typeStr
+                "\"TYPE_ID\" INTEGER NOT NULL ," + // 2: typeId
                 "\"DATE\" INTEGER NOT NULL ," + // 3: date
                 "\"TITLE\" TEXT," + // 4: title
                 "\"PATH\" TEXT);"); // 5: path
@@ -68,11 +68,7 @@ public class PaintingContentBeanDao extends AbstractDao<PaintingContentBean, Lon
             stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getUserId());
- 
-        String typeStr = entity.getTypeStr();
-        if (typeStr != null) {
-            stmt.bindString(3, typeStr);
-        }
+        stmt.bindLong(3, entity.getTypeId());
         stmt.bindLong(4, entity.getDate());
  
         String title = entity.getTitle();
@@ -95,11 +91,7 @@ public class PaintingContentBeanDao extends AbstractDao<PaintingContentBean, Lon
             stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getUserId());
- 
-        String typeStr = entity.getTypeStr();
-        if (typeStr != null) {
-            stmt.bindString(3, typeStr);
-        }
+        stmt.bindLong(3, entity.getTypeId());
         stmt.bindLong(4, entity.getDate());
  
         String title = entity.getTitle();
@@ -123,7 +115,7 @@ public class PaintingContentBeanDao extends AbstractDao<PaintingContentBean, Lon
         PaintingContentBean entity = new PaintingContentBean( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // userId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // typeStr
+            cursor.getInt(offset + 2), // typeId
             cursor.getLong(offset + 3), // date
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // path
@@ -135,7 +127,7 @@ public class PaintingContentBeanDao extends AbstractDao<PaintingContentBean, Lon
     public void readEntity(Cursor cursor, PaintingContentBean entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setUserId(cursor.getLong(offset + 1));
-        entity.setTypeStr(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTypeId(cursor.getInt(offset + 2));
         entity.setDate(cursor.getLong(offset + 3));
         entity.setTitle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setPath(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));

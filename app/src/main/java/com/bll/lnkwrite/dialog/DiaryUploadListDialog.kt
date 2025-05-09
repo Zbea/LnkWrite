@@ -2,8 +2,10 @@ package com.bll.lnkwrite.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.view.Gravity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.manager.DiaryDaoManager
@@ -24,6 +26,9 @@ class DiaryUploadListDialog(val context: Context) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_diary_upload_list)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val layoutParams =dialog.window?.attributes!!
+        layoutParams.gravity = Gravity.CENTER_VERTICAL or Gravity.END
+        layoutParams.x=(Constants.WIDTH- DP2PX.dip2px(context,500f))/2
         dialog.show()
 
         val diaryTypes=ItemTypeDaoManager.getInstance().queryAllOrderDesc(4)

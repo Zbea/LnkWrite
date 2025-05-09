@@ -38,6 +38,7 @@ object Constants {
 //        const val  RELEASE_BASE_URL = "http://www.htfyun.com.cn:8080/"
 //        const val RELEASE_BASE_URL = "http://sys.qinglanmb.com:8080/"
         const val RELEASE_BASE_URL = "https://api2.qinglanmb.com/v1/"
+        const val UPDATE_URL="http://cdn.qinglanmb.com/"
 
         ///storage/emulated/0/Android/data/yourPackageName/files/Zip
         val ZIP_PATH = MyApplication.mContext.getExternalFilesDir("Zip")?.path
@@ -70,6 +71,7 @@ object Constants {
         const val SETTING_DATA_UPLOAD_EVENT = "SettingDataUploadEvent" //系统设置 一键下载
         const val REFRESH_STUDENT_PERMISSION_EVENT = "RefreshStudentPermission"
         const val SCREENSHOT_MANAGER_EVENT="ScreenshotManagerEvent"//截图管理刷新
+        const val PAINTING_TYPE_EVENT="PaintingTypeEvent"//画本管理刷新
 
         const val PACKAGE_GEOMETRY="com.geometry"
         const val PACKAGE_READER = "com.geniatech.knote.reader"

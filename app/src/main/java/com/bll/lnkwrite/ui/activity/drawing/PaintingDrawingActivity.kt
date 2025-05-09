@@ -25,7 +25,7 @@ import java.io.File
 class PaintingDrawingActivity : BaseDrawingActivity() {
 
     private var paintingTypeBean:ItemTypeBean?=null
-    private var typeStr =""
+    private var typeId =0
     private var item_b: PaintingContentBean? = null//当前内容
     private var paintingContentBean_a: PaintingContentBean? = null//a屏内容
     private var items = mutableListOf<PaintingContentBean>() //所有内容
@@ -37,10 +37,10 @@ class PaintingDrawingActivity : BaseDrawingActivity() {
     }
 
     override fun initData() {
-        typeStr= intent.getStringExtra("paintingType").toString()
-        paintingTypeBean=ItemTypeDaoManager.getInstance().queryBean(5,typeStr)
+        typeId= intent.getIntExtra("paintingType",0)
+        paintingTypeBean=ItemTypeDaoManager.getInstance().queryBeanByTypeId(5,typeId)
         page = paintingTypeBean!!.page
-        items = PaintingContentDaoManager.getInstance().queryAll(typeStr)
+        items = PaintingContentDaoManager.getInstance().queryAll(typeId)
 
         if (items.isNotEmpty()) {
             item_b = if (page<items.size){
@@ -231,13 +231,12 @@ class PaintingDrawingActivity : BaseDrawingActivity() {
     //创建新的作业内容
     private fun newNoteContent() {
         val date=System.currentTimeMillis()
-        val path=FileAddress().getPathPainting(typeStr)
 
         item_b = PaintingContentBean()
         item_b?.date=date
-        item_b?.typeStr=typeStr
+        item_b?.typeId=typeId
         item_b?.title=getString(R.string.unnamed)+(items.size+1)
-        item_b?.path = "$path/${DateUtils.longToString(date)}.png"
+        item_b?.path = "${paintingTypeBean?.path}/${DateUtils.longToString(date)}.png"
         page = items.size
 
         items.add(item_b!!)

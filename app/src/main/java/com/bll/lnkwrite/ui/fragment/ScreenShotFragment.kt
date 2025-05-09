@@ -30,7 +30,6 @@ import kotlinx.android.synthetic.main.common_fragment_title.iv_manager
 import java.io.File
 
 class ScreenShotFragment: BaseFragment() {
-
     private var popupBeans = mutableListOf<PopupBean>()
     private var longBeans = mutableListOf<ItemList>()
     private var tabPos=0

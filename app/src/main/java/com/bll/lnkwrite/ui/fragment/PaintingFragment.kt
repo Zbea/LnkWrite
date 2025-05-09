@@ -6,33 +6,53 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.FileAddress
+import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
 import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.dialog.InputContentDialog
+import com.bll.lnkwrite.dialog.ItemSelectorDialog
+import com.bll.lnkwrite.dialog.LongClickManageDialog
 import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.manager.PaintingContentDaoManager
+import com.bll.lnkwrite.mvp.model.CloudListBean
+import com.bll.lnkwrite.mvp.model.ItemList
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.ui.activity.drawing.PaintingDrawingActivity
 import com.bll.lnkwrite.ui.adapter.PaintingAdapter
 import com.bll.lnkwrite.utils.DP2PX
+import com.bll.lnkwrite.utils.FileUploadManager
 import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.NetworkUtil
+import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.common_fragment_title.iv_manager
 import kotlinx.android.synthetic.main.fragment_list_tab.rv_list
 import kotlinx.android.synthetic.main.fragment_list_tab.rv_tab
 import java.io.File
 
 class PaintingFragment: BaseFragment() {
-
+    private var longBeans = mutableListOf<ItemList>()
     private var mAdapter: PaintingAdapter?=null
     private var items= mutableListOf<ItemTypeBean>()
+    private var position=0
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_list_tab
     }
     override fun initView() {
         setTitle(R.string.painting)
+
+        longBeans.add(ItemList().apply {
+            name=getString(R.string.delete)
+            resId=R.mipmap.icon_setting_delete
+        })
+        longBeans.add(ItemList().apply {
+            name=getString(R.string.upload)
+            resId=R.mipmap.icon_upload
+        })
+
         pageSize=9
         disMissView(rv_tab)
         showView(iv_manager)
@@ -48,6 +68,8 @@ class PaintingFragment: BaseFragment() {
                     item.type=5
                     item.title = it
                     item.date=System.currentTimeMillis()
+                    item.typeId=ToolUtils.getDateId()
+                    item.path=FileAddress().getPathPainting(item.typeId)
                     ItemTypeDaoManager.getInstance().insertOrReplace(item)
 
                     fetchData()
@@ -75,31 +97,48 @@ class PaintingFragment: BaseFragment() {
             rv_list.addItemDecoration(SpaceGridItemDeco(3, 100))
             setOnItemClickListener { adapter, view, position ->
                 val intent = Intent(context, PaintingDrawingActivity::class.java)
-                intent.putExtra("paintingType", items[position].title)
+                intent.putExtra("paintingType", items[position].typeId)
                 intent.putExtra(Constants.INTENT_DRAWING_FOCUS, true)
                 customStartActivity(intent)
             }
             setOnItemLongClickListener { adapter, view, position ->
-                CommonDialog(requireActivity(),2).setContent(R.string.tips_is_delete).builder()
-                    .setDialogClickListener(object : CommonDialog.OnDialogClickListener {
-                        override fun cancel() {
-                        }
-                        override fun ok() {
-                            delete(position)
-                        }
-                    })
+                this@PaintingFragment.position=position
+                onLongClick()
                 true
             }
         }
     }
 
-    private fun delete(pos:Int){
-        val item=items[pos]
-        FileUtils.deleteFile(File(FileAddress().getPathPainting(item.title)))
-        PaintingContentDaoManager.getInstance().deleteType(item.title)
+    private fun onLongClick() {
+        val item=items[position]
+        LongClickManageDialog(requireActivity(),2,item.title,longBeans).builder()
+            .setOnDialogClickListener {
+                if (it==0){
+                    delete()
+                    showToast(R.string.delete_success)
+                }
+                else{
+                    if (FileUtils.isExistContent(item.path)){
+                        if (NetworkUtil.isNetworkConnected()){
+                            mQiniuPresenter.getToken()
+                        }
+                        else{
+                            showToast(R.string.net_work_error)
+                        }
+                    }
+                    else{
+                        showToast(2,R.string.toast_content_null_no_upload)
+                    }
+                }
+            }
+    }
+
+    private fun delete(){
+        val item=items[position]
+        FileUtils.deleteFile(File(item.path))
+        PaintingContentDaoManager.getInstance().deleteType(item.typeId)
         ItemTypeDaoManager.getInstance().deleteBean(item)
         fetchData()
-        showToast(R.string.delete_success)
     }
 
     override fun fetchData() {
@@ -108,4 +147,36 @@ class PaintingFragment: BaseFragment() {
         items=ItemTypeDaoManager.getInstance().queryAllOrderDesc(5,pageIndex,pageSize)
         mAdapter?.setNewData(items)
     }
+
+    override fun onEventBusMessage(msgFlag: String) {
+        if (msgFlag==Constants.PAINTING_TYPE_EVENT){
+            fetchData()
+        }
+    }
+
+    override fun onUpload(token: String) {
+        showLoading()
+        val item=items[position]
+        val contents=PaintingContentDaoManager.getInstance().queryAll(item.typeId)
+        FileUploadManager(token).apply {
+            startUpload(item.path,item.title)
+            setCallBack{
+                cloudList.add(CloudListBean().apply {
+                    type=7
+                    subTypeStr=getString(R.string.painting)
+                    date=System.currentTimeMillis()
+                    listJson= Gson().toJson(item)
+                    contentJson=Gson().toJson(contents)
+                    downloadUrl=it
+                })
+                mCloudUploadPresenter.upload(cloudList)
+            }
+        }
+    }
+
+    override fun uploadSuccess(cloudIds: MutableList<Int>?) {
+        super.uploadSuccess(cloudIds)
+        delete()
+    }
+
 }
