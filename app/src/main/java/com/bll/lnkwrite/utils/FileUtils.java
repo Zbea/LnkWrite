@@ -372,7 +372,7 @@ public class FileUtils {
                     }
                 }
             }
-            oldFile.delete();
+            deleteFile(oldFile);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -19,7 +19,6 @@ import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.MyApplication
 import com.bll.lnkwrite.R
-import com.bll.lnkwrite.dialog.AppSystemUpdateDialog
 import com.bll.lnkwrite.dialog.AppUpdateDialog
 import com.bll.lnkwrite.dialog.ProgressDialog
 import com.bll.lnkwrite.mvp.model.AppUpdateBean
@@ -383,7 +382,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
             if (code==200&&jsonObject!=null){
                 val item= Gson().fromJson(jsonObject.toString(),SystemUpdateInfo::class.java)
                 requireActivity().runOnUiThread {
-                    AppSystemUpdateDialog(requireActivity(),item).builder()
+                    AppUpdateDialog(requireActivity(),2,item).builder()
                 }
             }
         },null)
@@ -414,7 +413,8 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
      * 下载应用
      */
     private fun downLoadAPP(bean: AppUpdateBean){
-        val targetFileStr= FileAddress().getPathApk("lnkcommon")
+        updateDialog=AppUpdateDialog(requireActivity(),1,bean).builder()
+        val targetFileStr= FileAddress().getPathApk("lnkWrite")
         FileDownManager.with(requireActivity()).create(bean.downloadUrl).setPath(targetFileStr).startSingleTaskDownLoad(object :
             FileDownManager.SingleTaskCallBack {
             override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
