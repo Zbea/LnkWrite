@@ -143,6 +143,15 @@
     <string name="official_str">Official</string>
     <string name="thirdParty_str">ThirdParty</string>
 
+    <string name="diary_type_hgb_11">grid book-11mm</string>
+    <string name="diary_type_hgb_9">grid book-9mm</string>
+    <string name="diary_type_hgb_7">grid book-7mm</string>
+    <string name="diary_type_fgb_10">square book-10mm</string>
+    <string name="diary_type_fgb_8.5">square book-8.5mm</string>
+    <string name="diary_type_fgb_7">square book-7mm</string>
+    <string name="note_type_yyb_3_5">english book-3.5mm</string>
+    <string name="note_type_yyb_3">english book-3mm</string>
+
     <string name="note_tab_diary">My secret book</string>
     <string name="note_type_hgb">grid book</string>
     <string name="note_type_fgb">square book</string>

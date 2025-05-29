@@ -48,11 +48,6 @@ abstract class BaseDrawingActivity : BaseActivity() {
     private var currentGeometry = 0
     private var currentDrawObj = PWDrawObjectHandler.DRAW_OBJ_RANDOM_PEN//当前笔形
 
-    var correctMode = 0
-    var scoreMode = 0 //1赋分，2对错
-    var answerImages = mutableListOf<String>()//答题地址
-    var currentScores = mutableListOf<ScoreItem>()
-
     var ll_page_content_a: LinearLayout? = null
     var ll_page_content_b: LinearLayout? = null
     var ll_draw_content: LinearLayout? = null
@@ -84,6 +79,9 @@ abstract class BaseDrawingActivity : BaseActivity() {
             elik_a?.addOnTopView(iv_top)
             elik_b?.addOnTopView(iv_top)
         }
+
+        if (iv_score!=null)
+            setViewElikUnable(iv_score)
 
         initClick()
         initGeometryView()
@@ -699,81 +697,6 @@ abstract class BaseDrawingActivity : BaseActivity() {
      */
     fun moveToScreen(scree: Int) {
         moveToScreenPanel(scree)
-    }
-
-    /**
-     * 格式序列化  题目分数转行list集合
-     */
-    fun scoreJsonToList(json:String):List<ScoreItem>{
-        return Gson().fromJson(json, object : TypeToken<List<ScoreItem>>() {}.type) as MutableList<ScoreItem>
-    }
-
-    /**
-     * 获取分数
-     * @param scoreStr
-     * @return
-     */
-    private fun getScore(scoreStr: String?): Double {
-        return if (scoreStr.isNullOrEmpty()) {
-            0.0
-        } else {
-            scoreStr.toDouble()
-        }
-    }
-
-    /**
-     * 设置成绩分数
-     */
-    fun initScoreView(){
-        iv_correct_close?.setOnClickListener {
-            disMissView(ll_score)
-            showView(iv_score)
-        }
-
-        iv_score?.setOnClickListener {
-            disMissView(iv_score)
-            showView(ll_score)
-        }
-
-        tv_answer?.setOnClickListener {
-            if (answerImages.size>0)
-                ImageDialog(this, answerImages).builder()
-        }
-
-        iv_score_up.setOnClickListener {
-            rv_list_score.scrollBy(0,-DP2PX.dip2px(this,200f))
-        }
-
-        iv_score_down.setOnClickListener {
-            rv_list_score.scrollBy(0, DP2PX.dip2px(this,200f))
-        }
-
-        when(correctMode){
-            1,2->{
-                rv_list_score.layoutManager = GridLayoutManager(this,3)
-                TopicScoreAdapter(R.layout.item_topic_score,scoreMode,currentScores).apply {
-                    rv_list_score.adapter = this
-                    bindToRecyclerView(rv_list_score)
-                    rv_list_score.addItemDecoration(SpaceGridItemDeco(3,DP2PX.dip2px(this@BaseDrawingActivity,15f)))
-                }
-            }
-            3,4,5->{
-                rv_list_score.layoutManager = LinearLayoutManager(this)
-                TopicTwoScoreAdapter(if(correctMode==5)R.layout.item_topic_multi_score else R.layout.item_topic_two_score,scoreMode,currentScores).apply {
-                    rv_list_score.adapter = this
-                    bindToRecyclerView(rv_list_score)
-                    rv_list_score.addItemDecoration(SpaceItemDeco(DP2PX.dip2px(this@BaseDrawingActivity,15f)))
-                }
-            }
-            6,7->{
-                rv_list_score.layoutManager = LinearLayoutManager(this)
-                TopicMultistageScoreAdapter(R.layout.item_topic_two_score,scoreMode,currentScores).apply {
-                    rv_list_score.adapter = this
-                    bindToRecyclerView(rv_list_score)
-                    rv_list_score.addItemDecoration(SpaceItemDeco(DP2PX.dip2px(this@BaseDrawingActivity,15f)))
-                }
-            }
-        }
     }
 
 

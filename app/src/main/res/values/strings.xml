@@ -143,6 +143,15 @@
     <string name="official_str">官方</string>
     <string name="thirdParty_str">第三方</string>
 
+    <string name="diary_type_hgb_11">横格本-11mm</string>
+    <string name="diary_type_hgb_9">横格本-9mm</string>
+    <string name="diary_type_hgb_7">横格本-7mm</string>
+    <string name="diary_type_fgb_10">方格本-10mm</string>
+    <string name="diary_type_fgb_8.5">方格本-8.5mm</string>
+    <string name="diary_type_fgb_7">方格本-7mm</string>
+    <string name="note_type_yyb_3_5">英语本-3.5mm</string>
+    <string name="note_type_yyb_3">英语本-3mm</string>
+
     <string name="note_tab_diary">我的密本</string>
     <string name="note_type_hgb">横格本</string>
     <string name="note_type_fgb">方格本</string>

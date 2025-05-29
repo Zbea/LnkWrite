@@ -201,6 +201,7 @@ class CalenderDownloadFragment: BaseFragment(), IContractView.ICalenderView {
         map["page"] = pageIndex
         map["size"] = pageSize
         map["type"] = supply
+        map["mainType"]=3
         presenter.getList(map)
     }
 

@@ -131,6 +131,7 @@ class WallpaperDownloadFragment : BaseFragment(), IContractView.IWallpaperView{
      */
     fun changeSupply(supply:Int){
         this.supply=supply
+        pageIndex=1
         fetchData()
     }
 
@@ -141,7 +142,7 @@ class WallpaperDownloadFragment : BaseFragment(), IContractView.IWallpaperView{
         map["size"] = pageSize
         map["supply"]=supply
         map["type"]=1
-        map["imgType"]=2
+        map["mainType"]=4
         presenter.getList(map)
     }
 
