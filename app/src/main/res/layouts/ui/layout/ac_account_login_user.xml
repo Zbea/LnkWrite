@@ -184,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="@string/password_edit"
+                android:text="@string/password_find"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_25"
                 android:textStyle="bold" />

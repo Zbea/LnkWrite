@@ -76,6 +76,10 @@ class MainActivity : BaseActivity(){
             FileUtils.mkdirs(screenshotPath)
         }
 
+        val targetFileStr = FileAddress().getLauncherPath()
+        if (FileUtils.isExist(targetFileStr)){
+            FileUtils.deleteFile(File(targetFileStr))
+        }
     }
 
     override fun initView() {

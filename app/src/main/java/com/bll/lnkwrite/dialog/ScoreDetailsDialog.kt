@@ -29,7 +29,7 @@ class ScoreDetailsDialog(val context: Context, private val title:String, private
         val window = dialog.window
         val layoutParams = window?.attributes
         layoutParams?.gravity = Gravity.CENTER_VERTICAL or Gravity.END
-        layoutParams?.x = (Constants.WIDTH - DP2PX.dip2px(context, 700f)) / 2
+        layoutParams?.x = (Constants.WIDTH - DP2PX.dip2px(context, 800f)) / 2
         dialog.show()
 
         val ivClose=dialog.findViewById<ImageView>(R.id.iv_close)

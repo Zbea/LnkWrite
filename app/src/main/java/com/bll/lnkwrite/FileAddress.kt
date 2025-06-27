@@ -8,19 +8,14 @@ import com.bll.lnkwrite.Constants.IMAGE_PATH
 import com.bll.lnkwrite.Constants.SCREEN_PATH
 import com.bll.lnkwrite.Constants.TEXTBOOK_PATH
 import com.bll.lnkwrite.Constants.ZIP_PATH
+import com.bll.lnkwrite.MethodManager.getAccountId
 import com.bll.lnkwrite.mvp.model.User
 import com.bll.lnkwrite.utils.SPUtil
 
 class FileAddress {
 
-    private fun getUserId():Long{
-        val mUser=SPUtil.getObj("user", User::class.java)
-        return mUser?.accountId ?: 0
-    }
-
-    private fun getUserAccount():String{
-        val mUser=SPUtil.getObj("user", User::class.java)
-        return mUser?.account!!
+    fun getLauncherPath():String{
+        return  getPathApk("lnkWrite")
     }
 
     /**
@@ -40,27 +35,27 @@ class FileAddress {
      * /storage/emulated/0/Books
      */
     fun getPathBook(fileName: String):String{
-        return "$BOOK_PATH/${getUserId()}/$fileName"
+        return "$BOOK_PATH/${getAccountId()}/$fileName"
     }
     /**
      * 书籍手写地址
      * /storage/emulated/0/Notes
      */
     fun getPathBookDraw(fileName: String):String{
-        return "$BOOK_PATH/${getUserId()}/${fileName}draw"
+        return "$BOOK_PATH/${getAccountId()}/${fileName}draw"
     }
 
     fun getPathHomeworkBook(fileName: String):String{
-        return "$TEXTBOOK_PATH/${getUserId()}/homeworkBook/$fileName"
+        return "$TEXTBOOK_PATH/${getAccountId()}/homeworkBook/$fileName"
     }
     fun getPathHomeworkBookDraw(fileName: String):String{
-        return "$TEXTBOOK_PATH/${getUserId()}/homeworkBook/${fileName}draw"
+        return "$TEXTBOOK_PATH/${getAccountId()}/homeworkBook/${fileName}draw"
     }
     fun getPathTextBook(fileName: String):String{
-        return "$TEXTBOOK_PATH/${getUserId()}/textbook/$fileName"
+        return "$TEXTBOOK_PATH/${getAccountId()}/textbook/$fileName"
     }
     fun getPathTextBookDraw(fileName: String):String{
-        return "$TEXTBOOK_PATH/${getUserId()}/textbook/${fileName}draw"
+        return "$TEXTBOOK_PATH/${getAccountId()}/textbook/${fileName}draw"
     }
     /**
      * zip保存地址
@@ -80,55 +75,55 @@ class FileAddress {
      * 笔记保存地址
      */
     fun getPathNote(typeStr: String?,noteBookStr: String?):String{
-        return "$IMAGE_PATH/${getUserId()}/note/$typeStr/$noteBookStr"
+        return "$IMAGE_PATH/${getAccountId()}/note/$typeStr/$noteBookStr"
     }
 
     /**
      * 画本保存地址
      */
     fun getPathPainting(typeId: Int):String{
-        return "$IMAGE_PATH/${getUserId()}/painting/$typeId"
+        return "$IMAGE_PATH/${getAccountId()}/painting/$typeId"
     }
 
     /**
      * 日程保存地址
      */
     fun getPathDate(dateStr:String):String{
-        return "$IMAGE_PATH/${getUserId()}/date/$dateStr"
+        return "$IMAGE_PATH/${getAccountId()}/date/$dateStr"
     }
 
     /**
      * 获取作业批改路径
      */
     fun getPathCorrect(id:Int):String{
-        return "$HOMEWORK_PATH/${getUserId()}/$id"
+        return "$HOMEWORK_PATH/${getAccountId()}/$id"
     }
 
     /**
      * 随笔文件路径
      */
     fun getPathFreeNote(title:String):String{
-        return "$IMAGE_PATH/${getUserId()}/freeNote/$title"
+        return "$IMAGE_PATH/${getAccountId()}/freeNote/$title"
     }
 
     /**
      * 计划总览路径
      */
     fun getPathPlan(year:Int,month:Int):String{
-        return "$IMAGE_PATH/${getUserId()}/month/$year$month"
+        return "$IMAGE_PATH/${getAccountId()}/month/$year$month"
     }
     /**
      * 计划总览路径
      */
     fun getPathPlan(startTime:String):String{
-        return "$IMAGE_PATH/${getUserId()}/week/$startTime"
+        return "$IMAGE_PATH/${getAccountId()}/week/$startTime"
     }
 
     /**
      * 日历背景下载地址
      */
     fun getPathCalender(fileName: String):String{
-        return "$IMAGE_PATH/${getUserId()}/calender/$fileName"
+        return "$IMAGE_PATH/${getAccountId()}/calender/$fileName"
     }
 
 
@@ -136,27 +131,27 @@ class FileAddress {
      * 日记路径
      */
     fun getPathDiary(time:String):String{
-        return "$IMAGE_PATH/${getUserId()}/diary/$time"
+        return "$IMAGE_PATH/${getAccountId()}/diary/$time"
     }
 
     /**
      * 壁纸
      */
     fun getPathImage(typeStr: String,contentId: Int):String{
-        return "$IMAGE_PATH/${getUserId()}/$typeStr/$contentId"
+        return "$IMAGE_PATH/${getAccountId()}/$typeStr/$contentId"
     }
 
     /**
      * 截图
      */
     fun getPathScreen(typeStr: String):String{
-        return "$SCREEN_PATH/${getUserId()}/$typeStr"
+        return "$SCREEN_PATH/${getAccountId()}/$typeStr"
     }
 
     /**
      * 文档
      */
     fun getPathDocument(typeStr: String):String{
-        return "$DOCUMENT_PATH/${getUserAccount()}/$typeStr"
+        return "$DOCUMENT_PATH/${getAccountId()}/$typeStr"
     }
 }

@@ -10,13 +10,13 @@
         android:layout_height="290dp"
         android:background="@mipmap/icon_painting_bg"
         >
-
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:ellipsize="end"
+            android:maxLines="2"
             android:layout_marginTop="@dimen/dp_30"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginEnd="@dimen/dp_10"

@@ -84,6 +84,10 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView {
             add()
         }
 
+        btn_edit_password.setOnClickListener {
+            customStartActivity(Intent(this, AccountRegisterActivity::class.java).setFlags(1))
+        }
+
         btn_logout.setOnClickListener {
             CommonDialog(this).setContent(R.string.tips_is_logout).builder().setDialogClickListener(object :
                 CommonDialog.OnDialogClickListener {

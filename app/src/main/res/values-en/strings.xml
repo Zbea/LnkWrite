@@ -317,6 +317,7 @@
     <string name="account_name_str">Name：</string>
     <string name="account_phone_str">Phone：</string>
     <string name="account_student_str">Student：</string>
+    <string name="account_password_str">Password：</string>
     <string name="account_edit_name_str">Change name</string>
     <string name="account_bind_student_str">关联学生</string>
     <string name="account_unbind_student_str">取消关联</string>

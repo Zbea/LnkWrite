@@ -73,6 +73,7 @@ object Constants {
         const val SCREENSHOT_MANAGER_EVENT="ScreenshotManagerEvent"//截图管理刷新
         const val PAINTING_TYPE_EVENT="PaintingTypeEvent"//画本管理刷新
 
+        const val PACKAGE_PPT= "com.htfyun.dualdocreader"
         const val PACKAGE_GEOMETRY="com.geometry"
         const val PACKAGE_READER = "com.geniatech.knote.reader"
         const val PACKAGE_SYSTEM_UPDATE = "com.htfyun.firmwareupdate"

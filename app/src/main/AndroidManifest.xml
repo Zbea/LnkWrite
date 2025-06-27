@@ -197,6 +197,9 @@
         <activity android:name=".ui.activity.ScreenshotManagerActivity"
             android:windowSoftInputMode="adjustPan"
             />
+        <activity android:name=".ui.activity.ScreenshotListActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".ui.activity.drawing.HomeworkDetailsActivity"
             android:windowSoftInputMode="adjustPan"
             />
