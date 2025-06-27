@@ -14,6 +14,7 @@ import com.bll.lnkwrite.mvp.model.TeacherHomeworkList
 import com.bll.lnkwrite.mvp.model.TeacherHomeworkList.TeacherHomeworkBean
 import com.bll.lnkwrite.mvp.presenter.HomeworkPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IHomeworkView
+import com.bll.lnkwrite.ui.activity.HomeworkRecordActivity
 import com.bll.lnkwrite.ui.activity.ScoreActivity
 import com.bll.lnkwrite.ui.activity.drawing.HomeworkDetailsActivity
 import com.bll.lnkwrite.ui.adapter.TeacherHomeworkAdapter
@@ -89,7 +90,7 @@ class HomeworkFragment : BaseFragment(),IHomeworkView {
         rv_list?.addItemDecoration(SpaceItemDeco( 40))
         mAdapterHomework?.setOnItemClickListener { adapter, view, position ->
             val item=homeworks[position]
-            val intent= Intent(requireActivity(), HomeworkDetailsActivity::class.java)
+            val intent= Intent(requireActivity(), if (item.subType==3) HomeworkRecordActivity::class.java else HomeworkDetailsActivity::class.java)
             val bundle= Bundle()
             bundle.putSerializable("homeworkBean", item)
             intent.putExtra("bundle", bundle)
