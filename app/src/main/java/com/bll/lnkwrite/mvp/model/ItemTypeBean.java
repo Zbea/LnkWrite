@@ -22,6 +22,7 @@ public class ItemTypeBean {
     public String path;
     public int typeId;
     public int page;
+    public boolean isNew;//是否有新的标识
     @Transient
     public boolean isCheck;
     @Transient
@@ -31,9 +32,9 @@ public class ItemTypeBean {
     @Transient
     public String contentJson;
 
-    @Generated(hash = 484241845)
+    @Generated(hash = 246292522)
     public ItemTypeBean(Long id, long userId, String title, int type, long date, String path,
-            int typeId, int page) {
+            int typeId, int page, boolean isNew) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -42,6 +43,7 @@ public class ItemTypeBean {
         this.path = path;
         this.typeId = typeId;
         this.page = page;
+        this.isNew = isNew;
     }
     @Generated(hash = 2077540725)
     public ItemTypeBean() {
@@ -93,6 +95,12 @@ public class ItemTypeBean {
     }
     public void setPage(int page) {
         this.page = page;
+    }
+    public boolean getIsNew() {
+        return this.isNew;
+    }
+    public void setIsNew(boolean isNew) {
+        this.isNew = isNew;
     }
 
 }

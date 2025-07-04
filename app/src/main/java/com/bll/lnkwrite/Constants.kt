@@ -33,8 +33,8 @@ object Constants {
         const val SCREEN_RIGHT = 2//右屏
         const val SCREEN_FULL = 3//全屏
 
-                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
-//        const val URL_BASE = "http://192.168.101.100:10800/v1/"
+//                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
+        const val URL_BASE = "http://192.168.101.100:10800/v1/"
 //        const val  RELEASE_BASE_URL = "http://www.htfyun.com.cn:8080/"
 //        const val RELEASE_BASE_URL = "http://sys.qinglanmb.com:8080/"
         const val RELEASE_BASE_URL = "https://api2.qinglanmb.com/v1/"
@@ -57,6 +57,7 @@ object Constants {
         const val AUTO_REFRESH_EVENT = "AutoRefreshEvent" //每天刷新
         const val DATE_DRAWING_EVENT = "DateDrawingEvent" //日历手写事件
         const val BOOK_EVENT = "BookEvent"
+        const val BOOK_TYPE_EVENT = "BookTypeEvent"
         const val TEXT_BOOK_EVENT = "TextBookEvent"
         const val NOTE_TYPE_REFRESH_EVENT = "NoteTypeRefreshEvent"
         const val NOTE_EVENT = "NoteEvent"

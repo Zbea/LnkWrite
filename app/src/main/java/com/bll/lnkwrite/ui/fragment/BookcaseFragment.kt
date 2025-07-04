@@ -1,20 +1,20 @@
 package com.bll.lnkwrite.ui.fragment
 
 import android.content.Intent
+import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bll.lnkwrite.Constants
-import com.bll.lnkwrite.DataBeanManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
 import com.bll.lnkwrite.manager.BookDaoManager
 import com.bll.lnkwrite.mvp.model.book.Book
-import com.bll.lnkwrite.ui.activity.AccountLoginActivity
-import com.bll.lnkwrite.ui.activity.book.BookcaseTypeListActivity
+import com.bll.lnkwrite.ui.activity.book.BookcaseTypeActivity
 import com.bll.lnkwrite.ui.adapter.BookAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.GlideUtils
 import com.bll.lnkwrite.MethodManager
+import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.utils.FileUploadManager
 import com.bll.lnkwrite.utils.FileUtils
@@ -36,17 +36,17 @@ class BookcaseFragment : BaseFragment() {
     override fun initView() {
         setTitle(R.string.bookcase)
 
-        initRecyclerView()
-        findBook()
-
         tv_book_type.setOnClickListener {
-            customStartActivity(Intent(activity, BookcaseTypeListActivity::class.java))
+            customStartActivity(Intent(activity, BookcaseTypeActivity::class.java))
         }
 
         ll_book_top.setOnClickListener {
             if (bookTopBean != null)
                 MethodManager.gotoBookDetails(requireActivity(),1, bookTopBean)
         }
+
+        initRecyclerView()
+        findBook()
     }
 
     override fun lazyLoad() {
@@ -69,6 +69,8 @@ class BookcaseFragment : BaseFragment() {
      * 查找本地书籍
      */
     private fun findBook() {
+        iv_tips?.visibility=if (ItemTypeDaoManager.getInstance().isExistBookType) View.VISIBLE else View.GONE
+
         books = BookDaoManager.getInstance().queryAllBook(true,13)
         if (books.size == 0) {
             bookTopBean = null

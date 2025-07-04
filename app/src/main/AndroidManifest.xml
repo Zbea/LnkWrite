@@ -109,7 +109,7 @@
         <activity android:name=".ui.activity.drawing.NoteDrawingActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
             />
-        <activity android:name=".ui.activity.book.BookcaseTypeListActivity"
+        <activity android:name=".ui.activity.book.BookcaseTypeActivity"
             android:windowSoftInputMode="adjustPan"
             />
         <activity android:name=".ui.activity.book.BookStoreActivity"

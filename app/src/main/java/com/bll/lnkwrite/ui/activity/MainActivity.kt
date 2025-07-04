@@ -60,17 +60,6 @@ class MainActivity : BaseActivity(){
         intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
         registerReceiver(myBroadcastReceiver,intentFilter)
 
-        val documentPath=FileAddress().getPathDocument(getString(R.string.default_str))
-        val childPath= "$documentPath/1"
-        if (!FileUtils.isExist(documentPath)){
-            FileUtils.mkdirs(childPath)
-            MediaScannerConnection.scanFile(this, arrayOf(childPath), null, null)
-        }
-        Handler().postDelayed({
-            FileUtils.delete(childPath)
-            MediaScannerConnection.scanFile(this, arrayOf(childPath), null, null)
-        }, 10 * 1000)
-
         val screenshotPath=FileAddress().getPathScreen(getString(R.string.untype))
         if (!FileUtils.isExist(screenshotPath)){
             FileUtils.mkdirs(screenshotPath)
@@ -79,6 +68,18 @@ class MainActivity : BaseActivity(){
         val targetFileStr = FileAddress().getLauncherPath()
         if (FileUtils.isExist(targetFileStr)){
             FileUtils.deleteFile(File(targetFileStr))
+        }
+
+        //创建书架分类
+        if (ItemTypeDaoManager.getInstance().queryAll(2).size==0){
+            val strings = DataBeanManager.bookType
+            for (i in strings.indices) {
+                val item = ItemTypeBean()
+                item.type=2
+                item.title = strings[i]
+                item.date=System.currentTimeMillis()
+                ItemTypeDaoManager.getInstance().insertOrReplace(item)
+            }
         }
     }
 

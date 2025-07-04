@@ -10,6 +10,7 @@ import com.bll.lnkwrite.mvp.presenter.HomeworkCorrectPresenter
 import com.bll.lnkwrite.mvp.presenter.QiniuPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IHomeworkCorrectView
 import com.bll.lnkwrite.mvp.view.IContractView.IQiniuView
+import com.bll.lnkwrite.utils.BitmapBatchSaver
 import com.bll.lnkwrite.utils.BitmapUtils
 import com.bll.lnkwrite.utils.FileImageUploadManager
 import com.bll.lnkwrite.utils.FileUtils
@@ -32,6 +33,7 @@ class HomeworkCorrectActivity:BaseDrawingActivity(),IHomeworkCorrectView ,IQiniu
     private var images= mutableListOf<String>()
     private var posImage=0
     private var url=""
+    private val bitmapBatchSaver= BitmapBatchSaver(4)
 
     override fun onToken(token: String) {
         showLoading()
@@ -101,6 +103,9 @@ class HomeworkCorrectActivity:BaseDrawingActivity(),IHomeworkCorrectView ,IQiniu
             showView(iv_catalog)
 
         iv_catalog.setOnClickListener {
+            if (!bitmapBatchSaver.isAccomplished){
+                showToast("手写未保存，请稍后提交")
+            }
             CommonDialog(this).setContent("确定批改以及发送？").builder().setDialogClickListener(object :
                 CommonDialog.OnDialogClickListener {
                 override fun cancel() {
@@ -141,9 +146,7 @@ class HomeworkCorrectActivity:BaseDrawingActivity(),IHomeworkCorrectView ,IQiniu
     }
 
     override fun onElikSava_b() {
-        Thread {
-            BitmapUtils.saveScreenShot(v_content_b, getPathMergeStr(posImage+1))
-        }.start()
+        bitmapBatchSaver.submitBitmap(BitmapUtils.loadBitmapFromViewByCanvas(v_content_b),getPathMergeStr(posImage+1),null)
     }
 
     /**
@@ -165,6 +168,11 @@ class HomeworkCorrectActivity:BaseDrawingActivity(),IHomeworkCorrectView ,IQiniu
      */
     private fun getPathMergeStr(index: Int):String{
         return getPath()+"/merge/${index}.png"//手绘地址
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bitmapBatchSaver.shutdown()
     }
 
 }

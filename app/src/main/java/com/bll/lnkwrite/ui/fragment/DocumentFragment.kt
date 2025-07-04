@@ -30,10 +30,11 @@ import java.io.File
 
 class DocumentFragment : BaseFragment() {
     private var popupBeans = mutableListOf<PopupBean>()
-    private var tabPos = 0
     private var mAdapter: DocumentAdapter? = null
     private var longBeans = mutableListOf<ItemList>()
     private var position=0
+    private var documentTypeNames= mutableListOf<String>()
+    private var tabPos=0
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_list_tab
@@ -53,38 +54,37 @@ class DocumentFragment : BaseFragment() {
                 when (item.id) {
                     0 -> {
                         InputContentDialog(requireActivity(), getString(R.string.type_create_str)).builder().setOnDialogClickListener {
-                            if (ItemTypeDaoManager.getInstance().isExist(it, 6)) {
+                            if (documentTypeNames.contains(it)) {
                                 showToast(1, R.string.existed)
                                 return@setOnDialogClickListener
                             }
                             val path = FileAddress().getPathDocument(it)
                             MethodManager.createFileScan(requireActivity(),path)
 
+                            documentTypeNames.add(it)
                             val itemTypeBean = ItemTypeBean()
-                            itemTypeBean.type = 6
-                            itemTypeBean.date = System.currentTimeMillis()
                             itemTypeBean.title = it
-                            itemTypeBean.path = path
-                            ItemTypeDaoManager.getInstance().insertOrReplace(itemTypeBean)
+                            itemTypeBean.path=path
                             mTabTypeAdapter?.addData(itemTypeBean)
                         }
                     }
                     1 -> {
+                        val path=itemTabTypes[tabPos].path
                         if (tabPos == 0) {
                             showToast(1, R.string.toast_type_default_no_delete)
                             return@setOnSelectListener
                         }
-                        if (FileUtils.isExistContent(itemTabTypes[tabPos].path)) {
+                        if (FileUtils.isExistContent(path)) {
                             showToast(1, R.string.toast_type_exist_no_delete)
                             return@setOnSelectListener
                         }
                         CommonDialog(requireActivity(), 1).setContent(R.string.tips_is_delete).builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
                             override fun ok() {
-                                val itemTypeBean=itemTabTypes[tabPos]
-                                ItemTypeDaoManager.getInstance().deleteBean(itemTypeBean)
-                                FileUtils.delete(itemTypeBean.path)
-                                MediaScannerConnection.scanFile(requireActivity(), arrayOf(itemTypeBean.path),null, null)
+                                documentTypeNames.removeAt(tabPos)
+                                FileUtils.delete(path)
+                                MethodManager.notifyFileScan(requireActivity(),path)
                                 mTabTypeAdapter?.remove(tabPos)
+
                                 tabPos = 0
                                 itemTabTypes[0].isCheck = true
                                 pageIndex = 1
@@ -100,28 +100,38 @@ class DocumentFragment : BaseFragment() {
         }
 
         initRecycleView()
-        initTab()
     }
 
     override fun lazyLoad() {
-        for (item in itemTabTypes){
-            val path=item.path
+        initTab()
+    }
+
+    private fun initTab() {
+        val path = FileAddress().getPathDocument(getString(R.string.default_str))
+        if (!FileUtils.isExist(path)){
             MethodManager.createFileScan(requireActivity(),path)
         }
+
+        itemTabTypes.clear()
+        documentTypeNames.clear()
+        documentTypeNames=FileUtils.getDirectorys(File(path).parent)
+        for (name in documentTypeNames){
+            itemTabTypes.add(ItemTypeBean().apply {
+                title=name
+                isCheck=documentTypeNames.indexOf(name)==0
+                this.path=FileAddress().getPathDocument(name)
+            })
+        }
+
+        if (itemTabTypes.size>tabPos)
+            itemTabTypes = MethodManager.setItemTypeBeanCheck(itemTabTypes, tabPos)
+        mTabTypeAdapter?.setNewData(itemTabTypes)
+
         fetchData()
     }
 
-
-    private fun initTab() {
-        pageIndex = 1
-        itemTabTypes = ItemTypeDaoManager.getInstance().queryAll(6)
-        itemTabTypes.add(0, MethodManager.getDefaultItemTypeDocument())
-        itemTabTypes = MethodManager.setItemTypeBeanCheck(itemTabTypes, tabPos)
-        mTabTypeAdapter?.setNewData(itemTabTypes)
-    }
-
     override fun onTabClickListener(view: View, position: Int) {
-        tabPos = position
+        tabPos=position
         pageIndex = 1
         fetchData()
     }
@@ -180,7 +190,7 @@ class DocumentFragment : BaseFragment() {
                 if (it==0){
                     FileUtils.deleteFile(file)
                     FileUtils.deleteFile(File(drawPath))
-                    MediaScannerConnection.scanFile(requireActivity(), arrayOf(file.absolutePath),null, null)
+                    MethodManager.notifyFileScan(requireActivity(),file.absolutePath)
                     fetchData()
                 }
                 else{
@@ -193,7 +203,7 @@ class DocumentFragment : BaseFragment() {
                         ItemSelectorDialog(requireActivity(),getString(R.string.type_set_str),lists).builder().setOnDialogClickListener{ pos->
                             val newPath=types[pos].path+"/"+file.name
                             FileUtils.moveFile(file.path,newPath)
-                            MediaScannerConnection.scanFile(requireActivity(), arrayOf(file.path,newPath),null, null)
+                            MethodManager.notifyFileScan(requireActivity(),arrayOf(file.path,newPath))
                             val newDrawPath=File(newPath).parent+"/${fileName}draw/"
                             FileUtils.moveDirectory(drawPath,newDrawPath)
                             mAdapter?.remove(position)
@@ -203,7 +213,7 @@ class DocumentFragment : BaseFragment() {
                         val path= FileAddress().getPathDocument(getString(R.string.default_str))
                         val newPath=path+"/"+file.name
                         FileUtils.moveFile(file.path,newPath)
-                        MediaScannerConnection.scanFile(requireActivity(), arrayOf(file.path,newPath),null, null)
+                        MethodManager.notifyFileScan(requireActivity(),arrayOf(file.path,newPath))
                         val newDrawPath=File(newPath).parent+"/${fileName}draw/"
                         FileUtils.moveDirectory(drawPath,newDrawPath)
                         mAdapter?.remove(position)

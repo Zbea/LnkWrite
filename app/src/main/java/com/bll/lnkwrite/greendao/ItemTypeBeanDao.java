@@ -32,6 +32,7 @@ public class ItemTypeBeanDao extends AbstractDao<ItemTypeBean, Long> {
         public final static Property Path = new Property(5, String.class, "path", false, "PATH");
         public final static Property TypeId = new Property(6, int.class, "typeId", false, "TYPE_ID");
         public final static Property Page = new Property(7, int.class, "page", false, "PAGE");
+        public final static Property IsNew = new Property(8, boolean.class, "isNew", false, "IS_NEW");
     }
 
 
@@ -54,7 +55,8 @@ public class ItemTypeBeanDao extends AbstractDao<ItemTypeBean, Long> {
                 "\"DATE\" INTEGER NOT NULL ," + // 4: date
                 "\"PATH\" TEXT," + // 5: path
                 "\"TYPE_ID\" INTEGER NOT NULL ," + // 6: typeId
-                "\"PAGE\" INTEGER NOT NULL );"); // 7: page
+                "\"PAGE\" INTEGER NOT NULL ," + // 7: page
+                "\"IS_NEW\" INTEGER NOT NULL );"); // 8: isNew
     }
 
     /** Drops the underlying database table. */
@@ -86,6 +88,7 @@ public class ItemTypeBeanDao extends AbstractDao<ItemTypeBean, Long> {
         }
         stmt.bindLong(7, entity.getTypeId());
         stmt.bindLong(8, entity.getPage());
+        stmt.bindLong(9, entity.getIsNew() ? 1L: 0L);
     }
 
     @Override
@@ -111,6 +114,7 @@ public class ItemTypeBeanDao extends AbstractDao<ItemTypeBean, Long> {
         }
         stmt.bindLong(7, entity.getTypeId());
         stmt.bindLong(8, entity.getPage());
+        stmt.bindLong(9, entity.getIsNew() ? 1L: 0L);
     }
 
     @Override
@@ -128,7 +132,8 @@ public class ItemTypeBeanDao extends AbstractDao<ItemTypeBean, Long> {
             cursor.getLong(offset + 4), // date
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // path
             cursor.getInt(offset + 6), // typeId
-            cursor.getInt(offset + 7) // page
+            cursor.getInt(offset + 7), // page
+            cursor.getShort(offset + 8) != 0 // isNew
         );
         return entity;
     }
@@ -143,6 +148,7 @@ public class ItemTypeBeanDao extends AbstractDao<ItemTypeBean, Long> {
         entity.setPath(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setTypeId(cursor.getInt(offset + 6));
         entity.setPage(cursor.getInt(offset + 7));
+        entity.setIsNew(cursor.getShort(offset + 8) != 0);
      }
     
     @Override

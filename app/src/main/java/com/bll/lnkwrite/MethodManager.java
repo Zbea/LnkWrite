@@ -357,6 +357,11 @@ public class MethodManager {
         return list;
     }
 
+    /**
+     * 创建共享文件件
+     * @param context
+     * @param path
+     */
     public static void createFileScan(Context context,String path){
         if (!FileUtils.isExist(path)){
             File file=new File(path+"/1");
@@ -369,4 +374,20 @@ public class MethodManager {
         }
     }
 
+    /**
+     * 通知共享文件
+     * @param context
+     * @param path
+     */
+    public static void notifyFileScan(Context context,String path){
+        MediaScannerConnection.scanFile(context, new String[]{path},null, null);
+    }
+    /**
+     * 通知共享文件
+     * @param context
+     * @param paths
+     */
+    public static void notifyFileScan(Context context,String[] paths){
+        MediaScannerConnection.scanFile(context, paths,null, null);
+    }
 }

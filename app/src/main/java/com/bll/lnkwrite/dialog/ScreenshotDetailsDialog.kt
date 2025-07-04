@@ -7,12 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bll.lnkwrite.Constants
-import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.mvp.model.ItemDetailsBean
-import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.widget.FlowLayoutManager
@@ -60,7 +58,7 @@ class ScreenshotDetailsDialog(val context: Context) {
 
         val rv_list=dialog.findViewById<MaxRecyclerView>(R.id.rv_list)
         rv_list?.layoutManager = LinearLayoutManager(context)
-        val mAdapter = ScreenshotDetailsAdapter(R.layout.item_bookcase_list, items)
+        val mAdapter = ScreenshotDetailsAdapter(R.layout.item_details_list, items)
         rv_list?.adapter = mAdapter
         mAdapter.bindToRecyclerView(rv_list)
         rv_list?.addItemDecoration(SpaceItemDeco(30))
@@ -79,11 +77,11 @@ class ScreenshotDetailsDialog(val context: Context) {
 
         override fun convert(helper: BaseViewHolder, item: ItemDetailsBean) {
             helper.setText(R.id.tv_book_type,item.typeStr)
-            helper.setText(R.id.tv_book_num,"(${item.num})")
+            helper.setText(R.id.tv_book_num,"( ${item.num} )")
 
             val recyclerView = helper.getView<RecyclerView>(R.id.rv_list)
             recyclerView?.layoutManager = FlowLayoutManager()
-            val mAdapter = ChildAdapter(R.layout.item_bookcase_name,item.files)
+            val mAdapter = ChildAdapter(R.layout.item_details_list_name,item.files)
             recyclerView?.adapter = mAdapter
             mAdapter.setOnItemClickListener { adapter, view, position ->
                 listener?.onClick(helper.adapterPosition,position)
