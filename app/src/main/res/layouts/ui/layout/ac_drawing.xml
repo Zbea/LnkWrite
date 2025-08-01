@@ -14,7 +14,7 @@
             android:id="@+id/v_content_a"
             android:layout_width="@dimen/drawing_content_width"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             />
 
@@ -22,7 +22,7 @@
             android:id="@+id/v_content_b"
             android:layout_width="@dimen/drawing_content_width"
             android:layout_height="match_parent"
-            android:scaleType="centerInside" />
+            android:scaleType="fitCenter" />
 
         <include
             android:id="@+id/ll_page_content_a"

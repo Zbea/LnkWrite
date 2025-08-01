@@ -34,7 +34,7 @@ object Constants {
         const val SCREEN_FULL = 3//全屏
 
 //                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
-        const val URL_BASE = "http://192.168.101.100:10800/v1/"
+        const val URL_BASE = "http://192.168.3.100:10800/v1/"
 //        const val  RELEASE_BASE_URL = "http://www.htfyun.com.cn:8080/"
 //        const val RELEASE_BASE_URL = "http://sys.qinglanmb.com:8080/"
         const val RELEASE_BASE_URL = "https://api2.qinglanmb.com/v1/"
@@ -45,8 +45,6 @@ object Constants {
         ///storage/emulated/0/Android/data/yourPackageName/files/APK
         val APK_PATH = MyApplication.mContext.getExternalFilesDir("APK")?.path
         val IMAGE_PATH = MyApplication.mContext.getExternalFilesDir("Image")?.path
-        //断点记录文件保存的文件夹
-        val RECORDER_PATH= MyApplication.mContext.getExternalFilesDir("Recorder")!!.path
         val HOMEWORK_PATH = MyApplication.mContext.getExternalFilesDir("Homework")?.path
         val TEXTBOOK_PATH = MyApplication.mContext.getExternalFilesDir("TextBookFile")!!.path
         val BOOK_PATH =Environment.getExternalStoragePublicDirectory("Books").absolutePath

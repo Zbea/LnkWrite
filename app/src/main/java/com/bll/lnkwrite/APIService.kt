@@ -130,7 +130,16 @@ interface APIService{
      */
     @GET("sms")
     fun getSms(@Query("telNumber") num:String): Observable<BaseResult<Any>>
-
+    /**
+     * 修改电话
+     */
+    @POST("accounts/changeTel")
+    fun editPhone(@Body requestBody: RequestBody): Observable<BaseResult<Any>>
+    /**
+     * 验证手机号
+     */
+    @POST("accounts/checkCode")
+    fun checkPhone(@Body requestBody: RequestBody): Observable<BaseResult<Any>>
     /**
      * 注册
      */
@@ -156,7 +165,7 @@ interface APIService{
      * 提交学豆订单
      */
     @POST("wallets/order/{id}")
-    fun postOrder(@Path("id") id:String ): Observable<BaseResult<AccountOrder>>
+    fun postOrder(@Path("id") id:String,@Query("type") type:Int ): Observable<BaseResult<AccountOrder>>
     /**
      * 查看订单状态
      */

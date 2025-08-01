@@ -18,7 +18,7 @@ class PrivacyPasswordEditDialog(private val context: Context,private val type:In
 
     fun builder(): PrivacyPasswordEditDialog {
         val dialog= Dialog(context)
-        dialog.setContentView(R.layout.dialog_check_password_edit)
+        dialog.setContentView(R.layout.dialog_privacy_password_edit)
         val window = dialog.window!!
         window.setBackgroundDrawableResource(android.R.color.transparent)
         val layoutParams = window.attributes
@@ -43,18 +43,18 @@ class PrivacyPasswordEditDialog(private val context: Context,private val type:In
             val passwordOldStr=etPasswordOld?.text.toString()
 
             if (MD5Utils.digest(passwordOldStr)!=privacyPassword?.password){
-                SToast.showText(R.string.password_old_error)
+                SToast.showText(2,R.string.password_old_error)
                 return@setOnClickListener
             }
             if (passwordStr.isEmpty()||passwordAgainStr.isEmpty()){
-                SToast.showText(R.string.password_input)
+                SToast.showText(2,R.string.password_input)
                 return@setOnClickListener
             }
             if (passwordStr!=passwordAgainStr){
-                SToast.showText(R.string.password_different)
+                SToast.showText(2,R.string.password_different)
                 return@setOnClickListener
             }
-            privacyPassword?.password= MD5Utils.digest(privacyPassword?.password)
+            privacyPassword?.password= MD5Utils.digest(passwordStr)
             MethodManager.savePrivacyPassword(type, privacyPassword)
             dialog.dismiss()
             listener?.onClick()

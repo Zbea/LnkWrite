@@ -10,6 +10,8 @@ import java.util.*
 
 object DataBeanManager {
 
+    var isConnectDisplayStatus=false
+
     var grades= mutableListOf<ItemList>()
     var typeGrades= mutableListOf<ItemList>()
     var courses= mutableListOf<ItemList>()
@@ -429,7 +431,7 @@ object DataBeanManager {
     }
 
 
-    private fun getResultChildItems():MutableList<ResultStandardItem.ResultChildItem>{
+    fun getResultChildItems():MutableList<ResultStandardItem.ResultChildItem>{
         val items= mutableListOf<ResultStandardItem.ResultChildItem>()
         items.add(ResultStandardItem.ResultChildItem().apply {
             sort=1
@@ -639,8 +641,11 @@ object DataBeanManager {
                 8.0 -> {
                     "C "
                 }
-                else -> {
+                9.0 -> {
                     "C-"
+                }
+                else->{
+                    score.toString()
                 }
             }
         }
@@ -652,8 +657,11 @@ object DataBeanManager {
                 2.0 -> {
                     "B"
                 }
-                else -> {
+                3.0 -> {
                     "C"
+                }
+                else->{
+                    score.toString()
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.activity
+package com.bll.lnkwrite.ui.activity.account
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,9 +11,9 @@ import com.bll.lnkwrite.base.BaseActivity
 import com.bll.lnkwrite.mvp.model.User
 import com.bll.lnkwrite.mvp.presenter.LoginPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
+import com.bll.lnkwrite.ui.activity.MainActivity
 import com.bll.lnkwrite.utils.*
 import kotlinx.android.synthetic.main.ac_account_login_user.*
-import org.greenrobot.eventbus.EventBus
 
 class AccountLoginActivity: BaseActivity(), IContractView.ILoginView {
 
@@ -84,7 +84,7 @@ class AccountLoginActivity: BaseActivity(), IContractView.ILoginView {
 
     private fun gotoMainActivity(){
         MethodManager.setStatusBarValue(statusBarValue)
-        val intent=Intent(this,MainActivity::class.java)
+        val intent=Intent(this, MainActivity::class.java)
         intent.putExtra(Constants.INTENT_SCREEN_LABEL, Constants.SCREEN_FULL)
         intent.flags=Intent.FLAG_ACTIVITY_TASK_ON_HOME
         startActivity(intent)

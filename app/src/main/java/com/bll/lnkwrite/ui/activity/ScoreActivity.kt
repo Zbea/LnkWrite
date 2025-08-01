@@ -9,7 +9,7 @@ import com.bll.lnkwrite.mvp.presenter.ScoreRankPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.ScoreAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.widget.SpaceGridItemDecoScore
+import com.bll.lnkwrite.widget.SpaceGridItemDeco2
 import kotlinx.android.synthetic.main.ac_score.*
 
 class ScoreActivity:BaseActivity(),IContractView.IScoreRankView{
@@ -55,11 +55,11 @@ class ScoreActivity:BaseActivity(),IContractView.IScoreRankView{
         setPageTitle(R.string.score_ranking)
 
         iv_arrow_page_up.setOnClickListener {
-            rv_list.scrollBy(0,-DP2PX.dip2px(this,100f))
+            rv_list.scrollBy(0,-DP2PX.dip2px(this,300f))
         }
 
         iv_arrow_page_down.setOnClickListener {
-            rv_list.scrollBy(0, DP2PX.dip2px(this,100f))
+            rv_list.scrollBy(0, DP2PX.dip2px(this,300f))
         }
 
         initRecyclerView()
@@ -71,7 +71,7 @@ class ScoreActivity:BaseActivity(),IContractView.IScoreRankView{
         rv_list.layoutManager = GridLayoutManager(this,2)
         rv_list.adapter = mAdapter
         mAdapter?.bindToRecyclerView(rv_list)
-        rv_list.addItemDecoration(SpaceGridItemDecoScore(DP2PX.dip2px(this,40f),0))
+        rv_list.addItemDecoration(SpaceGridItemDeco2(DP2PX.dip2px(this,40f),0))
     }
 
 }

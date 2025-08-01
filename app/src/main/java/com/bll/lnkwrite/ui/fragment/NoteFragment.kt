@@ -19,6 +19,8 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.Note
 import com.bll.lnkwrite.mvp.model.PopupBean
 import com.bll.lnkwrite.mvp.model.PrivacyPassword
+import com.bll.lnkwrite.mvp.presenter.SmsPresenter
+import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
 import com.bll.lnkwrite.ui.activity.NotebookManagerActivity
 import com.bll.lnkwrite.ui.adapter.NoteAdapter
 import com.bll.lnkwrite.utils.*
@@ -27,8 +29,8 @@ import kotlinx.android.synthetic.main.fragment_list_tab.*
 import kotlinx.android.synthetic.main.common_title.*
 import java.io.File
 
-class NoteFragment:BaseFragment() {
-
+class NoteFragment:BaseFragment(),ISmsView {
+    private val smsPresenter= SmsPresenter(this,2)
     private var popupBeans = mutableListOf<PopupBean>()
     private var notes = mutableListOf<Note>()
     private var mAdapter: NoteAdapter? = null
@@ -36,6 +38,17 @@ class NoteFragment:BaseFragment() {
     private var tabPos = 0//当前笔记本标记
     private var typeStr=""
     private var privacyPassword:PrivacyPassword?=null
+    private var privacyPasswordDialog:PrivacyPasswordDialog?=null
+
+    override fun onSms() {
+        showToast(2,R.string.send_verification_code_success)
+    }
+    override fun onCheckSuccess() {
+        showToast(2,R.string.toast_password_set_success)
+        MethodManager.savePrivacyPassword(1,privacyPassword)
+        privacyPasswordDialog?.getPrivacyPassword()
+        mAdapter?.notifyItemChanged(position)
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_list_tab
@@ -106,9 +119,19 @@ class NoteFragment:BaseFragment() {
         mAdapter?.setOnItemClickListener { adapter, view, position ->
             val note = notes[position]
             if (tabPos==0&&privacyPassword!=null&&!note.isCancelPassword){
-                PrivacyPasswordDialog(requireActivity(),1).builder().setOnDialogClickListener{
-                    MethodManager.gotoNote(requireActivity(),note)
-                }
+                privacyPasswordDialog=PrivacyPasswordDialog(requireActivity(),1).builder()
+                privacyPasswordDialog?.setOnDialogClickListener(object : PrivacyPasswordDialog.OnDialogClickListener{
+                    override fun onClick() {
+                        MethodManager.gotoNote(requireActivity(),note)
+                    }
+                    override fun onSave(privacyPassword: PrivacyPassword, code: String) {
+                        this@NoteFragment.privacyPassword=privacyPassword
+                        smsPresenter.checkPhone(code)
+                    }
+                    override fun onPhone(phone: String) {
+                        smsPresenter.sms(phone)
+                    }
+                })
             }
             else{
                 MethodManager.gotoNote(requireActivity(),note)
@@ -144,23 +167,37 @@ class NoteFragment:BaseFragment() {
                 }
                 R.id.iv_password->{
                     if (privacyPassword==null){
-                        PrivacyPasswordCreateDialog(requireActivity(),1).builder().setOnDialogClickListener{
-                            privacyPassword=it
-                            mAdapter?.notifyDataSetChanged()
-                            showToast(R.string.toast_password_set_success)
-                        }
+                        PrivacyPasswordCreateDialog(requireActivity()).builder().setOnDialogClickListener(object : PrivacyPasswordCreateDialog.OnDialogClickListener {
+                            override fun onSave(privacyPassword: PrivacyPassword, code: String) {
+                                this@NoteFragment.privacyPassword=privacyPassword
+                                smsPresenter.checkPhone(code)
+                            }
+                            override fun onPhone(phone: String) {
+                                smsPresenter.sms(phone)
+                            }
+                        })
                     }
                     else{
-                        val titleStr=if (note.isCancelPassword) getString(R.string.tips_is_password_set) else getString(R.string.tips_is_password_cancel)
+                        val titleStr=if (note.isCancelPassword)getString(R.string.tips_is_password_set) else getString(R.string.tips_is_password_cancel)
                         CommonDialog(requireActivity(),2).setContent(titleStr).builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
                             override fun cancel() {
                             }
                             override fun ok() {
-                                PrivacyPasswordDialog(requireActivity(),1).builder().setOnDialogClickListener{
-                                    note.isCancelPassword=!note.isCancelPassword
-                                    NoteDaoManager.getInstance().insertOrReplace(note)
-                                    mAdapter?.notifyItemChanged(position)
-                                }
+                                privacyPasswordDialog=PrivacyPasswordDialog(requireActivity(),1).builder()
+                                privacyPasswordDialog?.setOnDialogClickListener(object : PrivacyPasswordDialog.OnDialogClickListener{
+                                    override fun onClick() {
+                                        note.isCancelPassword=!note.isCancelPassword
+                                        NoteDaoManager.getInstance().insertOrReplace(note)
+                                        mAdapter?.notifyItemChanged(position)
+                                    }
+                                    override fun onSave(privacyPassword: PrivacyPassword, code: String) {
+                                        this@NoteFragment.privacyPassword=privacyPassword
+                                        smsPresenter.checkPhone(code)
+                                    }
+                                    override fun onPhone(phone: String) {
+                                        smsPresenter.sms(phone)
+                                    }
+                                })
                             }
                         })
                     }

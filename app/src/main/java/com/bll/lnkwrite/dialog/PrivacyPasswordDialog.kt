@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
+import com.bll.lnkwrite.mvp.model.PrivacyPassword
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.KeyboardUtils
 import com.bll.lnkwrite.utils.MD5Utils
@@ -16,9 +17,11 @@ import com.bll.lnkwrite.utils.SToast
 
 class PrivacyPasswordDialog(private val context: Context,private val type:Int=0) {
 
+    private var privacyPassword:PrivacyPassword?=null
+
     fun builder(): PrivacyPasswordDialog {
         val dialog= Dialog(context)
-        dialog.setContentView(R.layout.dialog_check_password)
+        dialog.setContentView(R.layout.dialog_privacy_password)
         val window = dialog.window!!
         window.setBackgroundDrawableResource(android.R.color.transparent)
         val layoutParams = window.attributes
@@ -26,37 +29,43 @@ class PrivacyPasswordDialog(private val context: Context,private val type:Int=0)
         layoutParams.x=(Constants.WIDTH- DP2PX.dip2px(context,500f))/2
         dialog.show()
 
+        getPrivacyPassword()
+
         val btn_ok = dialog.findViewById<TextView>(R.id.tv_ok)
         val btn_cancel = dialog.findViewById<TextView>(R.id.tv_cancel)
         val etPassword=dialog.findViewById<EditText>(R.id.et_password)
         val tvFind = dialog.findViewById<TextView>(R.id.tv_find_password)
 
         tvFind.setOnClickListener {
-            dialog.dismiss()
-            PrivacyPasswordFindDialog(context,type).builder()
+            PrivacyPasswordCreateDialog(context).builder().setOnDialogClickListener(object : PrivacyPasswordCreateDialog.OnDialogClickListener {
+                override fun onSave(privacyPassword: PrivacyPassword, code: String) {
+                    listener?.onSave(privacyPassword,code)
+                }
+                override fun onPhone(phone: String) {
+                    listener?.onPhone(phone)
+                }
+            })
         }
 
         val tvEdit = dialog.findViewById<TextView>(R.id.tv_edit_password)
         tvEdit.setOnClickListener {
-            dialog.dismiss()
-            PrivacyPasswordEditDialog(context,type).builder()
+            PrivacyPasswordEditDialog(context,type).builder().setOnDialogClickListener{
+                getPrivacyPassword()
+            }
         }
 
         btn_cancel?.setOnClickListener { dialog.dismiss() }
         btn_ok?.setOnClickListener {
             val passwordStr=etPassword?.text.toString()
-            if (passwordStr.isEmpty()){
-                SToast.showText(R.string.password_input)
-                return@setOnClickListener
+            if (passwordStr.isNotEmpty()){
+                if (MD5Utils.digest(passwordStr) != privacyPassword?.password){
+                    SToast.showText(2,R.string.password_error)
+                    etPassword.setText("")
+                    return@setOnClickListener
+                }
+                listener?.onClick()
+                dialog.dismiss()
             }
-            val privacyPassword=MethodManager.getPrivacyPassword(type)
-            if (MD5Utils.digest(passwordStr) != privacyPassword?.password){
-                SToast.showText(R.string.password_error)
-                return@setOnClickListener
-            }
-            listener?.onClick()
-            dialog.dismiss()
-
         }
 
         dialog.setOnDismissListener {
@@ -66,11 +75,19 @@ class PrivacyPasswordDialog(private val context: Context,private val type:Int=0)
         return this
     }
 
+    /**
+     * 刷新当前密码
+     */
+    fun getPrivacyPassword(){
+        privacyPassword=MethodManager.getPrivacyPassword(type)
+    }
 
     private var listener: OnDialogClickListener? = null
 
-    fun interface OnDialogClickListener {
+    interface OnDialogClickListener {
         fun onClick()
+        fun onSave(privacyPassword: PrivacyPassword, code:String)
+        fun onPhone(phone:String)
     }
 
     fun setOnDialogClickListener(listener: OnDialogClickListener?) {

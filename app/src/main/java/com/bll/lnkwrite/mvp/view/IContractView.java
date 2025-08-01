@@ -28,6 +28,12 @@ import java.util.List;
 
 public interface IContractView {
 
+    //短信回调
+    interface ISmsView extends IBaseView {
+        default void onSms(){}
+        default void onCheckSuccess(){}
+    }
+
     //登录
     interface ILoginView extends IBaseView {
         void getLogin(User user);
@@ -36,12 +42,12 @@ public interface IContractView {
 
     //注册 找回密码
     interface IRegisterView extends IBaseView {
-        void onSms();
         void onRegister();
         void onFindPsd();
     }
 
     interface IAccountInfoView extends IBaseView {
+        void onEditPhone();
         void onEditNameSuccess();
         void onBind();
         void onUnbind();

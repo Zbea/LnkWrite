@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.activity
+package com.bll.lnkwrite.ui.activity.account
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -7,15 +7,18 @@ import android.os.CountDownTimer
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseActivity
 import com.bll.lnkwrite.mvp.presenter.RegisterPresenter
+import com.bll.lnkwrite.mvp.presenter.SmsPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
+import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
 import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.SPUtil
 import com.bll.lnkwrite.utils.ToolUtils
 import kotlinx.android.synthetic.main.ac_account_register.*
 
 
-class AccountRegisterActivity : BaseActivity(), IContractView.IRegisterView {
+class AccountRegisterActivity : BaseActivity(), IContractView.IRegisterView,ISmsView {
 
+    private val smsPresenter=SmsPresenter(this)
     private val presenter= RegisterPresenter(this)
     private var countDownTimer: CountDownTimer? = null
     private var flags = 0
@@ -48,6 +51,7 @@ class AccountRegisterActivity : BaseActivity(), IContractView.IRegisterView {
                 setPageTitle(R.string.password_edit)
                 disMissView(ll_name)
                 ed_user.setText(SPUtil.getString("account"))
+                ed_phone.setText(mUser?.telNumber)
                 tv_password.setText(R.string.password_edit)
                 btn_register.setText(R.string.commit)
             }
@@ -62,7 +66,7 @@ class AccountRegisterActivity : BaseActivity(), IContractView.IRegisterView {
                 showToast(getString(R.string.phone_tip))
                 return@setOnClickListener
             }
-            presenter.sms(phone)
+            smsPresenter.sms(phone)
         }
 
         btn_register.setOnClickListener {

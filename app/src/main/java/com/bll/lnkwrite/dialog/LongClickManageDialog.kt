@@ -13,7 +13,7 @@ import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.mvp.model.ItemList
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.widget.SpaceGridItemDecoScore
+import com.bll.lnkwrite.widget.SpaceGridItemDeco2
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
@@ -47,7 +47,7 @@ class LongClickManageDialog(val context: Context, val screenPos:Int, val name:St
         rv_list?.layoutManager = GridLayoutManager(context,2)
         val mAdapter = MyAdapter(R.layout.item_long_click, lists)
         rv_list?.adapter = mAdapter
-        rv_list?.addItemDecoration(SpaceGridItemDecoScore(20, 30))
+        rv_list?.addItemDecoration(SpaceGridItemDeco2(20, 30))
         mAdapter.bindToRecyclerView(rv_list)
         mAdapter.setOnItemClickListener { adapter, view, position ->
             onClickListener?.onClick(position)

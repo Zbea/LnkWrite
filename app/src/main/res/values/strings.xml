@@ -42,6 +42,7 @@
     <string name="toast_bind_student">请关联学生</string>
     <string name="toast_date_no_select">当前日期无法选择</string>
 
+    <string name="input_phone_hint">请输入手机号</string>
     <string name="input_password_hint">请输入密码</string>
     <string name="input_name_hint">请输入姓名</string>
     <string name="input_verification_code_hint">请输入验证码</string>
@@ -319,6 +320,7 @@
     <string name="account_student_str">学生：</string>
     <string name="account_password_str">密码：</string>
     <string name="account_edit_name_str">修改姓名</string>
+    <string name="account_edit_phone_str">修改手机</string>
     <string name="account_bind_student_str">关联学生</string>
     <string name="account_unbind_student_str">取消关联</string>
 

@@ -5,11 +5,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.MediaScannerConnection
+import android.hardware.display.DisplayManager
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import android.os.Handler
-import android.os.Looper
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +15,7 @@ import com.bll.lnkwrite.*
 import com.bll.lnkwrite.base.BaseActivity
 import com.bll.lnkwrite.manager.*
 import com.bll.lnkwrite.mvp.model.*
+import com.bll.lnkwrite.ui.activity.account.AccountInfoActivity
 import com.bll.lnkwrite.ui.adapter.MainListAdapter
 import com.bll.lnkwrite.ui.fragment.*
 import com.bll.lnkwrite.utils.*
@@ -58,6 +57,7 @@ class MainActivity : BaseActivity(){
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
         intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
+        intentFilter.addAction(DisplayManager.ACTION_WIFI_DISPLAY_STATUS_CHANGED)
         registerReceiver(myBroadcastReceiver,intentFilter)
 
         val screenshotPath=FileAddress().getPathScreen(getString(R.string.untype))
