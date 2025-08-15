@@ -38,6 +38,7 @@ class NoteFragment:BaseFragment(),ISmsView {
     private var tabPos = 0//当前笔记本标记
     private var typeStr=""
     private var privacyPassword:PrivacyPassword?=null
+    private var privacyPasswordSave:PrivacyPassword?=null
     private var privacyPasswordDialog:PrivacyPasswordDialog?=null
 
     override fun onSms() {
@@ -45,6 +46,7 @@ class NoteFragment:BaseFragment(),ISmsView {
     }
     override fun onCheckSuccess() {
         showToast(2,R.string.toast_password_set_success)
+        privacyPassword=privacyPasswordSave
         MethodManager.savePrivacyPassword(1,privacyPassword)
         privacyPasswordDialog?.getPrivacyPassword()
         mAdapter?.notifyItemChanged(position)
@@ -125,7 +127,7 @@ class NoteFragment:BaseFragment(),ISmsView {
                         MethodManager.gotoNote(requireActivity(),note)
                     }
                     override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                        this@NoteFragment.privacyPassword=privacyPassword
+                        privacyPasswordSave=privacyPassword
                         smsPresenter.checkPhone(code)
                     }
                     override fun onPhone(phone: String) {
@@ -169,7 +171,7 @@ class NoteFragment:BaseFragment(),ISmsView {
                     if (privacyPassword==null){
                         PrivacyPasswordCreateDialog(requireActivity()).builder().setOnDialogClickListener(object : PrivacyPasswordCreateDialog.OnDialogClickListener {
                             override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                this@NoteFragment.privacyPassword=privacyPassword
+                                privacyPasswordSave=privacyPassword
                                 smsPresenter.checkPhone(code)
                             }
                             override fun onPhone(phone: String) {
@@ -191,7 +193,7 @@ class NoteFragment:BaseFragment(),ISmsView {
                                         mAdapter?.notifyItemChanged(position)
                                     }
                                     override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                        this@NoteFragment.privacyPassword=privacyPassword
+                                        privacyPasswordSave=privacyPassword
                                         smsPresenter.checkPhone(code)
                                     }
                                     override fun onPhone(phone: String) {

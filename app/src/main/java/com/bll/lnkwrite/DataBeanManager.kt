@@ -1,5 +1,6 @@
 package com.bll.lnkwrite
 
+import android.graphics.Bitmap
 import com.bll.lnkwrite.MyApplication.Companion.mContext
 import com.bll.lnkwrite.mvp.model.*
 import com.bll.lnkwrite.mvp.model.catalog.CatalogChildBean
@@ -10,6 +11,7 @@ import java.util.*
 
 object DataBeanManager {
 
+    var copyBitmap: Bitmap?=null//剪切、复制保存bitmap
     var isConnectDisplayStatus=false
 
     var grades= mutableListOf<ItemList>()

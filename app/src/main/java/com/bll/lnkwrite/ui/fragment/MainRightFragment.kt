@@ -80,20 +80,23 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
 
     private var notes= mutableListOf<Note>()
     private var mNoteAdapter: MainNoteAdapter?=null
-    private var privacyPassword= MethodManager.getPrivacyPassword(0)
+
+    private var privacyPassword=MethodManager.getPrivacyPassword(0)
+    private var privacyPasswordSave:PrivacyPassword?=null
+    private var privacyPasswordDialog:PrivacyPasswordDialog?=null
+
     private var diaryStartLong=0L
     private var diaryEndLong=0L
     private var diaryUploadTitleStr=""
-    private var privacyPasswordDialog:PrivacyPasswordDialog?=null
 
     private var nowDay=0L
 
     override fun onSms() {
         showToast(2,R.string.send_verification_code_success)
-
     }
     override fun onCheckSuccess() {
         showToast(2,R.string.toast_password_set_success)
+        privacyPassword=privacyPasswordSave
         MethodManager.savePrivacyPassword(0,privacyPassword)
         privacyPasswordDialog?.getPrivacyPassword()
     }
@@ -234,7 +237,7 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
                     customStartActivity(Intent(activity,DiaryActivity::class.java).setFlags(typeId))
                 }
                 override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                    this@MainRightFragment.privacyPassword=privacyPassword
+                    privacyPasswordSave=privacyPassword
                     smsPresenter.checkPhone(code)
                 }
                 override fun onPhone(phone: String) {
@@ -271,7 +274,7 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
                     if (privacyPassword==null){
                         PrivacyPasswordCreateDialog(requireActivity()).builder().setOnDialogClickListener(object : PrivacyPasswordCreateDialog.OnDialogClickListener {
                             override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                this@MainRightFragment.privacyPassword=privacyPassword
+                                privacyPasswordSave=privacyPassword
                                 smsPresenter.checkPhone(code)
                             }
                             override fun onPhone(phone: String) {
@@ -290,7 +293,7 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
                                         MethodManager.savePrivacyPassword(0,privacyPassword)
                                     }
                                     override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                        this@MainRightFragment.privacyPassword=privacyPassword
+                                        privacyPasswordSave=privacyPassword
                                         smsPresenter.checkPhone(code)
                                     }
                                     override fun onPhone(phone: String) {
