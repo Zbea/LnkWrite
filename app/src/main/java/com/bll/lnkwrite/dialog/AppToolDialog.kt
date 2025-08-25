@@ -42,9 +42,9 @@ class AppToolDialog(val context: Context, private val oldScreen:Int, private val
         layoutParams?.y= DP2PX.dip2px(context,5f)
         dialog?.show()
 
-        val lists=AppDaoManager.getInstance().queryTool()
+        val lists=AppDaoManager.getInstance().queryToolAll()
         if (context is PlanOverviewActivity){
-            val appBean= AppDaoManager.getInstance().queryAllByPackageName(Constants.PACKAGE_GEOMETRY)
+            val appBean= AppDaoManager.getInstance().queryBeanByPackageName(Constants.PACKAGE_GEOMETRY)
             if (appBean!=null){
                 lists.remove(appBean)
             }
