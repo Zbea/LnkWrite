@@ -6,7 +6,6 @@ import com.bll.lnkwrite.dialog.ScoreDetailsDialog
 import com.bll.lnkwrite.mvp.model.teaching.ExamList
 import com.bll.lnkwrite.mvp.model.teaching.ScoreItem
 import com.bll.lnkwrite.utils.GlideUtils
-import com.bll.lnkwrite.utils.ScoreItemUtils
 import kotlinx.android.synthetic.main.ac_drawing.*
 import kotlinx.android.synthetic.main.common_drawing_tool.*
 

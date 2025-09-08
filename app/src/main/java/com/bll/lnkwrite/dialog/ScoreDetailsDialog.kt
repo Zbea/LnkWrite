@@ -19,7 +19,6 @@ import com.bll.lnkwrite.ui.adapter.TopicResultStandardAdapter
 import com.bll.lnkwrite.ui.adapter.TopicScoreAdapter
 import com.bll.lnkwrite.ui.adapter.TopicTwoScoreAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.ScoreItemUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.bll.lnkwrite.widget.SpaceItemDeco
 import java.util.stream.Collectors
@@ -40,7 +39,7 @@ class ScoreDetailsDialog(val context: Context, private val title:String, private
         var currentScores= mutableListOf<ScoreItem>()
         var currentResults= mutableListOf<ResultStandardItem.ResultChildItem>()
         if (correctMode >0) {
-            currentScores = ScoreItemUtils.jsonListToModuleList(correctMode, ScoreItemUtils.questionToList(commitJson))
+            currentScores = ScoreItemUtils.jsonListToModuleList(commitJson,correctMode)
         }
         else{
             currentResults=DataBeanManager.getResultChildItems().stream().collect(Collectors.toList())
