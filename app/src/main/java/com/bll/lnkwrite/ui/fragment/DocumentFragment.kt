@@ -39,14 +39,20 @@ class DocumentFragment : BaseFragment() {
     private var tabPos=0
 
     override fun onUpload(token: String) {
-        val file= mAdapter?.data?.get(position)
+        val file= mAdapter?.data?.get(position)!!
         FileUploadManager(token).apply {
-            upload(file?.path!!)
-            setCallBack{
-                hideLoading()
-                SPUtil.putString(file.name,it)
-                MethodManager.gotoPptDetails(requireActivity(), file.path,it)
-            }
+            setCallBack(object : FileUploadManager.UploadCallBack {
+                override fun onUploadSuccess(url: String) {
+                    hideLoading()
+                    SPUtil.putString(file.name,url)
+                    MethodManager.gotoPptDetails(requireActivity(), file.path,url)
+                }
+                override fun onUploadFail() {
+                    hideLoading()
+                    showToast(1,R.string.upload_fail)
+                }
+            })
+            startUpload(file.path)
         }
     }
 

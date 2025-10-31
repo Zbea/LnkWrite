@@ -3,6 +3,7 @@ package com.bll.lnkwrite.base
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,7 @@ import com.bll.lnkwrite.utils.FileDownManager
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.KeyboardUtils
 import com.bll.lnkwrite.utils.NetworkUtil
+import com.bll.lnkwrite.utils.SPUtil
 import com.bll.lnkwrite.utils.SToast
 import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.widget.FlowLayoutManager
@@ -151,6 +153,10 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
         super.onViewCreated(view, savedInstanceState)
         EventBus.getDefault().register(this)
         isViewPrepare = true
+
+        if (MethodManager.getUser()==null){
+            login()
+        }
 
         screenPos=getCurrentScreenPos()
         initDialog()
@@ -384,7 +390,17 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
             if (code==200&&jsonObject!=null){
                 val item= Gson().fromJson(jsonObject.toString(),SystemUpdateInfo::class.java)
                 requireActivity().runOnUiThread {
-                    AppUpdateDialog(requireActivity(),2,item).builder()
+                    if (SPUtil.getString(Constants.SP_UPDATE_SYSTEM_STATUS)!="waiting"){
+                        AppUpdateDialog(requireActivity(),2,item).builder().setDialogClickListener{
+                            object : CountDownTimer(60*60*1000, 1000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                }
+                                override fun onFinish() {
+                                    SPUtil.putString(Constants.SP_UPDATE_SYSTEM_STATUS,"")
+                                }
+                            }.start()
+                        }
+                    }
                 }
             }
         },null)
@@ -422,7 +438,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
         else{
             if (appUpdateDialog==null||appUpdateDialog?.isShow()==false) {
                 appUpdateDialog = AppUpdateDialog(requireActivity(), 1, bean).builder()
-                FileDownManager.with(requireActivity()).create(bean.downloadUrl).setPath(targetFileStr).startSingleTaskDownLoad(object :
+                FileDownManager.with().create(bean.downloadUrl).setPath(targetFileStr).startSingleTaskDownLoad(object :
                     FileDownManager.SingleTaskCallBack {
                     override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
                         if (task != null && task.isRunning) {

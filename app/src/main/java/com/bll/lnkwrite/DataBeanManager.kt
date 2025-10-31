@@ -34,8 +34,7 @@ object DataBeanManager {
     }
 
     fun resources(): Array<String> {
-        val resources = arrayOf(mContext.getString(R.string.app_news_str),mContext.getString(R.string.app_book_str),mContext.getString(R.string.app_journal_str)
-            ,mContext.getString(R.string.app_tool_str),mContext.getString(R.string.wallpaper_str),mContext.getString(R.string.calender_str))
+        val resources = arrayOf(mContext.getString(R.string.app_news_str),mContext.getString(R.string.app_tool_str),mContext.getString(R.string.wallpaper_str),mContext.getString(R.string.calender_str))
         return resources
     }
 
@@ -609,6 +608,28 @@ object DataBeanManager {
             list= if (correctModule==2) getResultChildHighItems() else getResultChildItems()
         })
         return items
+    }
+
+    fun getScoreStandardStr(score: Double,questionType:Int):String{
+        if (questionType>0){
+            return score.toString()
+        }
+        else {
+            return when (score) {
+                1.0 -> {
+                    "A"
+                }
+                2.0 -> {
+                    "B"
+                }
+                3.0 -> {
+                    "C"
+                }
+                else -> {
+                    score.toString()
+                }
+            }
+        }
     }
 
     /**

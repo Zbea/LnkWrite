@@ -59,6 +59,10 @@ class MainLeftFragment:BaseFragment(){
 
     }
     override fun lazyLoad() {
+        if (MethodManager.getUser()==null){
+            login()
+        }
+
         onCheckUpdate()
         nowDay=DateUtils.getStartOfDayInMillis()
         setDateView()

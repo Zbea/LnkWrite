@@ -386,19 +386,23 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
         }
         val time=System.currentTimeMillis()
         FileUploadManager(token).apply {
-            startUpload(paths,DateUtils.longToString(time))
-            setCallBack{
-                cloudList.add(CloudListBean().apply {
-                    type=4
-                    title=diaryUploadTitleStr
-                    subTypeStr="我的日记"
-                    year=DateUtils.getYear()
-                    date=time
-                    listJson= Gson().toJson(diarys)
-                    downloadUrl=it
-                })
-                mCloudUploadPresenter.upload(cloudList)
-            }
+            setCallBack(object : FileUploadManager.UploadCallBack {
+                override fun onUploadSuccess(url: String) {
+                    cloudList.add(CloudListBean().apply {
+                        type=4
+                        title=diaryUploadTitleStr
+                        subTypeStr="我的日记"
+                        year=DateUtils.getYear()
+                        date=time
+                        listJson= Gson().toJson(diarys)
+                        downloadUrl=url
+                    })
+                    mCloudUploadPresenter.upload(cloudList)
+                }
+                override fun onUploadFail() {
+                }
+            })
+            startZipUpload(paths,DateUtils.longToString(time))
         }
     }
 

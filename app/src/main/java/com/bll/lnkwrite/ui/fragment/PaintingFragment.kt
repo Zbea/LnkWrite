@@ -159,18 +159,22 @@ class PaintingFragment: BaseFragment() {
         val item=items[position]
         val contents=PaintingContentDaoManager.getInstance().queryAll(item.typeId)
         FileUploadManager(token).apply {
-            startUpload(item.path,item.title)
-            setCallBack{
-                cloudList.add(CloudListBean().apply {
-                    type=7
-                    subTypeStr=getString(R.string.painting)
-                    date=System.currentTimeMillis()
-                    listJson= Gson().toJson(item)
-                    contentJson=Gson().toJson(contents)
-                    downloadUrl=it
-                })
-                mCloudUploadPresenter.upload(cloudList)
-            }
+            setCallBack(object : FileUploadManager.UploadCallBack {
+                override fun onUploadSuccess(url: String) {
+                    cloudList.add(CloudListBean().apply {
+                        type=7
+                        subTypeStr=getString(R.string.painting)
+                        date=System.currentTimeMillis()
+                        listJson= Gson().toJson(item)
+                        contentJson=Gson().toJson(contents)
+                        downloadUrl=url
+                    })
+                    mCloudUploadPresenter.upload(cloudList)
+                }
+                override fun onUploadFail() {
+                }
+            })
+            startZipUpload(item.path,item.title)
         }
     }
 

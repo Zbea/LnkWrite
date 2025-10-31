@@ -75,6 +75,10 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
             )
         }
         mUser=MethodManager.getUser()
+        if (mUser==null){
+            login()
+        }
+
         screenPos=getCurrentScreenPos()
         initDialog()
 

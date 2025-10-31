@@ -8,6 +8,7 @@ import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
+import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.manager.AppDaoManager
 import com.bll.lnkwrite.mvp.model.AppBean
 import com.bll.lnkwrite.mvp.model.AppList
@@ -105,6 +106,11 @@ class AppDownloadFragment : BaseFragment(), IContractView.IAPPView{
                     else{
                         if (AppUtils.isAvailable(requireActivity(),app.packageName)){
                             showToast("已安装")
+                            CommonDialog(requireActivity()).setContent("确定重新下载安装？").builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
+                                override fun ok() {
+                                    downLoadStart(app)
+                                }
+                            })
                         }
                         else{
                             downLoadStart(app)
@@ -119,7 +125,7 @@ class AppDownloadFragment : BaseFragment(), IContractView.IAPPView{
     private fun downLoadStart(bean: AppList.ListBean): BaseDownloadTask? {
         val targetFileStr= FileAddress().getPathApk(bean.applicationId.toString())
         showLoading()
-        val download = FileDownManager.with(requireActivity()).create(bean.contentUrl).setPath(targetFileStr).startSingleTaskDownLoad(object :
+        val download = FileDownManager.with().create(bean.contentUrl).setPath(targetFileStr).startSingleTaskDownLoad(object :
             FileDownManager.SingleTaskCallBack {
 
             override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
@@ -158,7 +164,7 @@ class AppDownloadFragment : BaseFragment(), IContractView.IAPPView{
         map["size"] = pageSize
         map["type"] = supply
         map["subType"]=index
-        map["mainType"]=2
+        map["bookType"]=3
         presenter.getAppList(map)
     }
 

@@ -60,9 +60,16 @@ class MainActivity : BaseActivity(){
         intentFilter.addAction(DisplayManager.ACTION_WIFI_DISPLAY_STATUS_CHANGED)
         registerReceiver(myBroadcastReceiver,intentFilter)
 
+        SPUtil.putString(Constants.SP_UPDATE_SYSTEM_STATUS,"")
+
         val screenshotPath=FileAddress().getPathScreen(getString(R.string.untype))
         if (!FileUtils.isExist(screenshotPath)){
             FileUtils.mkdirs(screenshotPath)
+        }
+
+        val path = FileAddress().getPathDocument(getString(R.string.default_str))
+        if (!FileUtils.isExist(path)){
+            MethodManager.createFileScan(this,path)
         }
 
         val targetFileStr = FileAddress().getLauncherPath()

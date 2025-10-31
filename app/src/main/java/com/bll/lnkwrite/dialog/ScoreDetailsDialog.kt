@@ -2,14 +2,16 @@ package com.bll.lnkwrite.dialog
 
 import android.app.Dialog
 import android.content.Context
-import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bll.lnkwrite.Constants
+import com.bll.lnkwrite.utils.ScoreItemUtils
 import com.bll.lnkwrite.DataBeanManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.mvp.model.teaching.ResultStandardItem
@@ -27,13 +29,11 @@ class ScoreDetailsDialog(val context: Context, private val title:String, private
                          private val correctMode:Int,private val scoreMode:Int,private val answerImages:MutableList<String>,
                          private val commitJson:String) {
 
+    private var isExpend=false
+
     fun builder(): ScoreDetailsDialog {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.common_correct_score)
-        val window = dialog.window
-        val layoutParams = window?.attributes
-        layoutParams?.gravity = Gravity.CENTER_VERTICAL or Gravity.END
-        layoutParams?.x = (Constants.WIDTH - DP2PX.dip2px(context, 800f)) / 2
         dialog.show()
 
         var currentScores= mutableListOf<ScoreItem>()
@@ -57,11 +57,31 @@ class ScoreDetailsDialog(val context: Context, private val title:String, private
         val iv_score_up=dialog.findViewById<ImageView>(R.id.iv_score_up)
         val iv_score_down=dialog.findViewById<ImageView>(R.id.iv_score_down)
 
+        val rl_score_content=dialog.findViewById<RelativeLayout>(R.id.rl_score_content)
+        val iv_expand_arrow=dialog.findViewById<ImageView>(R.id.iv_expand_arrow)
+        if (correctMode<=0)
+            iv_expand_arrow.visibility=View.GONE
+        iv_expand_arrow.setOnClickListener {
+            isExpend = !isExpend
+
+            val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            if (isExpend) {
+                iv_expand_arrow.setImageResource(R.mipmap.icon_topic_arrow_shrink)
+                layoutParams.topMargin = DP2PX.dip2px(context, 10f)
+                layoutParams.height = DP2PX.dip2px(context, 1000f)
+            } else {
+                iv_expand_arrow.setImageResource(R.mipmap.icon_topic_arrow_expend)
+                layoutParams.topMargin = DP2PX.dip2px(context, 10f)
+                layoutParams.height = DP2PX.dip2px(context, 500f)
+            }
+            rl_score_content.layoutParams = layoutParams
+        }
+
         val tvTitle=dialog.findViewById<TextView>(R.id.tv_title)
         tvTitle.text=title
 
         val tvScore=dialog.findViewById<TextView>(R.id.tv_score)
-        tvScore.text=DataBeanManager.getResultStandardStr(score,correctMode)
+        tvScore.text= DataBeanManager.getScoreStandardStr(score,correctMode)
 
         val tvAnswer=dialog.findViewById<TextView>(R.id.tv_answer)
         tvAnswer.visibility=if (answerImages.isEmpty()) View.GONE else View.VISIBLE

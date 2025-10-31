@@ -16,8 +16,6 @@ import kotlinx.android.synthetic.main.common_title.*
 class ResourceCenterActivity: BaseActivity(){
     private var lastFragment: Fragment? = null
     private var appFragment: AppDownloadFragment? = null
-    private var bookFragment: AppDownloadFragment? = null
-    private var readFragment: AppDownloadFragment? = null
     private var toolFragment: AppDownloadFragment? = null
     private var wallpaperFragment: WallpaperDownloadFragment? = null
     private var calenderFragment: CalenderDownloadFragment? = null
@@ -39,8 +37,6 @@ class ResourceCenterActivity: BaseActivity(){
         showView(tv_type)
 
         appFragment=AppDownloadFragment().newInstance(1)
-        bookFragment=AppDownloadFragment().newInstance(3)
-        readFragment=AppDownloadFragment().newInstance(4)
         toolFragment=AppDownloadFragment().newInstance(2)
         wallpaperFragment = WallpaperDownloadFragment()
         calenderFragment = CalenderDownloadFragment()
@@ -53,8 +49,6 @@ class ResourceCenterActivity: BaseActivity(){
             PopupRadioList(this,popSupplys,tv_type,tv_type.width,5).builder().setOnSelectListener {
                 tv_type.text = it.name
                 appFragment?.changeSupply(it.id)
-                bookFragment?.changeSupply(it.id)
-                readFragment?.changeSupply(it.id)
                 toolFragment?.changeSupply(it.id)
                 wallpaperFragment?.changeSupply(it.id)
                 calenderFragment?.changeSupply(it.id)
@@ -80,18 +74,12 @@ class ResourceCenterActivity: BaseActivity(){
                 switchFragment(lastFragment, appFragment)
             }
             1->{
-                switchFragment(lastFragment, bookFragment)
-            }
-            2->{
-                switchFragment(lastFragment, readFragment)
-            }
-            3->{
                 switchFragment(lastFragment, toolFragment)
             }
-            4->{
+            2->{
                 switchFragment(lastFragment, wallpaperFragment)
             }
-            5->{
+            3->{
                 switchFragment(lastFragment, calenderFragment)
             }
         }
