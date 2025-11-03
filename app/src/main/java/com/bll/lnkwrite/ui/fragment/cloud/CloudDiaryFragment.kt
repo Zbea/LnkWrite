@@ -16,7 +16,7 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.ui.adapter.CloudDiaryAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.FileDownManager
+import com.bll.lnkwrite.utils.DownloadManager
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.zip.IZipCallback
 import com.bll.lnkwrite.utils.zip.ZipUtils
@@ -24,7 +24,7 @@ import com.bll.lnkwrite.widget.SpaceItemDeco
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.liulishuo.filedownloader.BaseDownloadTask
-import kotlinx.android.synthetic.main.fragment_list_content.*
+import kotlinx.android.synthetic.main.fragment_list_content.rv_list
 import java.io.File
 
 class CloudDiaryFragment: BaseCloudFragment() {
@@ -103,52 +103,48 @@ class CloudDiaryFragment: BaseCloudFragment() {
         val fileName=DateUtils.longToStringCalender(item.date)
         val zipPath = FileAddress().getPathZip(fileName)
         val fileTargetPath= File(FileAddress().getPathDiary(fileName)).parent
-        FileDownManager.with().create(item.downloadUrl).setPath(zipPath)
-            .startSingleTaskDownLoad(object :
-                FileDownManager.SingleTaskCallBack {
-                override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                }
-                override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                }
-                override fun completed(task: BaseDownloadTask?) {
-                    ZipUtils.unzip(zipPath, fileTargetPath, object : IZipCallback {
-                        override fun onFinish() {
-                            val itemTypeBean= ItemTypeBean().apply {
-                                type=4
-                                title=item.title
-                                date=System.currentTimeMillis()
-                                typeId=item.id
-                            }
-                            ItemTypeDaoManager.getInstance().insertOrReplace(itemTypeBean)
+        mDownloadManager?.startSingle(item.downloadUrl,zipPath, object : DownloadManager.SingleCallback {
+            override fun onProgress(task: BaseDownloadTask, soFar: Long, total: Long) {
+            }
+            override fun onCompleted(task: BaseDownloadTask) {
+                ZipUtils.unzip(zipPath, fileTargetPath, object : IZipCallback {
+                    override fun onFinish() {
+                        val itemTypeBean= ItemTypeBean().apply {
+                            type=4
+                            title=item.title
+                            date=System.currentTimeMillis()
+                            typeId=item.id
+                        }
+                        ItemTypeDaoManager.getInstance().insertOrReplace(itemTypeBean)
 
-                            val diaryBeans: MutableList<DiaryBean> = Gson().fromJson(item.listJson, object : TypeToken<List<DiaryBean>>() {}.type)
-                            for (diaryBean in diaryBeans){
-                                diaryBean.id=null//设置数据库id为null用于重新加入
-                                diaryBean.isUpload=true
-                                diaryBean.uploadId=item.id
-                                DiaryDaoManager.getInstance().insertOrReplace(diaryBean)
-                            }
+                        val diaryBeans: MutableList<DiaryBean> = Gson().fromJson(item.listJson, object : TypeToken<List<DiaryBean>>() {}.type)
+                        for (diaryBean in diaryBeans){
+                            diaryBean.id=null//设置数据库id为null用于重新加入
+                            diaryBean.isUpload=true
+                            diaryBean.uploadId=item.id
+                            DiaryDaoManager.getInstance().insertOrReplace(diaryBean)
+                        }
 
-                            //删掉本地zip文件
-                            FileUtils.deleteFile(File(zipPath))
-                            showToast(R.string.download_success)
-                            hideLoading()
-                        }
-                        override fun onProgress(percentDone: Int) {
-                        }
-                        override fun onError(msg: String?) {
-                            showToast(msg!!)
-                            hideLoading()
-                        }
-                        override fun onStart() {
-                        }
-                    })
-                }
-                override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                    hideLoading()
-                    showToast(R.string.download_fail)
-                }
-            })
+                        //删掉本地zip文件
+                        FileUtils.deleteFile(File(zipPath))
+                        showToast(R.string.download_success)
+                        hideLoading()
+                    }
+                    override fun onProgress(percentDone: Int) {
+                    }
+                    override fun onError(msg: String?) {
+                        showToast(msg!!)
+                        hideLoading()
+                    }
+                    override fun onStart() {
+                    }
+                })
+            }
+            override fun onFailed(task: BaseDownloadTask?, error: String) {
+                hideLoading()
+                showToast(R.string.download_fail)
+            }
+        })
     }
 
     override fun fetchData() {

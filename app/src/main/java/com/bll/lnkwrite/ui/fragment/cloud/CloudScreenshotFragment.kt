@@ -14,14 +14,14 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.ui.adapter.CloudScreenshotAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.FileDownManager
+import com.bll.lnkwrite.utils.DownloadManager
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.zip.IZipCallback
 import com.bll.lnkwrite.utils.zip.ZipUtils
 import com.bll.lnkwrite.widget.SpaceItemDeco
 import com.google.gson.Gson
 import com.liulishuo.filedownloader.BaseDownloadTask
-import kotlinx.android.synthetic.main.fragment_cloud_list_tab.*
+import kotlinx.android.synthetic.main.fragment_cloud_list_tab.rv_list
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 
@@ -89,41 +89,37 @@ class CloudScreenshotFragment: BaseCloudFragment() {
     private fun download(item: ItemTypeBean){
         showLoading()
         val zipPath = FileAddress().getPathZip(DateUtils.longToString(item.date))
-        FileDownManager.with().create(item.downloadUrl).setPath(zipPath)
-            .startSingleTaskDownLoad(object :
-                FileDownManager.SingleTaskCallBack {
-                override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                }
-                override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                }
-                override fun completed(task: BaseDownloadTask?) {
-                    ZipUtils.unzip1(zipPath, item.path, object : IZipCallback {
-                        override fun onFinish() {
-                            if(!ItemTypeDaoManager.getInstance().isExist(item.title,3)&&item.path!=FileAddress().getPathScreen("未分类")){
-                                item.id=null
-                                ItemTypeDaoManager.getInstance().insertOrReplace(item)
-                            }
-                            FileUtils.deleteFile(File(zipPath))
-                            showToast(R.string.download_success)
-                            EventBus.getDefault().post(Constants.SCREENSHOT_MANAGER_EVENT)
-                            deleteItem()
-                            hideLoading()
+        mDownloadManager?.startSingle(item.downloadUrl,zipPath, object : DownloadManager.SingleCallback {
+            override fun onProgress(task: BaseDownloadTask, soFar: Long, total: Long) {
+            }
+            override fun onCompleted(task: BaseDownloadTask) {
+                ZipUtils.unzip1(zipPath, item.path, object : IZipCallback {
+                    override fun onFinish() {
+                        if(!ItemTypeDaoManager.getInstance().isExist(item.title,3)&&item.path!=FileAddress().getPathScreen("未分类")){
+                            item.id=null
+                            ItemTypeDaoManager.getInstance().insertOrReplace(item)
                         }
-                        override fun onProgress(percentDone: Int) {
-                        }
-                        override fun onError(msg: String?) {
-                            showToast(msg!!)
-                            hideLoading()
-                        }
-                        override fun onStart() {
-                        }
-                    })
-                }
-                override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                    hideLoading()
-                    showToast(R.string.download_fail)
-                }
-            })
+                        FileUtils.deleteFile(File(zipPath))
+                        showToast(R.string.download_success)
+                        EventBus.getDefault().post(Constants.SCREENSHOT_MANAGER_EVENT)
+                        deleteItem()
+                        hideLoading()
+                    }
+                    override fun onProgress(percentDone: Int) {
+                    }
+                    override fun onError(msg: String?) {
+                        showToast(msg!!)
+                        hideLoading()
+                    }
+                    override fun onStart() {
+                    }
+                })
+            }
+            override fun onFailed(task: BaseDownloadTask?, error: String) {
+                hideLoading()
+                showToast(R.string.download_fail)
+            }
+        })
     }
 
     override fun fetchData() {

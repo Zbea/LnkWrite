@@ -52,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
     var itemTabTypes= mutableListOf<ItemTypeBean>()
     var isClickExpend=false //是否是单双屏切换
     var mUser: User?=null
+    var mDownloadManager:DownloadManager?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +75,7 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
                 Manifest.permission.READ_PHONE_STATE
             )
         }
+        mDownloadManager=DownloadManager()
         mUser=MethodManager.getUser()
         if (mUser==null){
             login()
@@ -456,6 +458,7 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        mDownloadManager?.pauseAll()
     }
 }
 

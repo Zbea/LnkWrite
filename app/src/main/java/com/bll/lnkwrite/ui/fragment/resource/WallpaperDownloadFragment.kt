@@ -14,11 +14,10 @@ import com.bll.lnkwrite.mvp.presenter.WallpaperPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.WallpaperAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileMultitaskDownManager
+import com.bll.lnkwrite.utils.DownloadManager
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
-import com.liulishuo.filedownloader.BaseDownloadTask
-import kotlinx.android.synthetic.main.fragment_list_content.*
+import kotlinx.android.synthetic.main.fragment_list_content.rv_list
 
 class WallpaperDownloadFragment : BaseFragment(), IContractView.IWallpaperView{
 
@@ -106,24 +105,19 @@ class WallpaperDownloadFragment : BaseFragment(), IContractView.IWallpaperView{
         val pathStr= FileAddress().getPathImage("wallpaper",item.contentId)
         val images = item.bodyUrl.split(",")
         val savePaths= arrayListOf("$pathStr/1.png","$pathStr/2.png")
-        FileMultitaskDownManager.with().create(images).setPath(savePaths).startMultiTaskDownLoad(
-            object : FileMultitaskDownManager.MultiTaskCallBack {
-                override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int, ) {
-                }
-                override fun completed(task: BaseDownloadTask?) {
-                    hideLoading()
-                    item.paths=savePaths
-                    item.date=System.currentTimeMillis()
-                    WallpaperDaoManager.getInstance().insertOrReplace(item)
-                    showToast(R.string.download_success)
-                }
-                override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                }
-                override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                    hideLoading()
-                    showToast(R.string.download_fail)
-                }
-            })
+        mDownloadManager?.startBatch(images,savePaths, object : DownloadManager.BatchCallback {
+            override fun onBatchCompleted() {
+                hideLoading()
+                item.paths=savePaths
+                item.date=System.currentTimeMillis()
+                WallpaperDaoManager.getInstance().insertOrReplace(item)
+                showToast(R.string.download_success)
+            }
+            override fun onBatchFailed(error: String) {
+                hideLoading()
+                showToast(R.string.download_fail)
+            }
+        })
     }
 
     /**

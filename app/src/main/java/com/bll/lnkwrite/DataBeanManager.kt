@@ -7,7 +7,6 @@ import com.bll.lnkwrite.mvp.model.catalog.CatalogChildBean
 import com.bll.lnkwrite.mvp.model.catalog.CatalogParentBean
 import com.bll.lnkwrite.mvp.model.teaching.ResultStandardItem
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import java.util.*
 
 object DataBeanManager {
 
@@ -577,7 +576,7 @@ object DataBeanManager {
     /**
      * 作文评分
      */
-    private fun getResultStandardItem2s(correctModule:Int):MutableList<ResultStandardItem>{
+    private fun getResultStandardItem11s(correctModule:Int):MutableList<ResultStandardItem>{
         val items= mutableListOf<ResultStandardItem>()
         items.add(ResultStandardItem().apply {
             title="思想内容"
@@ -705,9 +704,12 @@ object DataBeanManager {
             8->{
                 getResultStandardItem8s(correctModule)
             }
+            11->{
+                getResultStandardItem11s(correctModule)
+            }
             else->{
                 if (name=="作文作业本"){
-                    getResultStandardItem2s(correctModule)
+                    getResultStandardItem11s(correctModule)
                 }
                 else{
                     getResultStandardItem0s(correctModule)

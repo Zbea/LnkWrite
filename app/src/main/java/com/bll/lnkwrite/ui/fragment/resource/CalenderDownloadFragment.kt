@@ -1,6 +1,5 @@
 package com.bll.lnkwrite.ui.fragment.resource
 
-import android.os.Handler
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,16 +15,20 @@ import com.bll.lnkwrite.mvp.model.CalenderList
 import com.bll.lnkwrite.mvp.presenter.CalenderPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.CalenderListAdapter
-import com.bll.lnkwrite.utils.*
+import com.bll.lnkwrite.utils.DP2PX
+import com.bll.lnkwrite.utils.DownloadManager
+import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.MD5Utils
+import com.bll.lnkwrite.utils.NetworkUtil
+import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.utils.zip.IZipCallback
 import com.bll.lnkwrite.utils.zip.ZipUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloader
-import kotlinx.android.synthetic.main.ac_list.*
+import kotlinx.android.synthetic.main.ac_list.rv_list
 import org.greenrobot.eventbus.EventBus
 import java.io.File
-import java.text.DecimalFormat
 
 class CalenderDownloadFragment: BaseFragment(), IContractView.ICalenderView {
 
@@ -122,35 +125,30 @@ class CalenderDownloadFragment: BaseFragment(), IContractView.ICalenderView {
     }
 
 
-    private fun downLoadStart(url: String, item: CalenderItemBean): BaseDownloadTask? {
+    private fun downLoadStart(url: String, item: CalenderItemBean){
         showLoading()
         val fileName = MD5Utils.digest(item.pid.toString())//文件名
         val zipPath = FileAddress().getPathZip(fileName)
-        val download = FileDownManager.with().create(url).setPath(zipPath)
-            .startSingleTaskDownLoad(object : FileDownManager.SingleTaskCallBack {
-                override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                    if (task != null && task.isRunning) {
-                        requireActivity().runOnUiThread {
-                            val s = ToolUtils.getFormatNum(soFarBytes.toDouble() / (1024 * 1024),"0.0M") + "/" +
-                                    ToolUtils.getFormatNum(totalBytes.toDouble() / (1024 * 1024),"0.0M")
-                            detailsDialog?.setUnClickBtn(s)
-                        }
+        mDownloadManager?.startSingle(url,zipPath, object : DownloadManager.SingleCallback {
+            override fun onProgress(task: BaseDownloadTask, soFar: Long, total: Long) {
+                if (task.isRunning) {
+                    requireActivity().runOnUiThread {
+                        val s = ToolUtils.getFormatNum(soFar.toDouble() / (1024 * 1024),"0.0M") + "/" +
+                                ToolUtils.getFormatNum(total.toDouble() / (1024 * 1024),"0.0M")
+                        detailsDialog?.setUnClickBtn(s)
                     }
                 }
-                override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                }
-                override fun completed(task: BaseDownloadTask?) {
-                    val fileTargetPath = FileAddress().getPathCalender(fileName)
-                    unzip(item, zipPath, fileTargetPath)
-                }
-                override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                    //删除缓存 poolmap
-                    hideLoading()
-                    showToast("${item.title}"+getString(R.string.download_fail))
-                    detailsDialog?.setChangeStatus()
-                }
-            })
-        return download
+            }
+            override fun onCompleted(task: BaseDownloadTask) {
+                val fileTargetPath = FileAddress().getPathCalender(fileName)
+                unzip(item, zipPath, fileTargetPath)
+            }
+            override fun onFailed(task: BaseDownloadTask?, error: String) {
+                hideLoading()
+                showToast(item.title +getString(R.string.download_fail))
+                detailsDialog?.setChangeStatus()
+            }
+        })
     }
 
     private fun unzip(item: CalenderItemBean, zipPath: String, fileTargetPath: String) {
@@ -163,14 +161,10 @@ class CalenderDownloadFragment: BaseFragment(), IContractView.ICalenderView {
                 }
                 CalenderDaoManager.getInstance().insertOrReplace(item)
                 EventBus.getDefault().post(Constants.CALENDER_EVENT)
-                //更新列表
-                mAdapter?.notifyDataSetChanged()
                 detailsDialog?.dismiss()
                 FileUtils.deleteFile(File(zipPath))
-                Handler().postDelayed({
-                    hideLoading()
-                    showToast(item.title+getString(R.string.download_success))
-                },500)
+                showToast(item.title+getString(R.string.download_success))
+                hideLoading()
             }
             override fun onProgress(percentDone: Int) {
             }

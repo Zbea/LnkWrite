@@ -41,7 +41,7 @@ import com.bll.lnkwrite.ui.adapter.TabTypeAdapter
 import com.bll.lnkwrite.utils.ActivityManager
 import com.bll.lnkwrite.utils.AppUtils
 import com.bll.lnkwrite.utils.DeviceUtil
-import com.bll.lnkwrite.utils.FileDownManager
+import com.bll.lnkwrite.utils.DownloadManager
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.KeyboardUtils
 import com.bll.lnkwrite.utils.NetworkUtil
@@ -95,6 +95,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
     var itemTabTypes= mutableListOf<ItemTypeBean>()
     var screenPos=0
     var appUpdateDialog:AppUpdateDialog?=null
+    var mDownloadManager: DownloadManager?=null
 
     override fun onToken(token: String) {
         onUpload(token)
@@ -153,7 +154,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
         super.onViewCreated(view, savedInstanceState)
         EventBus.getDefault().register(this)
         isViewPrepare = true
-
+        mDownloadManager=DownloadManager()
         if (MethodManager.getUser()==null){
             login()
         }
@@ -438,28 +439,22 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
         else{
             if (appUpdateDialog==null||appUpdateDialog?.isShow()==false) {
                 appUpdateDialog = AppUpdateDialog(requireActivity(), 1, bean).builder()
-                FileDownManager.with().create(bean.downloadUrl).setPath(targetFileStr).startSingleTaskDownLoad(object :
-                    FileDownManager.SingleTaskCallBack {
-                    override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                        if (task != null && task.isRunning) {
+                mDownloadManager?.startSingle(bean.downloadUrl,targetFileStr, object : DownloadManager.SingleCallback {
+                    override fun onProgress(task: BaseDownloadTask, soFar: Long, total: Long) {
+                        if (task.isRunning) {
                             requireActivity().runOnUiThread {
-                                val s = ToolUtils.getFormatNum(soFarBytes.toDouble() / (1024 * 1024), "0.0M") + "/" +
-                                        ToolUtils.getFormatNum(totalBytes.toDouble() / (1024 * 1024), "0.0M")
-                                updateDialog?.setUpdateBtn(s)
+                                val s = ToolUtils.getFormatNum(soFar.toDouble() / (1024 * 1024),"0.0M") + "/" +
+                                        ToolUtils.getFormatNum(total.toDouble() / (1024 * 1024),"0.0M")
+                                appUpdateDialog?.setUpdateBtn(s)
                             }
                         }
                     }
-
-                    override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                    }
-
-                    override fun completed(task: BaseDownloadTask?) {
-                        updateDialog?.dismiss()
+                    override fun onCompleted(task: BaseDownloadTask) {
+                        appUpdateDialog?.dismiss()
                         AppUtils.installApp(requireActivity(), targetFileStr)
                     }
-
-                    override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                        updateDialog?.dismiss()
+                    override fun onFailed(task: BaseDownloadTask?, error: String) {
+                        appUpdateDialog?.dismiss()
                     }
                 })
             }
@@ -534,6 +529,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        mDownloadManager?.pauseAll()
     }
 
 }
