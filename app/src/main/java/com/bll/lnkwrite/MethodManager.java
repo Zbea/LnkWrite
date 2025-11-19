@@ -28,7 +28,6 @@ import com.bll.lnkwrite.mvp.model.User;
 import com.bll.lnkwrite.mvp.model.book.Book;
 import com.bll.lnkwrite.mvp.model.book.TextbookBean;
 import com.bll.lnkwrite.ui.activity.account.AccountLoginActivity;
-import com.bll.lnkwrite.ui.activity.drawing.FileDrawingActivity;
 import com.bll.lnkwrite.ui.activity.drawing.NoteDrawingActivity;
 import com.bll.lnkwrite.utils.ActivityManager;
 import com.bll.lnkwrite.utils.AppUtils;
@@ -178,21 +177,6 @@ public class MethodManager {
         FileUtils.deleteFile(new File(book.bookPath));//删除下载的书籍资源
         FileUtils.deleteFile(new File(book.bookDrawPath));
         EventBus.getDefault().post(Constants.TEXT_BOOK_EVENT);
-    }
-
-    /**
-     * 跳转截图列表
-     * @param context
-     * @param index
-     * @param tabPath
-     */
-    public static void gotoScreenFile(Context context,int index,String tabPath){
-        ActivityManager.getInstance().finishActivity(FileDrawingActivity.class.getName());
-        Intent intent=new Intent(context, FileDrawingActivity.class);
-        intent.putExtra("pageIndex",index);
-        intent.putExtra("pagePath",tabPath);
-        intent.putExtra(Constants.INTENT_DRAWING_FOCUS, true);
-        context.startActivity(intent);
     }
 
     public static void gotoDocument(Context context,File file){

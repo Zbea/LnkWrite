@@ -11,6 +11,7 @@ import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
+import com.bll.lnkwrite.dialog.ImageDialog
 import com.bll.lnkwrite.dialog.InputContentDialog
 import com.bll.lnkwrite.dialog.ItemSelectorDialog
 import com.bll.lnkwrite.dialog.LongClickManageDialog
@@ -121,8 +122,7 @@ class ScreenShotFragment: BaseFragment() {
             rv_list?.addItemDecoration(SpaceGridItemDeco(3,  40))
             setEmptyView(R.layout.common_empty)
             setOnItemClickListener { adapter, view, position ->
-                val index=totalNum-1-((pageIndex-1)*pageSize+position)
-                MethodManager.gotoScreenFile(requireActivity(),index,tabPath)
+                ImageDialog(requireActivity(), arrayListOf(mAdapter?.data!![position].path)).builder()
             }
             onItemLongClickListener = BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
                 this@ScreenShotFragment.position=position
