@@ -308,8 +308,14 @@ public class MethodManager {
     public static void setImageFile(String path, ImageView imageView){
         File file=new File(path);
         if (file.exists()){
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageView.setImageBitmap(bitmap);
+            new Thread(() -> {
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imageView.post(() -> {
+                    if (bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+            }).start();
         }
     }
 

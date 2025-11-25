@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.ac_free_note.tv_save
 import kotlinx.android.synthetic.main.ac_free_note.tv_share
 import kotlinx.android.synthetic.main.ac_free_note.tv_share_list
 import kotlinx.android.synthetic.main.common_drawing_tool.iv_btn
+import kotlinx.android.synthetic.main.common_drawing_tool.iv_edit
 import kotlinx.android.synthetic.main.common_drawing_tool.iv_expand
 import kotlinx.android.synthetic.main.common_drawing_tool.tv_page
 import kotlinx.android.synthetic.main.common_drawing_tool.tv_page_total
@@ -149,6 +150,7 @@ class FreeNoteActivity:BaseDrawingActivity(), IFreeNoteView {
 
     }
     override fun initView() {
+        showView(iv_edit)
         disMissView(iv_expand,iv_btn)
 
         tv_save.setOnClickListener {

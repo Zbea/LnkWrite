@@ -5,6 +5,7 @@ import java.util.List;
 public class ResultStandardItem {
     public String title;
     public List<ResultChildItem> list;
+    public double score;
 
     public static class ResultChildItem{
         public int sort;

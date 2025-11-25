@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.adapter
+package com.bll.lnkwrite.ui.adapter.teaching
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager

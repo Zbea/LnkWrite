@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.adapter
+package com.bll.lnkwrite.ui.adapter.teaching
 
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.mvp.model.teaching.ResultStandardItem

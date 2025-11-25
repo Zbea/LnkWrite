@@ -9,23 +9,13 @@ import android.os.Handler
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.DataBeanManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.dialog.*
-import com.bll.lnkwrite.mvp.model.teaching.ScoreItem
 import com.bll.lnkwrite.mvp.model.PopupBean
 import com.bll.lnkwrite.ui.activity.drawing.*
-import com.bll.lnkwrite.ui.adapter.TopicMultistageScoreAdapter
-import com.bll.lnkwrite.ui.adapter.TopicScoreAdapter
-import com.bll.lnkwrite.ui.adapter.TopicTwoScoreAdapter
 import com.bll.lnkwrite.utils.*
-import com.bll.lnkwrite.widget.SpaceGridItemDeco
-import com.bll.lnkwrite.widget.SpaceItemDeco
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.ac_drawing.*
 import kotlinx.android.synthetic.main.common_drawing_edit.ll_copy
 import kotlinx.android.synthetic.main.common_drawing_edit.ll_crop
@@ -76,7 +66,8 @@ abstract class BaseDrawingActivity : BaseActivity() {
             v_content_a = findViewById(R.id.v_content_a)
         }
 
-        onInStanceElik()
+        elik_a = v_content_a?.pwInterFace
+        elik_b = v_content_b?.pwInterFace
 
         if (isAllowChange)
             onChangeExpandView()
@@ -152,11 +143,6 @@ abstract class BaseDrawingActivity : BaseActivity() {
             override fun onOneWordDone(p0: Bitmap?, p1: Rect?) {
             }
         })
-    }
-
-    open fun onInStanceElik() {
-        elik_a = v_content_a?.pwInterFace
-        elik_b = v_content_b?.pwInterFace
     }
 
     private fun initClick() {
@@ -804,8 +790,12 @@ abstract class BaseDrawingActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-//        elik_a?.onLassoReset()
-//        elik_b?.onLassoReset()
+        if (elik_a?.drawObjectType==PWDrawObjectHandler.DRAW_OBJ_LASSO){
+            elik_a?.onLassoReset()
+        }
+        if (elik_b?.drawObjectType==PWDrawObjectHandler.DRAW_OBJ_LASSO){
+            elik_b?.onLassoReset()
+        }
     }
 
 }

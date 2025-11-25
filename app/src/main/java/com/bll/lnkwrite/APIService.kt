@@ -9,6 +9,7 @@ import com.bll.lnkwrite.mvp.model.teaching.ExamRankList
 import com.bll.lnkwrite.mvp.model.teaching.HomeworkCorrectList
 import com.bll.lnkwrite.mvp.model.teaching.HomeworkTypeList
 import com.bll.lnkwrite.mvp.model.teaching.Score
+import com.bll.lnkwrite.mvp.model.teaching.TeacherHomeworkList
 import com.bll.lnkwrite.net.BaseResult
 import io.reactivex.Observable
 import okhttp3.RequestBody

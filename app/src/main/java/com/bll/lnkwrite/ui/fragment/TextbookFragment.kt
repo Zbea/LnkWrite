@@ -19,13 +19,12 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.book.TextbookBean
 import com.bll.lnkwrite.mvp.presenter.MyHomeworkPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IMyHomeworkView
-import com.bll.lnkwrite.ui.activity.drawing.TextbookDetailsActivity
+import com.bll.lnkwrite.ui.activity.book.TextbookDetailsActivity
 import com.bll.lnkwrite.ui.adapter.TextbookAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.FileUploadManager
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
-import com.bll.lnkwrite.widget.SpaceGridItemDeco1
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_list_tab.rv_list

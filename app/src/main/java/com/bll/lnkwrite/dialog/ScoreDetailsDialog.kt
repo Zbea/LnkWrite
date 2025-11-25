@@ -16,10 +16,10 @@ import com.bll.lnkwrite.DataBeanManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.mvp.model.teaching.ResultStandardItem
 import com.bll.lnkwrite.mvp.model.teaching.ScoreItem
-import com.bll.lnkwrite.ui.adapter.TopicMultistageScoreAdapter
-import com.bll.lnkwrite.ui.adapter.TopicResultStandardAdapter
-import com.bll.lnkwrite.ui.adapter.TopicScoreAdapter
-import com.bll.lnkwrite.ui.adapter.TopicTwoScoreAdapter
+import com.bll.lnkwrite.ui.adapter.teaching.TopicMultistageScoreAdapter
+import com.bll.lnkwrite.ui.adapter.teaching.TopicResultStandardAdapter
+import com.bll.lnkwrite.ui.adapter.teaching.TopicScoreAdapter
+import com.bll.lnkwrite.ui.adapter.teaching.TopicTwoScoreAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.bll.lnkwrite.widget.SpaceItemDeco

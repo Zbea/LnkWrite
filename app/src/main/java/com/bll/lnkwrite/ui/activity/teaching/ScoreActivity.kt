@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.activity
+package com.bll.lnkwrite.ui.activity.teaching
 
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bll.lnkwrite.R
@@ -7,7 +7,7 @@ import com.bll.lnkwrite.mvp.model.teaching.ExamRankList
 import com.bll.lnkwrite.mvp.model.teaching.Score
 import com.bll.lnkwrite.mvp.presenter.ScoreRankPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
-import com.bll.lnkwrite.ui.adapter.ScoreAdapter
+import com.bll.lnkwrite.ui.adapter.teaching.ScoreAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.widget.SpaceGridItemDeco2
 import kotlinx.android.synthetic.main.ac_score.*

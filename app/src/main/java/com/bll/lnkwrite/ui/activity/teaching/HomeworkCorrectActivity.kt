@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.activity.drawing
+package com.bll.lnkwrite.ui.activity.teaching
 
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.FileAddress

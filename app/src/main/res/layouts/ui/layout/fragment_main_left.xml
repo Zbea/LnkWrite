@@ -122,11 +122,6 @@
             android:src="@mipmap/icon_main_down"
             />
 
-
-
     </RelativeLayout>
-
-
-
 
 </LinearLayout>

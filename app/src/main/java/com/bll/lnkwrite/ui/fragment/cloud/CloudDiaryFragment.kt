@@ -13,7 +13,7 @@ import com.bll.lnkwrite.mvp.model.CloudList
 import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.DiaryBean
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
-import com.bll.lnkwrite.ui.adapter.CloudDiaryAdapter
+import com.bll.lnkwrite.ui.adapter.cloud.CloudDiaryAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
 import com.bll.lnkwrite.utils.DownloadManager

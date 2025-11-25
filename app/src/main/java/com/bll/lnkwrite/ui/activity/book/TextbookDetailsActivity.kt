@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.activity.drawing
+package com.bll.lnkwrite.ui.activity.book
 
 import android.view.EinkPWInterface
 import android.widget.ImageView
@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.Constants.TEXT_BOOK_EVENT
 import com.bll.lnkwrite.FileAddress
+import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseDrawingActivity
 import com.bll.lnkwrite.dialog.CatalogBookDialog
@@ -15,10 +16,8 @@ import com.bll.lnkwrite.mvp.model.catalog.CatalogChildBean
 import com.bll.lnkwrite.mvp.model.catalog.CatalogMsg
 import com.bll.lnkwrite.mvp.model.catalog.CatalogParentBean
 import com.bll.lnkwrite.utils.FileUtils
-import com.bll.lnkwrite.utils.GlideUtils
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.ac_drawing.*
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_a
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_total_a
 import kotlinx.android.synthetic.main.common_drawing_tool.*
@@ -170,7 +169,8 @@ class TextbookDetailsActivity : BaseDrawingActivity(){
     private fun loadPicture(index: Int, elik: EinkPWInterface, view: ImageView) {
         val showFile = FileUtils.getIndexFile(book?.bookPath,index)
         if (showFile != null) {
-            GlideUtils.setImageCacheUrl(this, showFile.path, view)
+            book?.pageUrl=showFile.path //设置当前页面路径
+            MethodManager.setImageFile(showFile.path, view)
             val drawPath = book?.bookDrawPath+"/${index+1}.png"
             elik.setLoadFilePath(drawPath, true)
         }
@@ -178,8 +178,8 @@ class TextbookDetailsActivity : BaseDrawingActivity(){
 
     override fun onDestroy() {
         super.onDestroy()
+        book?.time=System.currentTimeMillis()
         book?.pageIndex = page
-        book?.pageUrl = FileUtils.getIndexFile(book?.bookPath,page).path
         TextbookGreenDaoManager.getInstance().insertOrReplaceBook(book)
         EventBus.getDefault().post(TEXT_BOOK_EVENT)
     }

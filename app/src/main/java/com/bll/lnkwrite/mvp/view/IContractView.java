@@ -19,7 +19,7 @@ import com.bll.lnkwrite.mvp.model.SchoolBean;
 import com.bll.lnkwrite.mvp.model.teaching.Score;
 import com.bll.lnkwrite.mvp.model.ShareNoteList;
 import com.bll.lnkwrite.mvp.model.StudentBean;
-import com.bll.lnkwrite.mvp.model.TeacherHomeworkList;
+import com.bll.lnkwrite.mvp.model.teaching.TeacherHomeworkList;
 import com.bll.lnkwrite.mvp.model.User;
 import com.bll.lnkwrite.mvp.model.WallpaperList;
 import com.bll.lnkwrite.net.IBaseView;

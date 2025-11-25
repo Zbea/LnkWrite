@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.adapter
+package com.bll.lnkwrite.ui.adapter.cloud
 
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.mvp.model.CloudListBean

@@ -1,6 +1,6 @@
 package com.bll.lnkwrite.mvp.presenter
 
-import com.bll.lnkwrite.mvp.model.TeacherHomeworkList
+import com.bll.lnkwrite.mvp.model.teaching.TeacherHomeworkList
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.net.*
 

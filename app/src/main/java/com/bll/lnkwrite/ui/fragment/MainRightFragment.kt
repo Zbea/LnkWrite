@@ -351,7 +351,6 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
     }
 
     override fun onRefreshData() {
-        onCheckUpdate()
         lazyLoad()
     }
 

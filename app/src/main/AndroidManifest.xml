@@ -118,7 +118,7 @@
         <activity android:name=".ui.activity.book.TextBookStoreActivity"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.drawing.TextbookDetailsActivity"
+        <activity android:name=".ui.activity.book.TextbookDetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
             android:windowSoftInputMode="adjustPan"
             />
@@ -146,10 +146,10 @@
             android:theme="@style/activityCustom1"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.ScoreActivity"
+        <activity android:name=".ui.activity.teaching.ScoreActivity"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.drawing.HomeworkCorrectActivity"
+        <activity android:name=".ui.activity.teaching.HomeworkCorrectActivity"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
@@ -186,10 +186,6 @@
         <activity android:name=".ui.activity.account.PermissionSettingActivity"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.drawing.FileDrawingActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
-            android:windowSoftInputMode="adjustPan"
-            />
         <activity android:name=".ui.activity.drawing.PaintingDrawingActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
             android:windowSoftInputMode="adjustPan"
@@ -197,16 +193,13 @@
         <activity android:name=".ui.activity.ScreenshotManagerActivity"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.ScreenshotListActivity"
+        <activity android:name=".ui.activity.teaching.HomeworkDetailsActivity"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.drawing.HomeworkDetailsActivity"
+        <activity android:name=".ui.activity.teaching.ExamDetailsActivity"
             android:windowSoftInputMode="adjustPan"
             />
-        <activity android:name=".ui.activity.drawing.ExamDetailsActivity"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity android:name=".ui.activity.HomeworkRecordActivity"
+        <activity android:name=".ui.activity.teaching.HomeworkRecordActivity"
             android:windowSoftInputMode="adjustPan"
             />
 

@@ -13,7 +13,7 @@ import com.bll.lnkwrite.manager.PaintingContentDaoManager
 import com.bll.lnkwrite.mvp.model.CloudList
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.PaintingContentBean
-import com.bll.lnkwrite.ui.adapter.CloudScreenshotAdapter
+import com.bll.lnkwrite.ui.adapter.cloud.CloudScreenshotAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
 import com.bll.lnkwrite.utils.DownloadManager

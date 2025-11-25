@@ -11,7 +11,6 @@ import com.bll.lnkwrite.utils.CalenderUtils
 import com.bll.lnkwrite.utils.DateUtils
 import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.GlideUtils
-import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.utils.date.LunarSolarConverter
 import com.bll.lnkwrite.utils.date.Solar
 import kotlinx.android.synthetic.main.fragment_main_left.iv_calender
@@ -56,13 +55,8 @@ class MainLeftFragment:BaseFragment(){
                 setCalenderBg()
             }
         }
-
     }
     override fun lazyLoad() {
-        if (MethodManager.getUser()==null){
-            login()
-        }
-
         onCheckUpdate()
         nowDay=DateUtils.getStartOfDayInMillis()
         setDateView()

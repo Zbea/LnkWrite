@@ -13,8 +13,8 @@ import com.bll.lnkwrite.mvp.model.teaching.HomeworkCorrectList
 import com.bll.lnkwrite.mvp.model.teaching.HomeworkCorrectList.CorrectBean
 import com.bll.lnkwrite.mvp.presenter.HomeworkCorrectPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IHomeworkCorrectView
-import com.bll.lnkwrite.ui.activity.drawing.HomeworkCorrectActivity
-import com.bll.lnkwrite.ui.adapter.HomeworkCorrectAdapter
+import com.bll.lnkwrite.ui.activity.teaching.HomeworkCorrectActivity
+import com.bll.lnkwrite.ui.adapter.teaching.HomeworkCorrectAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.widget.SpaceItemDeco
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_list_content.*
 class HomeworkCorrectFragment:BaseFragment(),IHomeworkCorrectView {
 
     private val mPresenter=HomeworkCorrectPresenter(this,2)
-    private var mAdapter:HomeworkCorrectAdapter?=null
+    private var mAdapter: HomeworkCorrectAdapter?=null
     private var homeworks= mutableListOf<CorrectBean>()
     private var studentId=0
     private var position=0

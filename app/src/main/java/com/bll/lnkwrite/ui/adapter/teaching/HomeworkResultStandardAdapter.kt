@@ -1,4 +1,4 @@
-package com.bll.lnkwrite.ui.adapter
+package com.bll.lnkwrite.ui.adapter.teaching
 
 import android.view.ViewGroup
 import android.widget.LinearLayout
