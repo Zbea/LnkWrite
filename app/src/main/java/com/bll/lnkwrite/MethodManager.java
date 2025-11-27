@@ -182,8 +182,7 @@ public class MethodManager {
     public static void gotoDocument(Context context,File file){
         String format=FileUtils.getUrlFormat(file.getPath());
         if (format.equals(".ppt") || format.equals(".pptx")){
-            String url=SPUtil.INSTANCE.getString(file.getName());
-            gotoPptDetails(context,file.getPath(),url);
+            gotoPptDetails(context,file.getPath());
         }
         else if (format.equals(".png") || format.equals(".jpg")||format.equals(".jpeg")){
             List<String> images=new ArrayList<>();
@@ -208,7 +207,7 @@ public class MethodManager {
         }
     }
 
-    public static void gotoPptDetails(Context context,String localPath,String url){
+    public static void gotoPptDetails(Context context,String path){
         if (AppUtils.isAvailable(context,Constants.PACKAGE_PPT)){
             int flags=0;
             if(DataBeanManager.INSTANCE.isConnectDisplayStatus()){
@@ -219,8 +218,8 @@ public class MethodManager {
             }
             Intent intent = new Intent();
             intent.setComponent(new ComponentName(Constants.PACKAGE_PPT,"com.htfyun.dualdocreader.OpenFileActivity"));
-            intent.putExtra("path", localPath);
-            intent.putExtra("url", url);
+            intent.putExtra("open_mode", 0);  // 0-本地解析打开, 1-微软在线预览
+            intent.putExtra("path", path);
             intent.putExtra(Constants.INTENT_SCREEN_LABEL, flags);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);

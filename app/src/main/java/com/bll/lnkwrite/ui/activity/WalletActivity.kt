@@ -72,7 +72,6 @@ class WalletActivity:BaseActivity(),IContractView.IWalletView{
     }
 
     override fun initData() {
-        mUser= MethodManager.getUser()
     }
 
     override fun initView() {

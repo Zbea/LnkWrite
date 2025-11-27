@@ -182,8 +182,4 @@ class HomeworkManagerFragment:BaseFragment() {
         }
     }
 
-    override fun onRefreshData() {
-        onCheckUpdate()
-    }
-
 }

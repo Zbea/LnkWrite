@@ -38,24 +38,6 @@ class DocumentFragment : BaseFragment() {
     private var documentTypeNames= mutableListOf<String>()
     private var tabPos=0
 
-    override fun onUpload(token: String) {
-        val file= mAdapter?.data?.get(position)!!
-        FileUploadManager(token).apply {
-            setCallBack(object : FileUploadManager.UploadCallBack {
-                override fun onUploadSuccess(url: String) {
-                    hideLoading()
-                    SPUtil.putString(file.name,url)
-                    MethodManager.gotoPptDetails(requireActivity(), file.path,url)
-                }
-                override fun onUploadFail() {
-                    hideLoading()
-                    showToast(1,R.string.upload_fail)
-                }
-            })
-            startUpload(file.path)
-        }
-    }
-
     override fun getLayoutId(): Int {
         return R.layout.fragment_list_tab
     }
@@ -176,20 +158,7 @@ class DocumentFragment : BaseFragment() {
             setOnItemClickListener { adapter, view, position ->
                 this@DocumentFragment.position=position
                 val file = data[position]
-                val format=FileUtils.getUrlFormat(file.path)
-                if (format.equals(".ppt") || format.equals(".pptx")) {
-                    val url= SPUtil.getString(file.name)
-                    if (url.isNotEmpty()){
-                        MethodManager.gotoDocument(requireActivity(), file)
-                    }
-                    else{
-                        showLoading()
-                        mQiniuPresenter.getToken()
-                    }
-                }
-                else{
-                    MethodManager.gotoDocument(requireActivity(), file)
-                }
+                MethodManager.gotoDocument(requireActivity(), file)
             }
             setOnItemLongClickListener { adapter, view, position ->
                 this@DocumentFragment.position=position
