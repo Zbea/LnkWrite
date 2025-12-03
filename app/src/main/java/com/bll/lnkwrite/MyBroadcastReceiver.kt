@@ -18,6 +18,10 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 
     @SuppressLint("InvalidWakeLockTag")
     override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action==Constants.SYSTEM_APP_STATUS_SHOW){
+            val isShow=intent.getBooleanExtra("isShow",false)
+            DataBeanManager.isSystemUpdateShow=isShow
+        }
         if (!MethodManager.isLogin()){
             return
         }

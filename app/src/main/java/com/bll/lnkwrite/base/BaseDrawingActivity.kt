@@ -83,6 +83,9 @@ abstract class BaseDrawingActivity : BaseActivity() {
         if (ll_drawing_edit!=null)
             setViewElikUnable(ll_drawing_edit)
 
+        if (iv_audio_play!=null)
+            setViewElikUnable(iv_audio_play)
+
         initClick()
         initGeometryView()
         initDrawingEdit()

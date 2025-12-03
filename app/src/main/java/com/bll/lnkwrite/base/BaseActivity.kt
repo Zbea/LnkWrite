@@ -24,6 +24,9 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.User
 import com.bll.lnkwrite.net.ExceptionHandle
 import com.bll.lnkwrite.net.IBaseView
+import com.bll.lnkwrite.ui.activity.MainActivity
+import com.bll.lnkwrite.ui.activity.account.AccountLoginActivity
+import com.bll.lnkwrite.ui.activity.account.AccountRegisterActivity
 import com.bll.lnkwrite.ui.adapter.TabTypeAdapter
 import com.bll.lnkwrite.utils.*
 import com.bll.lnkwrite.widget.FlowLayoutManager
@@ -73,9 +76,11 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
         EventBus.getDefault().register(this)
 
         mDownloadManager=DownloadManager()
-        mUser=MethodManager.getUser()
+        mUser= MethodManager.getUser()
         if (mUser==null){
-            login()
+            if (this !is AccountLoginActivity && this !is AccountRegisterActivity && this !is MainActivity){
+                login()
+            }
         }
 
         screenPos=getCurrentScreenPos()

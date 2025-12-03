@@ -12,6 +12,7 @@ object DataBeanManager {
 
     var copyBitmap: Bitmap?=null//剪切、复制保存bitmap
     var isConnectDisplayStatus=false
+    var isSystemUpdateShow=false//是否可以更新系统应用 true正在更新
 
     var grades= mutableListOf<ItemList>()
     var typeGrades= mutableListOf<ItemList>()
