@@ -63,6 +63,7 @@
     <string name="free">免费</string>
     <string name="buy">购买</string>
     <string name="download">下载</string>
+    <string name="open">打开</string>
     <string name="publish">出版社</string>
     <string name="click_buy">点击购买</string>
     <string name="click_download">点击下载</string>
@@ -221,6 +222,7 @@
     <string name="download_success">下载完成</string>
     <string name="download_fail">下载失败</string>
     <string name="set_success">设置成功</string>
+    <string name="cancel_success">取消成功</string>
     <string name="set_fail">设置失败</string>
     <string name="edit_success">修改成功</string>
     <string name="upload_success">上传完成</string>
@@ -314,11 +316,12 @@
     <string name="freenote_insert_str">插入</string>
     <string name="freenote_theme_str">格式</string>
 
-    <string name="account_code_str">账户：</string>
-    <string name="account_name_str">姓名：</string>
-    <string name="account_phone_str">手机：</string>
-    <string name="account_student_str">学生：</string>
-    <string name="account_password_str">密码：</string>
+    <string name="account_code_str">账户:</string>
+    <string name="account_name_str">姓名:</string>
+    <string name="account_phone_str">手机:</string>
+    <string name="account_student_str">学生:</string>
+    <string name="account_password_str">密码:</string>
+    <string name="account_privacy_password_str">隐私密码:</string>
     <string name="account_edit_name_str">修改姓名</string>
     <string name="account_edit_phone_str">修改手机</string>
     <string name="account_bind_student_str">关联学生</string>

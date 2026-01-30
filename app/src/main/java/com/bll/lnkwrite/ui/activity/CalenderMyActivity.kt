@@ -74,7 +74,7 @@ class CalenderMyActivity:BaseActivity(){
             }
             setOnItemChildClickListener { adapter, view, position ->
                 this@CalenderMyActivity.position=position
-                if (view.id==R.id.cb_check){
+                if (view.id==R.id.ll_name){
                     for (item in items){
                         item.isCheck=false
                     }

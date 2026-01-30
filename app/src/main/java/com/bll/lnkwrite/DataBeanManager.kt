@@ -19,6 +19,7 @@ object DataBeanManager {
     var courses= mutableListOf<ItemList>()
     var versions= mutableListOf<ItemList>()
     var students= mutableListOf<StudentBean>()
+    var bookStoreTypes= mutableListOf<ItemList>()
 
     val bookType = arrayOf(
         "诗经楚辞", "唐诗宋词", "古代经典",
@@ -81,6 +82,10 @@ object DataBeanManager {
             }
             return list
         }
+
+    fun getBookStoreTypeStr(type:Int):String{
+        return bookStoreTypes.find { it.type == type }?.desc ?: ""
+    }
 
     /**
      * 获取index栏目
@@ -352,18 +357,6 @@ object DataBeanManager {
             val list = mutableListOf<PopupBean>()
             list.add(PopupBean(1, mContext.getString(R.string.official_str),true))
             list.add(PopupBean(2,mContext.getString(R.string.thirdParty_str),false))
-            return list
-        }
-
-    val bookStoreTypes: MutableList<ItemList>
-        get() {
-            val list = mutableListOf<ItemList>()
-            list.add(ItemList(1, mContext.getString(R.string.book_tab_gj)))
-            list.add(ItemList(2, mContext.getString(R.string.book_tab_zrkx)))
-            list.add(ItemList(3, mContext.getString(R.string.book_tab_shkx)))
-            list.add(ItemList(4, mContext.getString(R.string.book_tab_sxkx)))
-            list.add(ItemList(5, mContext.getString(R.string.book_tab_yscn)))
-            list.add(ItemList(6, mContext.getString(R.string.book_tab_ydjk)))
             return list
         }
 

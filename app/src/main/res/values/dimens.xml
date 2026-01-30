@@ -19,6 +19,8 @@
     <dimen name="dialog_padding">40dp</dimen>
     <dimen name="drawing_bottom_height">38dp</dimen>
 
+    <dimen name="image_width">188dp</dimen>
+    <dimen name="image_height">250dp</dimen>
 
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_8">8dp</dimen>

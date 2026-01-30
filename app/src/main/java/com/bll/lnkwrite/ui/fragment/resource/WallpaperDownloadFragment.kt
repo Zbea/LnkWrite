@@ -134,7 +134,6 @@ class WallpaperDownloadFragment : BaseFragment(), IContractView.IWallpaperView{
         val map = HashMap<String, Any>()
         map["page"] = pageIndex
         map["size"] = pageSize
-        map["supply"]=supply
         map["type"]=1
         map["mainType"]=4
         presenter.getList(map)

@@ -34,7 +34,6 @@ class ResourceCenterActivity: BaseActivity(){
 
     override fun initView() {
         setPageTitle(R.string.resource)
-        showView(tv_type)
 
         appFragment=AppDownloadFragment().newInstance(1)
         toolFragment=AppDownloadFragment().newInstance(2)

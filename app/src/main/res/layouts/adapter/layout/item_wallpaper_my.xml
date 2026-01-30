@@ -12,16 +12,18 @@
         >
         <ImageView
             android:id="@+id/iv_image_left"
-            android:layout_width="@dimen/dp_195"
-            android:layout_height="@dimen/dp_260"
+            android:layout_width="@dimen/image_width"
+            android:layout_height="@dimen/image_height"
+            android:scaleType="fitXY"
             android:background="@drawable/bg_black_stroke_5dp_corner"
             android:padding="1dp"
             />
         <ImageView
             android:id="@+id/iv_image_right"
-            android:layout_width="@dimen/dp_195"
-            android:layout_height="@dimen/dp_260"
+            android:layout_width="@dimen/image_width"
+            android:layout_height="@dimen/image_height"
             android:layout_marginStart="1px"
+            android:scaleType="fitXY"
             android:background="@drawable/bg_black_stroke_5dp_corner"
             android:padding="1dp"
             />
@@ -30,7 +32,7 @@
 
     <CheckBox
         android:id="@+id/cb_check"
-        android:layout_width="390dp"
+        android:layout_width="376dp"
         android:layout_height="wrap_content"
         android:textSize="22sp"
         android:lines="1"

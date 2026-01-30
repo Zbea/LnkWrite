@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.Constants.AUTO_REFRESH_EVENT
 import com.bll.lnkwrite.Constants.BOOK_EVENT
 import com.bll.lnkwrite.Constants.DATE_DRAWING_EVENT
@@ -19,9 +20,7 @@ import com.bll.lnkwrite.base.BaseFragment
 import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.dialog.DiaryManageDialog
 import com.bll.lnkwrite.dialog.DiaryUploadListDialog
-import com.bll.lnkwrite.dialog.InputContentDialog
-import com.bll.lnkwrite.dialog.PrivacyPasswordCreateDialog
-import com.bll.lnkwrite.dialog.PrivacyPasswordDialog
+import com.bll.lnkwrite.dialog.NumberPasswordDialog
 import com.bll.lnkwrite.manager.BookDaoManager
 import com.bll.lnkwrite.manager.DiaryDaoManager
 import com.bll.lnkwrite.manager.NoteDaoManager
@@ -29,13 +28,11 @@ import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.MessageList
 import com.bll.lnkwrite.mvp.model.Note
 import com.bll.lnkwrite.mvp.model.PopupBean
-import com.bll.lnkwrite.mvp.model.PrivacyPassword
 import com.bll.lnkwrite.mvp.model.StudentBean
 import com.bll.lnkwrite.mvp.model.book.Book
 import com.bll.lnkwrite.mvp.presenter.MessagePresenter
 import com.bll.lnkwrite.mvp.presenter.RelationPresenter
 import com.bll.lnkwrite.mvp.presenter.SmsPresenter
-import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.mvp.view.IContractView.IMessageView
 import com.bll.lnkwrite.mvp.view.IContractView.IRelationView
 import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
@@ -50,7 +47,9 @@ import com.bll.lnkwrite.ui.adapter.MessageAdapter
 import com.bll.lnkwrite.utils.DateUtils
 import com.bll.lnkwrite.utils.FileUploadManager
 import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.NetworkUtil
+import com.bll.lnkwrite.utils.SPUtil
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_main_right.iv_bg
@@ -67,9 +66,7 @@ import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 
-class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
-
-    private val smsPresenter=SmsPresenter(this,2)
+class MainRightFragment : BaseFragment(), IRelationView,IMessageView {
     private val presenter= RelationPresenter(this)
     private var mMessagePresenter= MessagePresenter(this,2)
     private var messages= mutableListOf<MessageList.MessageBean>()
@@ -81,25 +78,11 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
     private var notes= mutableListOf<Note>()
     private var mNoteAdapter: MainNoteAdapter?=null
 
-    private var privacyPassword=MethodManager.getPrivacyPassword(0)
-    private var privacyPasswordSave:PrivacyPassword?=null
-    private var privacyPasswordDialog:PrivacyPasswordDialog?=null
-
     private var diaryStartLong=0L
     private var diaryEndLong=0L
     private var diaryUploadTitleStr=""
 
     private var nowDay=0L
-
-    override fun onSms() {
-        showToast(2,R.string.send_verification_code_success)
-    }
-    override fun onCheckSuccess() {
-        showToast(2,R.string.toast_password_set_success)
-        privacyPassword=privacyPasswordSave
-        MethodManager.savePrivacyPassword(0,privacyPassword)
-        privacyPasswordDialog?.getPrivacyPassword()
-    }
 
     override fun onListStudents(list: MutableList<StudentBean>) {
         if (MethodManager.isCN()){
@@ -230,23 +213,24 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
      * 跳转日记
      */
     private fun startDiaryActivity(typeId:Int){
-        if (privacyPassword!=null&&privacyPassword?.isSet==true){
-            privacyPasswordDialog=PrivacyPasswordDialog(requireActivity()).builder()
-            privacyPasswordDialog?.setOnDialogClickListener(object : PrivacyPasswordDialog.OnDialogClickListener{
-                override fun onClick() {
-                    customStartActivity(Intent(activity,DiaryActivity::class.java).setFlags(typeId))
-                }
-                override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                    privacyPasswordSave=privacyPassword
-                    smsPresenter.checkPhone(code)
-                }
-                override fun onPhone(phone: String) {
-                    smsPresenter.sms(phone)
-                }
-            })
-        }
-        else{
-            customStartActivity(Intent(activity,DiaryActivity::class.java).setFlags(typeId))
+        val privacyPassword= SPUtil.getString(Constants.SP_PRIVACY_PASSWORD)
+        if (privacyPassword.isEmpty()) {
+            customStartActivity(Intent(activity, DiaryActivity::class.java).setFlags(typeId))
+        } else {
+            NumberPasswordDialog(requireActivity(),2).builder().apply {
+                setDialogClickListener(object : NumberPasswordDialog.OnDialogClickListener {
+                    override fun onNumber(psw: String) {
+                        if (privacyPassword == MD5Utils.digest(psw)){
+                            cancel()
+                            customStartActivity(Intent(activity, DiaryActivity::class.java).setFlags(typeId))
+                        }
+                        else{
+                            reset()
+                            showToast(2,R.string.password_error)
+                        }
+                    }
+                })
+            }
         }
     }
 
@@ -255,56 +239,11 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
      */
     private fun onLongDiary(){
         val pops= mutableListOf<PopupBean>()
-        if (privacyPassword==null){
-            pops.add(PopupBean(1,getString(R.string.password_set)))
-        }
-        else{
-            if (privacyPassword?.isSet==true){
-                pops.add(PopupBean(1,getString(R.string.password_cancel)))
-            }
-            else{
-                pops.add(PopupBean(1,getString(R.string.password_set)))
-            }
-        }
-        pops.add(PopupBean(2,getString(R.string.diary_save_str)))
-        pops.add(PopupBean(3,getString(R.string.diary_cloud_str)))
+        pops.add(PopupBean(1,getString(R.string.diary_save_str)))
+        pops.add(PopupBean(2,getString(R.string.diary_cloud_str)))
         PopupClick(requireActivity(),pops,tv_diary_btn,0).builder().setOnSelectListener{
             when(it.id){
                 1->{
-                    if (privacyPassword==null){
-                        PrivacyPasswordCreateDialog(requireActivity()).builder().setOnDialogClickListener(object : PrivacyPasswordCreateDialog.OnDialogClickListener {
-                            override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                privacyPasswordSave=privacyPassword
-                                smsPresenter.checkPhone(code)
-                            }
-                            override fun onPhone(phone: String) {
-                                smsPresenter.sms(phone)
-                            }
-                        })
-                    }
-                    else{
-                        val titleStr=if (privacyPassword?.isSet==true) getString(R.string.tips_is_password_set) else getString(R.string.tips_is_password_cancel)
-                        CommonDialog(requireActivity(),2).setContent(titleStr).builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
-                            override fun ok() {
-                                privacyPasswordDialog=PrivacyPasswordDialog(requireActivity()).builder()
-                                privacyPasswordDialog?.setOnDialogClickListener(object : PrivacyPasswordDialog.OnDialogClickListener{
-                                    override fun onClick() {
-                                        privacyPassword!!.isSet=!privacyPassword!!.isSet
-                                        MethodManager.savePrivacyPassword(0,privacyPassword)
-                                    }
-                                    override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                        privacyPasswordSave=privacyPassword
-                                        smsPresenter.checkPhone(code)
-                                    }
-                                    override fun onPhone(phone: String) {
-                                        smsPresenter.sms(phone)
-                                    }
-                                })
-                            }
-                        })
-                    }
-                }
-                2->{
                     DiaryManageDialog(requireActivity(),1).builder().setOnDialogClickListener{
                             titleStr,startLong,endLong->
                         diaryStartLong=startLong
@@ -324,7 +263,7 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
                         }
                     }
                 }
-                3->{
+                2->{
                     DiaryUploadListDialog(requireActivity()).builder().setOnDialogClickListener{ typeId->
                         startDiaryActivity(typeId)
                     }
@@ -376,7 +315,7 @@ class MainRightFragment : BaseFragment(), IRelationView,IMessageView,ISmsView {
         }
     }
 
-    override fun onUpload(token: String) {
+    override fun onUploadToken(token: String) {
         cloudList.clear()
         val diarys= DiaryDaoManager.getInstance().queryList(diaryStartLong,diaryEndLong)
         val paths= mutableListOf<String>()

@@ -2,11 +2,24 @@ package com.bll.lnkwrite.mvp.presenter
 
 import android.util.Pair
 import com.bll.lnkwrite.mvp.model.StudentBean
+import com.bll.lnkwrite.mvp.model.User
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.net.*
 
 
 class AccountInfoPresenter(view: IContractView.IAccountInfoView) : BasePresenter<IContractView.IAccountInfoView>(view) {
+
+    fun accounts() {
+        val account = RetrofitManager.service.accounts()
+        doRequest(account, object : Callback<User>(view) {
+            override fun failed(tBaseResult: BaseResult<User>): Boolean {
+                return false
+            }
+            override fun success(tBaseResult: BaseResult<User>) {
+                view.getAccount(tBaseResult.data)
+            }
+        }, true)
+    }
 
     fun editPhone(code: String,phone: String) {
         val body = RequestUtils.getBody(
@@ -28,13 +41,28 @@ class AccountInfoPresenter(view: IContractView.IAccountInfoView) : BasePresenter
         val body = RequestUtils.getBody(
             Pair.create("nickName", name)
         )
-        val editName = RetrofitManager.service.editName(body)
+        val editName = RetrofitManager.service.editAccountInfo(body)
         doRequest(editName, object : Callback<Any>(view) {
             override fun failed(tBaseResult: BaseResult<Any>): Boolean {
                 return false
             }
             override fun success(tBaseResult: BaseResult<Any>) {
                 view.onEditNameSuccess()
+            }
+        }, true)
+    }
+
+    fun onPrivacyPassword(psd: String) {
+        val body = RequestUtils.getBody(
+            Pair.create("privacyPassword", psd)
+        )
+        val editName = RetrofitManager.service.editAccountInfo(body)
+        doRequest(editName, object : Callback<Any>(view) {
+            override fun failed(tBaseResult: BaseResult<Any>): Boolean {
+                return false
+            }
+            override fun success(tBaseResult: BaseResult<Any>) {
+                view.onPrivacyPassword()
             }
         }, true)
     }

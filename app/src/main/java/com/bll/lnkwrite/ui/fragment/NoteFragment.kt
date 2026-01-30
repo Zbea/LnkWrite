@@ -18,7 +18,6 @@ import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.Note
 import com.bll.lnkwrite.mvp.model.PopupBean
-import com.bll.lnkwrite.mvp.model.PrivacyPassword
 import com.bll.lnkwrite.mvp.presenter.SmsPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
 import com.bll.lnkwrite.ui.activity.NotebookManagerActivity
@@ -29,28 +28,13 @@ import kotlinx.android.synthetic.main.fragment_list_tab.*
 import kotlinx.android.synthetic.main.common_title.*
 import java.io.File
 
-class NoteFragment:BaseFragment(),ISmsView {
-    private val smsPresenter= SmsPresenter(this,2)
+class NoteFragment:BaseFragment() {
     private var popupBeans = mutableListOf<PopupBean>()
     private var notes = mutableListOf<Note>()
     private var mAdapter: NoteAdapter? = null
     private var position = 0 //当前笔记标记
     private var tabPos = 0//当前笔记本标记
     private var typeStr=""
-    private var privacyPassword:PrivacyPassword?=null
-    private var privacyPasswordSave:PrivacyPassword?=null
-    private var privacyPasswordDialog:PrivacyPasswordDialog?=null
-
-    override fun onSms() {
-        showToast(2,R.string.send_verification_code_success)
-    }
-    override fun onCheckSuccess() {
-        showToast(2,R.string.toast_password_set_success)
-        privacyPassword=privacyPasswordSave
-        MethodManager.savePrivacyPassword(1,privacyPassword)
-        privacyPasswordDialog?.getPrivacyPassword()
-        mAdapter?.notifyItemChanged(position)
-    }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_list_tab
@@ -62,8 +46,6 @@ class NoteFragment:BaseFragment(),ISmsView {
 
         popupBeans.add(PopupBean(0, getString(R.string.notebook_manager)))
         popupBeans.add(PopupBean(1, getString(R.string.notebook_create)))
-
-        privacyPassword=MethodManager.getPrivacyPassword(1)
 
         iv_manager?.setOnClickListener {
             PopupClick(requireActivity(), popupBeans, iv_manager, 5).builder().setOnSelectListener { item ->
@@ -119,24 +101,30 @@ class NoteFragment:BaseFragment(),ISmsView {
         rv_list.adapter = mAdapter
         mAdapter?.bindToRecyclerView(rv_list)
         mAdapter?.setOnItemClickListener { adapter, view, position ->
-            val note = notes[position]
-            if (tabPos==0&&privacyPassword!=null&&!note.isCancelPassword){
-                privacyPasswordDialog=PrivacyPasswordDialog(requireActivity(),1).builder()
-                privacyPasswordDialog?.setOnDialogClickListener(object : PrivacyPasswordDialog.OnDialogClickListener{
-                    override fun onClick() {
-                        MethodManager.gotoNote(requireActivity(),note)
-                    }
-                    override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                        privacyPasswordSave=privacyPassword
-                        smsPresenter.checkPhone(code)
-                    }
-                    override fun onPhone(phone: String) {
-                        smsPresenter.sms(phone)
-                    }
-                })
+            val note=notes[position]
+            if (tabPos>0){
+                MethodManager.gotoNote(requireActivity(),note)
             }
             else{
-                MethodManager.gotoNote(requireActivity(),note)
+                val privacyPassword= SPUtil.getString(Constants.SP_PRIVACY_PASSWORD)
+                if (privacyPassword.isEmpty()) {
+                    MethodManager.gotoNote(requireActivity(),note)
+                } else {
+                    NumberPasswordDialog(requireActivity(),2).builder().apply {
+                        setDialogClickListener(object : NumberPasswordDialog.OnDialogClickListener {
+                            override fun onNumber(psw: String) {
+                                if (privacyPassword == MD5Utils.digest(psw)){
+                                    cancel()
+                                    MethodManager.gotoNote(requireActivity(),note)
+                                }
+                                else{
+                                    reset()
+                                    showToast(2,R.string.password_error)
+                                }
+                            }
+                        })
+                    }
+                }
             }
         }
         mAdapter?.setOnItemChildClickListener { adapter, view, position ->
@@ -146,8 +134,6 @@ class NoteFragment:BaseFragment(),ISmsView {
                 R.id.iv_delete->{
                     CommonDialog(requireActivity(),2).setContent(R.string.tips_is_delete).builder()
                         .setDialogClickListener(object : CommonDialog.OnDialogClickListener {
-                            override fun cancel() {
-                            }
                             override fun ok() {
                                 deleteNote()
                             }
@@ -167,43 +153,6 @@ class NoteFragment:BaseFragment(),ISmsView {
                             mAdapter?.notifyItemChanged(position)
                         }
                 }
-                R.id.iv_password->{
-                    if (privacyPassword==null){
-                        PrivacyPasswordCreateDialog(requireActivity()).builder().setOnDialogClickListener(object : PrivacyPasswordCreateDialog.OnDialogClickListener {
-                            override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                privacyPasswordSave=privacyPassword
-                                smsPresenter.checkPhone(code)
-                            }
-                            override fun onPhone(phone: String) {
-                                smsPresenter.sms(phone)
-                            }
-                        })
-                    }
-                    else{
-                        val titleStr=if (note.isCancelPassword)getString(R.string.tips_is_password_set) else getString(R.string.tips_is_password_cancel)
-                        CommonDialog(requireActivity(),2).setContent(titleStr).builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
-                            override fun cancel() {
-                            }
-                            override fun ok() {
-                                privacyPasswordDialog=PrivacyPasswordDialog(requireActivity(),1).builder()
-                                privacyPasswordDialog?.setOnDialogClickListener(object : PrivacyPasswordDialog.OnDialogClickListener{
-                                    override fun onClick() {
-                                        note.isCancelPassword=!note.isCancelPassword
-                                        NoteDaoManager.getInstance().insertOrReplace(note)
-                                        mAdapter?.notifyItemChanged(position)
-                                    }
-                                    override fun onSave(privacyPassword: PrivacyPassword, code: String) {
-                                        privacyPasswordSave=privacyPassword
-                                        smsPresenter.checkPhone(code)
-                                    }
-                                    override fun onPhone(phone: String) {
-                                        smsPresenter.sms(phone)
-                                    }
-                                })
-                            }
-                        })
-                    }
-                }
                 R.id.iv_upload->{
                     val path=FileAddress().getPathNote(note.typeStr,note.title)
                     if (!FileUtils.isExistContent(path)){
@@ -211,8 +160,6 @@ class NoteFragment:BaseFragment(),ISmsView {
                         return@setOnItemChildClickListener
                     }
                     CommonDialog(requireActivity(),2).setContent(R.string.tips_is_upload).builder().setDialogClickListener(object : CommonDialog.OnDialogClickListener {
-                        override fun cancel() {
-                        }
                         override fun ok() {
                             mQiniuPresenter.getToken()
                         }
@@ -313,7 +260,7 @@ class NoteFragment:BaseFragment(),ISmsView {
         mAdapter?.setNewData(notes)
     }
 
-    override fun onUpload(token: String) {
+    override fun onUploadToken(token: String){
         cloudList.clear()
         val note=notes[position]
         val path=FileAddress().getPathNote(note.typeStr,note.title)

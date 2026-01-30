@@ -13,30 +13,33 @@ import com.bll.lnkwrite.base.BaseFragment
 import com.bll.lnkwrite.dialog.ItemSelectorDialog
 import com.bll.lnkwrite.dialog.LongClickManageDialog
 import com.bll.lnkwrite.manager.TextbookGreenDaoManager
-import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.ItemList
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.book.TextbookBean
 import com.bll.lnkwrite.mvp.presenter.MyHomeworkPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IMyHomeworkView
-import com.bll.lnkwrite.ui.activity.book.TextbookDetailsActivity
-import com.bll.lnkwrite.ui.adapter.TextbookAdapter
+import com.bll.lnkwrite.ui.activity.book.BookStoreTypeActivity
+import com.bll.lnkwrite.ui.activity.book.TextBookStoreActivity
+import com.bll.lnkwrite.ui.adapter.TextBookAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileUploadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.cloudManager.TextBookCloudUploadManager
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.google.gson.Gson
+import kotlinx.android.synthetic.main.common_fragment_title.tv_btn
 import kotlinx.android.synthetic.main.fragment_list_tab.rv_list
 
 class TextbookFragment : BaseFragment(), IMyHomeworkView {
 
     private val presenter = MyHomeworkPresenter(this)
-    private var mAdapter: TextbookAdapter? = null
+    private var mAdapter: TextBookAdapter? = null
     private var textbooks = mutableListOf<TextbookBean>()
     private var tabId = 0
     private var position = 0
     private var textTypes= mutableListOf<ItemTypeBean>()
+
+    private val uploadManager by lazy {
+        TextBookCloudUploadManager(this)
+    }
 
     override fun onCreateSuccess() {
         showToast(1,"设置作业本成功")
@@ -48,7 +51,15 @@ class TextbookFragment : BaseFragment(), IMyHomeworkView {
 
     override fun initView() {
         setTitle(R.string.teaching)
-        pageSize = 9
+        pageSize = 12
+
+        tv_btn?.apply {
+            showView(tv_btn)
+            text="教材列表"
+            setOnClickListener {
+                customStartActivity(Intent(requireActivity(), TextBookStoreActivity::class.java))
+            }
+        }
 
         initTab()
         initRecyclerView()
@@ -72,30 +83,26 @@ class TextbookFragment : BaseFragment(), IMyHomeworkView {
     private fun initRecyclerView() {
         val layoutParams= LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         layoutParams.setMargins(
-            DP2PX.dip2px(requireActivity(),20f), DP2PX.dip2px(requireActivity(),30f),
-            DP2PX.dip2px(requireActivity(),20f),0)
+            DP2PX.dip2px(requireActivity(),15f),
+            DP2PX.dip2px(requireActivity(),50f),
+            DP2PX.dip2px(requireActivity(),15f),0)
         layoutParams.weight=1f
-        rv_list.layoutParams= layoutParams
-        rv_list.layoutManager = GridLayoutManager(activity, 3)//创建布局管理
-        mAdapter = TextbookAdapter(R.layout.item_textbook, null)
-        rv_list.adapter = mAdapter
-        mAdapter?.bindToRecyclerView(rv_list)
-        mAdapter?.setEmptyView(R.layout.common_empty)
-        rv_list?.addItemDecoration(SpaceGridItemDeco(3, 40))
-        mAdapter?.setOnItemClickListener { adapter, view, position ->
-            val book = textbooks[position]
-            val intent = Intent(activity, TextbookDetailsActivity::class.java)
-            intent.putExtra("book_id", book.bookId)
-            intent.putExtra("book_type", book.category)
-            intent.putExtra(Constants.INTENT_DRAWING_FOCUS, true)
-            customStartActivity(intent)
-        }
-        mAdapter?.onItemLongClickListener =
-            BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
-                this.position = position
+        rv_list?.layoutParams= layoutParams
+
+        mAdapter = TextBookAdapter(R.layout.item_bookstore, null).apply {
+            rv_list?.layoutManager = GridLayoutManager(activity,4)//创建布局管理
+            bindToRecyclerView(rv_list)
+            rv_list?.addItemDecoration(SpaceGridItemDeco(4,DP2PX.dip2px(requireActivity(),30f)))
+            setOnItemClickListener { adapter, view, position ->
+                val book = textbooks[position]
+                MethodManager.gotoTextBookDetails(activity,book)
+            }
+           onItemLongClickListener = BaseQuickAdapter.OnItemLongClickListener { adapter, view, position ->
+                this@TextbookFragment.position = position
                 onLongClick(textbooks[position])
                 true
             }
+        }
     }
 
     //长按显示课本管理
@@ -149,7 +156,7 @@ class TextbookFragment : BaseFragment(), IMyHomeworkView {
     }
 
     override fun fetchData() {
-        textbooks = TextbookGreenDaoManager.getInstance().queryAllTextBook(tabId, pageIndex, 9)
+        textbooks = TextbookGreenDaoManager.getInstance().queryAllTextBook(tabId, pageIndex, pageSize)
         val total = TextbookGreenDaoManager.getInstance().queryAllTextBook(tabId)
         setPageNumber(total.size)
         mAdapter?.setNewData(textbooks)
@@ -157,10 +164,6 @@ class TextbookFragment : BaseFragment(), IMyHomeworkView {
 
     override fun onEventBusMessage(msgFlag: String) {
         when(msgFlag){
-            Constants.AUTO_REFRESH_EVENT->{
-                if (MethodManager.isLogin())
-                    mQiniuPresenter.getToken()
-            }
             Constants.TEXT_BOOK_EVENT->{
                 fetchData()
             }
@@ -168,58 +171,10 @@ class TextbookFragment : BaseFragment(), IMyHomeworkView {
     }
 
     /**
-     * 每天上传书籍
+     * 上传两个月未使用书籍
      */
-    override fun onUpload(token: String){
-        cloudList.clear()
-        val books = TextbookGreenDaoManager.getInstance().queryTextBookByHalfYear()
-        for (book in books) {
-            //判读是否存在手写内容
-            if (FileUtils.isExistContent(book.bookDrawPath)) {
-                FileUploadManager(token).apply {
-                    setCallBack(object : FileUploadManager.UploadCallBack {
-                        override fun onUploadSuccess(url: String) {
-                            cloudList.add(CloudListBean().apply {
-                                type = 2
-                                zipUrl = book.downloadUrl
-                                downloadUrl = url
-                                subTypeStr = DataBeanManager.textBookTypes[book.category].title
-                                date = System.currentTimeMillis()
-                                listJson = Gson().toJson(book)
-                                bookId = book.bookId
-                                bookTypeId=book.category
-                            })
-                            if (cloudList.size == books.size)
-                                mCloudUploadPresenter.upload(cloudList)
-                        }
-                        override fun onUploadFail() {
-                        }
-                    })
-                    startZipUpload(book.bookDrawPath, book.bookId.toString())
-                }
-            } else {
-                cloudList.add(CloudListBean().apply {
-                    type = 2
-                    zipUrl = book.downloadUrl
-                    subTypeStr = DataBeanManager.textBookTypes[book.category].title
-                    date = System.currentTimeMillis()
-                    listJson = Gson().toJson(book)
-                    bookId = book.bookId
-                    bookTypeId=book.category
-                })
-                if (cloudList.size == books.size)
-                    mCloudUploadPresenter.upload(cloudList)
-            }
-        }
+    fun upload(token: String){
+        uploadManager.upload(token)
     }
 
-    //上传完成后删除书籍
-    override fun uploadSuccess(cloudIds: MutableList<Int>?) {
-        super.uploadSuccess(cloudIds)
-        for (item in cloudList) {
-            val bookBean = TextbookGreenDaoManager.getInstance().queryTextBookByBookId(item.bookTypeId, item.bookId)
-            MethodManager.deleteTextbook(bookBean)
-        }
-        fetchData()
-    }
 }

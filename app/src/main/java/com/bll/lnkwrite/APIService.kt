@@ -62,11 +62,12 @@ interface APIService{
      */
     @GET("accounts")
     fun accounts(): Observable<BaseResult<User>>
+
     /**
-     * 修改姓名 "/accounts/nickname"
+     * 修改电话
      */
-    @PATCH("accounts/nickname")
-    fun editName(@Body requestBody: RequestBody): Observable<BaseResult<Any>>
+    @POST("accounts/updateInfo")
+    fun editAccountInfo(@Body requestBody: RequestBody): Observable<BaseResult<Any>>
     /**
      * 绑定学生
      */
@@ -151,11 +152,6 @@ interface APIService{
      */
     @POST("password")
     fun findPassword(@Body requestBody: RequestBody): Observable<BaseResult<Any>>
-    /**
-     * 修改密码 "/accounts/password"
-     */
-    @PATCH("accounts/password")
-    fun editPassword(@Body requestBody: RequestBody): Observable<BaseResult<Any>>
 
     /**
      * //获取学豆列表

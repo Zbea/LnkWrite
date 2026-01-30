@@ -14,8 +14,10 @@ import com.bll.lnkwrite.mvp.presenter.AccountInfoPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.AccountStudentAdapter
 import com.bll.lnkwrite.MethodManager
+import com.bll.lnkwrite.mvp.model.User
 import com.bll.lnkwrite.mvp.presenter.SmsPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
+import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.SPUtil
 import com.bll.lnkwrite.utils.ToolUtils
 import kotlinx.android.synthetic.main.ac_account_info.*
@@ -31,12 +33,26 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView,ISmsVie
     private var mAdapter: AccountStudentAdapter?=null
     private var position=0
     private var phone=""
+    private var firstPsw=""
+    private var currentPsw=""
 
     override fun onSms() {
         showToast(R.string.send_verification_code_success)
     }
     override fun onCheckSuccess() {
         editPhone()
+    }
+
+    override fun getAccount(user: User) {
+        mUser=user
+        SPUtil.putString(Constants.SP_PRIVACY_PASSWORD,user.privacyPassword)
+        setAccountInfo()
+    }
+
+    override fun onPrivacyPassword() {
+        SPUtil.putString(Constants.SP_PRIVACY_PASSWORD,if (currentPsw.isEmpty())"" else MD5Utils.digest(currentPsw))
+        setPrivacyPswStr()
+        showToast(if (currentPsw.isEmpty()) R.string.cancel_success else R.string.set_success)
     }
 
     override fun onEditPhone() {
@@ -73,7 +89,7 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView,ISmsVie
     }
 
     override fun initData() {
-        mUser=MethodManager.getUser()
+        presenter.accounts()
         if (MethodManager.isCN())
             presenter.getStudents()
     }
@@ -86,11 +102,7 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView,ISmsVie
             disMissView(ll_student,rv_list,btn_logout)
         }
 
-        mUser?.apply {
-            tv_user.text = account
-            tv_name.text = nickname
-            tv_phone.text =getPhoneStr(telNumber)
-        }
+        setAccountInfo()
 
         btn_edit_phone.setOnClickListener {
             EditPhoneDialog(this,mUser?.telNumber!!).builder().setOnDialogClickListener(object : EditPhoneDialog.OnDialogClickListener {
@@ -114,6 +126,10 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView,ISmsVie
 
         btn_edit_password.setOnClickListener {
             customStartActivity(Intent(this, AccountRegisterActivity::class.java).setFlags(1))
+        }
+
+        btn_privacy_password.setOnClickListener {
+            editPrivacyPassword()
         }
 
         btn_logout.setOnClickListener {
@@ -154,8 +170,71 @@ class AccountInfoActivity:BaseActivity(), IContractView.IAccountInfoView,ISmsVie
         }
     }
 
+    private fun setAccountInfo(){
+        mUser?.apply {
+            tv_user.text = account
+            tv_name.text = nickname
+            tv_phone.text =getPhoneStr(telNumber)
+        }
+        setPrivacyPswStr()
+    }
+
+    private fun setPrivacyPswStr(){
+        val privacyPassword=SPUtil.getString(Constants.SP_PRIVACY_PASSWORD)
+        btn_privacy_password.text=getString(if (privacyPassword.isEmpty()) R.string.password_set else R.string.password_cancel)
+        tv_privacy_password.text=if (privacyPassword.isEmpty()) "" else "******"
+    }
+
     private fun getPhoneStr(phone:String):String{
         return if (ToolUtils.isPhoneNum(phone)) phone.substring(0, 3) + "****" + phone.substring(7, 11) else ""
+    }
+
+    private fun editPrivacyPassword(){
+        val privacyPassword=SPUtil.getString(Constants.SP_PRIVACY_PASSWORD)
+        if (privacyPassword.isEmpty()){
+            NumberPasswordDialog(this@AccountInfoActivity).builder().apply {
+                setDialogClickListener(object : NumberPasswordDialog.OnDialogClickListener {
+                    override fun onNumber(psw: String) {
+                        if (firstPsw.isEmpty()){
+                            firstPsw=psw
+                            reset()
+                            setTitle(getString(R.string.password_again))
+                        }
+                        else{
+                            if (firstPsw==psw){
+                                currentPsw=psw
+                                cancel()
+                                presenter.onPrivacyPassword(psw)
+                            }
+                            else{
+                                reset()
+                                showToast(R.string.password_different)
+                            }
+                        }
+                    }
+                    override fun onDismiss() {
+                        firstPsw=""
+                    }
+                })
+            }
+        }
+        else{
+            NumberPasswordDialog(this@AccountInfoActivity).builder().apply {
+                setDialogClickListener(object : NumberPasswordDialog.OnDialogClickListener {
+                    override fun onNumber(psw: String) {
+                        if (privacyPassword == MD5Utils.digest(psw)){
+                            currentPsw=""
+                            cancel()
+                            presenter.onPrivacyPassword("-")
+                        }
+                        else{
+                            reset()
+                            showToast("密码输入错误")
+                        }
+                    }
+                })
+            }
+        }
     }
 
     private fun editPhone(){

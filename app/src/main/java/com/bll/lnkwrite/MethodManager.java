@@ -23,11 +23,11 @@ import com.bll.lnkwrite.mvp.model.AppBean;
 import com.bll.lnkwrite.mvp.model.AreaBean;
 import com.bll.lnkwrite.mvp.model.ItemTypeBean;
 import com.bll.lnkwrite.mvp.model.Note;
-import com.bll.lnkwrite.mvp.model.PrivacyPassword;
 import com.bll.lnkwrite.mvp.model.User;
 import com.bll.lnkwrite.mvp.model.book.Book;
 import com.bll.lnkwrite.mvp.model.book.TextbookBean;
 import com.bll.lnkwrite.ui.activity.account.AccountLoginActivity;
+import com.bll.lnkwrite.ui.activity.book.TextbookDetailsActivity;
 import com.bll.lnkwrite.ui.activity.drawing.NoteDrawingActivity;
 import com.bll.lnkwrite.utils.ActivityManager;
 import com.bll.lnkwrite.utils.AppUtils;
@@ -77,6 +77,10 @@ public class MethodManager {
         return "zh".equals(languageCode);
     }
 
+    public static String getToken(){
+        return SPUtil.INSTANCE.getString("token");
+    }
+
     /**
      * 退出登录
      * @param context
@@ -96,6 +100,20 @@ public class MethodManager {
         intent.putExtra("token", "");
         intent.putExtra("userId", 0);
         intent.setAction(Constants.LOGOUT_BROADCAST_EVENT);
+        context.sendBroadcast(intent);
+    }
+
+    /**
+     * 发送登录广播
+     * @param context
+     * @param token
+     * @param accountId
+     */
+    public static void sendLoginBroadcast(Context context,String token,long accountId){
+        Intent intent = new Intent();
+        intent.putExtra("token", token);
+        intent.putExtra("userId",accountId);
+        intent.setAction(Constants.LOGIN_BROADCAST_EVENT);
         context.sendBroadcast(intent);
     }
 
@@ -162,6 +180,18 @@ public class MethodManager {
             result.put(jsonObject);
         }
         return result;
+    }
+
+    /**
+     * 跳转课本详情
+     */
+    public static void gotoTextBookDetails(Context context, TextbookBean textbookBean) {
+        ActivityManager.getInstance().finishActivity(TextbookDetailsActivity.class.getName());
+        Intent intent = new Intent(context, TextbookDetailsActivity.class);
+        intent.putExtra("book_id", textbookBean.bookId);
+        intent.putExtra("book_type", textbookBean.category);
+        intent.putExtra(Constants.INTENT_DRAWING_FOCUS, true);
+        context.startActivity(intent);
     }
 
 
@@ -239,34 +269,6 @@ public class MethodManager {
         note.date=System.currentTimeMillis();
         NoteDaoManager.getInstance().insertOrReplace(note);
         EventBus.getDefault().post(Constants.NOTE_EVENT);
-    }
-
-    /**
-     * 保存私密密码
-     * type 0日记1密本
-     * @param privacyPassword
-     */
-    public static void savePrivacyPassword(int type,PrivacyPassword privacyPassword){
-        if (type==0){
-            SPUtil.INSTANCE.putObj("privacyPasswordDiary",privacyPassword);
-        }
-        else{
-            SPUtil.INSTANCE.putObj("privacyPasswordNote",privacyPassword);
-        }
-    }
-
-    /**
-     * 获取私密密码
-     * type 0日记1密本
-     * @return
-     */
-    public static PrivacyPassword getPrivacyPassword(int type){
-         if (type==0){
-             return SPUtil.INSTANCE.getObj("privacyPasswordDiary", PrivacyPassword.class);
-        }
-        else{
-             return SPUtil.INSTANCE.getObj("privacyPasswordNote", PrivacyPassword.class);
-        }
     }
 
     /**

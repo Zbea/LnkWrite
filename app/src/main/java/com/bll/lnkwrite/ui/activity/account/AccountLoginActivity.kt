@@ -30,12 +30,9 @@ class AccountLoginActivity: BaseActivity(), IContractView.ILoginView {
     override fun getAccount(user: User?) {
         user?.token=token
         SPUtil.putObj("user",user!!)
+        SPUtil.putString(Constants.SP_PRIVACY_PASSWORD,user.privacyPassword)
 
-        val intent = Intent()
-        intent.putExtra("token", token)
-        intent.putExtra("userId", user.accountId)
-        intent.action = Constants.LOGIN_BROADCAST_EVENT
-        sendBroadcast(intent)
+        MethodManager.sendLoginBroadcast(this,token,user.accountId)
 
         gotoMainActivity()
     }

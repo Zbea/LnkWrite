@@ -110,16 +110,15 @@ class ScreenShotFragment: BaseFragment() {
     private fun initRecycleView(){
         val layoutParams= LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         layoutParams.setMargins(
-            DP2PX.dip2px(requireActivity(),20f), DP2PX.dip2px(requireActivity(),30f),
-            DP2PX.dip2px(requireActivity(),20f),0)
+            DP2PX.dip2px(requireActivity(),30f), DP2PX.dip2px(requireActivity(),30f),
+            DP2PX.dip2px(requireActivity(),30f),0)
         layoutParams.weight=1f
-        rv_list.layoutParams= layoutParams
+        rv_list?.layoutParams= layoutParams
 
-        rv_list.layoutManager = GridLayoutManager(requireActivity(), 3)//创建布局管理
-        mAdapter = ScreenshotAdapter(R.layout.item_textbook, null).apply {
-            rv_list.adapter = this
+        rv_list?.layoutManager = GridLayoutManager(requireActivity(), 4)//创建布局管理
+        rv_list?.addItemDecoration(SpaceGridItemDeco(4, DP2PX.dip2px(requireActivity(), 30f)))
+        mAdapter = ScreenshotAdapter(R.layout.item_bookstore, null).apply {
             bindToRecyclerView(rv_list)
-            rv_list?.addItemDecoration(SpaceGridItemDeco(3,  40))
             setEmptyView(R.layout.common_empty)
             setOnItemClickListener { adapter, view, position ->
                 ImageDialog(requireActivity(), arrayListOf(mAdapter?.data!![position].path)).builder()

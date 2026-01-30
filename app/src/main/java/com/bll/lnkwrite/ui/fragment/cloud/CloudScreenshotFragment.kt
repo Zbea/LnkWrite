@@ -21,7 +21,7 @@ import com.bll.lnkwrite.utils.zip.ZipUtils
 import com.bll.lnkwrite.widget.SpaceItemDeco
 import com.google.gson.Gson
 import com.liulishuo.filedownloader.BaseDownloadTask
-import kotlinx.android.synthetic.main.fragment_cloud_list_tab.rv_list
+import kotlinx.android.synthetic.main.fragment_list_content_tab.rv_list
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 

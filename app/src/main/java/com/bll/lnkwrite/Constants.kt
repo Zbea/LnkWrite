@@ -34,8 +34,8 @@ object Constants {
         const val SCREEN_FULL = 3//全屏
         const val DEBUG="debug"
 
-                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
-//        const val URL_BASE = "http://192.168.3.100:10800/v1/"
+//                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
+        const val URL_BASE = "http://192.168.3.100:10800/v1/"
         const val UPDATE_URL="http://cdn.qinglanmb.com/"
 
         ///storage/emulated/0/Android/data/yourPackageName/files/Zip
@@ -73,7 +73,13 @@ object Constants {
         const val PACKAGE_GEOMETRY="com.geometry"
         const val PACKAGE_READER = "com.geniatech.knote.reader"
         const val PACKAGE_SYSTEM_UPDATE = "com.htfyun.firmwareupdate"
+        const val PACKAGE_INSTALLER= "com.android.packageinstaller"
+//        const val PACKAGE_SYSTEM_UPDATE = "com.fctek.firmwareupdate"
+//        const val PACKAGE_PPT= "com.fctek.dualdocreader"
+//        const val PACKAGE_UI_BAR="com.fctek.systemui"
 
+//        const val NET_REFRESH = "com.fctek.systemui.refresh"
+//        const val SYSTEM_APP_STATUS_SHOW = "com.fctek.firmwareupdate.status.show"//判断当前系统更新是否运行
         const val ACTION_DAY_REFRESH = "com.bll.lnkwrite.refresh"//每天0刷新
         const val NET_REFRESH="com.htfyun.blackwhitebar.refresh"
         const val SYSTEM_APP_STATUS_SHOW = "com.htfyun.firmwareupdate.status.show"//判断当前系统更新是否运行
@@ -95,6 +101,7 @@ object Constants {
 
         const val SP_DIARY_BG_SET ="dirayBgRes"//日记
         const val SP_UPDATE_SYSTEM_STATUS = "UpdateSystemStatus"
+        const val SP_PRIVACY_PASSWORD = "PrivacyPassword"//私密密码
 }
 
 

@@ -154,7 +154,7 @@ class PaintingFragment: BaseFragment() {
         }
     }
 
-    override fun onUpload(token: String) {
+    override fun onUploadToken(token: String) {
         showLoading()
         val item=items[position]
         val contents=PaintingContentDaoManager.getInstance().queryAll(item.typeId)

@@ -25,10 +25,10 @@ import java.util.*
 
 class MainActivity : BaseActivity(){
     var mainLeftFragment: MainLeftFragment? = null
-    var bookcaseFragment: BookcaseFragment? = null
+    var bookcaseFragment: BookcaseManageFragment? = null
     var documentFragment: DocumentFragment? = null
     var appFragment: AppFragment? = null
-    var teachingFragment: TextbookFragment? = null
+    var textbookFragment: TextbookFragment? = null
 
     var mainRightFragment: MainRightFragment? = null
     var noteFragment: NoteFragment? = null
@@ -76,18 +76,6 @@ class MainActivity : BaseActivity(){
         if (FileUtils.isExist(targetFileStr)){
             FileUtils.deleteFile(File(targetFileStr))
         }
-
-        //创建书架分类
-        if (ItemTypeDaoManager.getInstance().queryAll(2).size==0){
-            val strings = DataBeanManager.bookType
-            for (i in strings.indices) {
-                val item = ItemTypeBean()
-                item.type=2
-                item.title = strings[i]
-                item.date=System.currentTimeMillis()
-                ItemTypeDaoManager.getInstance().insertOrReplace(item)
-            }
-        }
     }
 
     override fun initView() {
@@ -97,10 +85,10 @@ class MainActivity : BaseActivity(){
         }
 
         mainLeftFragment = MainLeftFragment()
-        bookcaseFragment = BookcaseFragment()
+        bookcaseFragment = BookcaseManageFragment()
         documentFragment = DocumentFragment()
         appFragment = AppFragment()
-        teachingFragment = TextbookFragment()
+        textbookFragment = TextbookFragment()
         noteFragment = NoteFragment()
         paintingFragment = PaintingFragment()
         screenShotFragment = ScreenShotFragment()
@@ -122,7 +110,7 @@ class MainActivity : BaseActivity(){
                     1 -> switchFragment(1,bookcaseFragment)//书架
                     2 -> switchFragment(1,documentFragment)//课本
                     3 -> switchFragment(1,appFragment)//义教
-                    4 -> switchFragment(1,teachingFragment)//应用
+                    4 -> switchFragment(1,textbookFragment)//应用
                 }
                 leftPosition = position
             }
@@ -241,7 +229,16 @@ class MainActivity : BaseActivity(){
                 mAdapterLeft?.updateItem(leftPosition,true)
                 mAdapterRight?.updateItem(rightPosition,true)
             }
+            Constants.AUTO_REFRESH_EVENT->{
+                //执行每天上传半年不使用书籍
+                mQiniuPresenter.getToken()
+            }
         }
+    }
+
+    override fun onUploadToken(token: String) {
+        bookcaseFragment?.upload(token)
+        textbookFragment?.upload(token)
     }
 
     private fun refreshData(boolean: Boolean){

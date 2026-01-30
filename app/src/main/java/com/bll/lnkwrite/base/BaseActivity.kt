@@ -22,6 +22,8 @@ import com.bll.lnkwrite.R
 import com.bll.lnkwrite.dialog.ProgressDialog
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.User
+import com.bll.lnkwrite.mvp.presenter.QiniuPresenter
+import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.net.ExceptionHandle
 import com.bll.lnkwrite.net.IBaseView
 import com.bll.lnkwrite.ui.activity.MainActivity
@@ -43,8 +45,9 @@ import pub.devrel.easypermissions.EasyPermissions
 import kotlin.math.ceil
 
 
-abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, IBaseView {
+abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks, IBaseView , IContractView.IQiniuView {
 
+    var mQiniuPresenter= QiniuPresenter(this)
     var mDialog: ProgressDialog? = null
     var screenPos=0
     var pageIndex=1 //当前页码
@@ -55,6 +58,15 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
     var isClickExpend=false //是否是单双屏切换
     var mUser: User?=null
     var mDownloadManager:DownloadManager?=null
+
+    override fun onToken(token: String) {
+        onUploadToken(token)
+    }
+    /**
+     * 开始上传
+     */
+    open fun onUploadToken(token: String){
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +93,9 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
             if (this !is AccountLoginActivity && this !is AccountRegisterActivity && this !is MainActivity){
                 login()
             }
+        }
+        else{
+            MethodManager.sendLoginBroadcast(this,SPUtil.getString("token"),mUser?.accountId!!)
         }
 
         screenPos=getCurrentScreenPos()
