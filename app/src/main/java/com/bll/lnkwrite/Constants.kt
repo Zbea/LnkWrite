@@ -34,8 +34,8 @@ object Constants {
         const val SCREEN_FULL = 3//全屏
         const val DEBUG="debug"
 
-//                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
-        const val URL_BASE = "http://192.168.3.100:10800/v1/"
+                const val URL_BASE = "https://api2.qinglanmb.com/v1/"
+//        const val URL_BASE = "http://192.168.3.100:10800/v1/"
         const val UPDATE_URL="http://cdn.qinglanmb.com/"
 
         ///storage/emulated/0/Android/data/yourPackageName/files/Zip

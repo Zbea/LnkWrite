@@ -140,7 +140,7 @@ class TextbookFragment : BaseFragment(), IMyHomeworkView {
                         for (item in students){
                             lists.add(ItemList(item.accountId,item.nickname))
                         }
-                        ItemSelectorDialog(requireActivity(),getString(R.string.select_student),lists).builder().setOnDialogClickListener{pos->
+                        ItemSelectorDialog(requireActivity(),1,getString(R.string.select_student),lists).builder().setOnDialogClickListener{pos->
                             val map = HashMap<String, Any>()
                             map["name"] = book.bookName
                             map["type"] = 2

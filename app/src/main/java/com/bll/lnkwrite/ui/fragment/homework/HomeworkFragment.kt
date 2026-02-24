@@ -110,7 +110,7 @@ class HomeworkFragment:BaseFragment(),IMyHomeworkView {
                         presenter.deleteHomeworkType(map)
                     }
                     1->{
-                        InputContentDialog(requireActivity(),item.name).builder().setOnDialogClickListener{
+                        InputContentDialog(requireActivity(),2,item.name).builder().setOnDialogClickListener{
                             editNameStr=it
                             val map=HashMap<String,Any>()
                             map["id"]= item.id

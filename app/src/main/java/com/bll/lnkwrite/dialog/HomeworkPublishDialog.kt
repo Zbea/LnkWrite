@@ -2,10 +2,12 @@ package com.bll.lnkwrite.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.view.Gravity
 import android.widget.EditText
 import android.widget.TextView
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.R
+import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
 import com.bll.lnkwrite.utils.KeyboardUtils
 import com.bll.lnkwrite.utils.SToast
@@ -18,6 +20,9 @@ class HomeworkPublishDialog(val context: Context) {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_homework_publish)
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        val layoutParams =dialog.window!!.attributes
+        layoutParams.gravity = Gravity.CENTER_VERTICAL or Gravity.END
+        layoutParams.x=(Constants.WIDTH- DP2PX.dip2px(context,500F))/2
         dialog.show()
 
         val tv_send = dialog.findViewById<TextView>(R.id.tv_send)
