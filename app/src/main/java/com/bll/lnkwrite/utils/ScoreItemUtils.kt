@@ -2,10 +2,51 @@ package com.bll.lnkwrite.utils
 
 import com.bll.lnkwrite.mvp.model.teaching.ScoreItem
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import java.io.IOException
 import java.util.regex.Pattern
 
 object ScoreItemUtils {
+
+    fun getAIJsonScore(message: String): String {
+        val pattern = Pattern.compile("```json\\n(.*?)\\n```", Pattern.DOTALL)
+        val matcher = pattern.matcher(message)
+        if (matcher.find()) {
+            return matcher.group(1)
+        }
+        return ""
+    }
+
+    fun updateAIJsonScores(currentScores: List<ScoreItem>, updateList: List<ScoreItem>) {
+        var i = 0
+        // 递归更新函数
+        fun updateNode(currentItem:  ScoreItem,parentItem: ScoreItem?) {
+            if (i >= updateList.size) return
+            // 优先检查当前节点是否匹配
+            if (currentItem.label == updateList[i].label) {
+                currentItem.score = updateList[i].score
+                i += 1
+                //将子节点值赋值给父节点
+                if (parentItem!=null){
+                    parentItem.score+=currentItem.score
+                }
+                return  // 匹配成功后终止当前分支的进一步检查
+            }
+            // 递归处理子节点
+            currentItem.childScores?.forEach { child ->
+                updateNode(child,currentItem)
+            }
+        }
+
+        // 遍历根节点
+        currentScores.forEach { rootNode ->
+            updateNode(rootNode,null)
+        }
+    }
 
     /**
      * 格式序列化  题目分数转行list集合
@@ -41,6 +82,47 @@ object ScoreItemUtils {
 //        Log.d(Constants.DEBUG,gson.toJson(list[0]))
 
         return list
+    }
+
+
+    fun listToJson(scoreItems:MutableList<ScoreItem>):String{
+        val gson = GsonBuilder()
+            .registerTypeAdapter(ScoreItem::class.java, ScoreItemTypeAdapter())
+            .create()
+        return gson.toJson(scoreItems)
+    }
+
+    private class ScoreItemTypeAdapter : TypeAdapter<ScoreItem?>() {
+        @Throws(IOException::class)
+        override fun write(out: JsonWriter, value: ScoreItem?) {
+            if (value == null) {
+                out.nullValue()
+                return
+            }
+            out.beginObject()
+
+            // 只写入需要的核心字段（过滤 level/parentItem/sortStr 等）
+            out.name("score").value(value.score)
+            out.name("type").value(value.type)
+            out.name("label").value(value.label)
+            out.name("pos").value(value.pos)
+
+            // 处理嵌套的 childScores 列表（递归序列化，核心逻辑正确）
+            out.name("childScores")
+            out.beginArray() // 标记 JSON 数组开始
+            value.childScores?.takeIf { it.isNotEmpty() }?.forEach { child ->
+                this.write(out, child) // 递归序列化子项，语法正确
+            }
+            out.endArray() // 标记 JSON 数组结束（修正注释，补全语法）
+
+            out.endObject()
+        }
+
+        @Throws(IOException::class)
+        override fun read(`in`: JsonReader?): ScoreItem? {
+            // 若后续需要反序列化，可补充以下逻辑（当前只序列化，返回 null 也可）
+            return null
+        }
     }
 
     /**
@@ -148,8 +230,6 @@ object ScoreItemUtils {
             if (!item.childScores.isNullOrEmpty()) {
                 setInitListScore(item.childScores) // 递归处理子节点，保证子节点result/score/label已就绪
             }
-            //处理当前节点的result（子节点/父节点通用）
-            item.result = getItemScoreResult(item)
             //父节点逻辑：仅当score/label为空时，才通过子节点汇总赋值
             if (item.childScores.isNullOrEmpty()) {
                 return@forEach
@@ -178,15 +258,4 @@ object ScoreItemUtils {
         return list.sumOf { it.label }
     }
 
-    /**
-     * 获取小题结果
-     */
-    fun getItemScoreResult(item:ScoreItem):Int{
-        //当对错时 返回result对错
-        if (item.label==0.0)
-        {
-            return item.result
-        }
-        return if (item.score<item.label) 0 else 1
-    }
 }

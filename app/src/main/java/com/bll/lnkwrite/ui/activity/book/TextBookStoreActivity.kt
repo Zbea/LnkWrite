@@ -22,8 +22,8 @@ import com.bll.lnkwrite.mvp.presenter.BookStorePresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.TextBookStoreAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.DownloadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.utils.zip.IZipCallback

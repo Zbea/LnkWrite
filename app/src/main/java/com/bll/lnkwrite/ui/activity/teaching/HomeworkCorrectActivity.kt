@@ -7,13 +7,11 @@ import com.bll.lnkwrite.base.BaseDrawingActivity
 import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.mvp.model.teaching.HomeworkCorrectList.CorrectBean
 import com.bll.lnkwrite.mvp.presenter.HomeworkCorrectPresenter
-import com.bll.lnkwrite.mvp.presenter.QiniuPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IHomeworkCorrectView
-import com.bll.lnkwrite.mvp.view.IContractView.IQiniuView
-import com.bll.lnkwrite.utils.BitmapBatchSaver
-import com.bll.lnkwrite.utils.BitmapUtils
-import com.bll.lnkwrite.utils.FileImageUploadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.BitmapBatchSaver
+import com.bll.lnkwrite.utils.fileManager.BitmapUtils
+import com.bll.lnkwrite.utils.fileManager.FileImageUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.GlideUtils
 import com.bll.lnkwrite.utils.ToolUtils
 import kotlinx.android.synthetic.main.common_drawing_tool.iv_btn
@@ -33,7 +31,8 @@ class HomeworkCorrectActivity:BaseDrawingActivity(),IHomeworkCorrectView {
     private var images= mutableListOf<String>()
     private var posImage=0
     private var url=""
-    private val bitmapBatchSaver= BitmapBatchSaver(4)
+    private val bitmapBatchSaver=
+        BitmapBatchSaver(4)
 
     override fun onUpdateSuccess() {
         showToast("批改成功")

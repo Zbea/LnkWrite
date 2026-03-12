@@ -65,7 +65,7 @@ class ScoreDetailsDialog(val context: Context, private val title:String, private
 
         if (correctMode >0) {
             val currentScores = ScoreItemUtils.questionToList(commitJson,correctMode)
-            sl_score.bindData(currentScores,false)
+            sl_score.bindData(currentScores,scoreMode,false)
         }
         else{
             val currentResults=ArrayList(DataBeanManager.getResultChildItems())

@@ -12,7 +12,7 @@ import com.bll.lnkwrite.R
 import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.mvp.model.ItemDetailsBean
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.widget.FlowLayoutManager
 import com.bll.lnkwrite.widget.MaxRecyclerView
 import com.bll.lnkwrite.widget.SpaceItemDeco

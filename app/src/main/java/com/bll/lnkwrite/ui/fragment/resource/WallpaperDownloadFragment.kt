@@ -14,7 +14,7 @@ import com.bll.lnkwrite.mvp.presenter.WallpaperPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.WallpaperAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import kotlinx.android.synthetic.main.fragment_list_content.rv_list

@@ -13,14 +13,12 @@ import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.presenter.CloudUploadPresenter
-import com.bll.lnkwrite.mvp.presenter.QiniuPresenter
-import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.mvp.view.IContractView.ICloudUploadView
 import com.bll.lnkwrite.ui.adapter.ItemTypeManagerAdapter
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.FileUploadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.ac_list.*

@@ -15,8 +15,8 @@ import com.bll.lnkwrite.mvp.model.CloudList
 import com.bll.lnkwrite.mvp.model.book.TextbookBean
 import com.bll.lnkwrite.ui.adapter.TextBookAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.DownloadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.zip.IZipCallback
 import com.bll.lnkwrite.utils.zip.ZipUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco

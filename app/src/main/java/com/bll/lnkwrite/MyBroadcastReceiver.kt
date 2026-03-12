@@ -5,14 +5,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.hardware.display.DisplayManager
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.util.Log
-import com.bll.lnkwrite.utils.AppUtils
-import com.bll.lnkwrite.utils.FileUtils
 import com.bll.lnkwrite.utils.NetworkUtil
 import org.greenrobot.eventbus.EventBus
-import java.io.File
 
 class MyBroadcastReceiver : BroadcastReceiver() {
 
@@ -35,16 +30,6 @@ class MyBroadcastReceiver : BroadcastReceiver() {
             Constants.ACTION_DAY_REFRESH->{
                 Log.d("debug","每天刷新")
                 EventBus.getDefault().postSticky(Constants.AUTO_REFRESH_EVENT)
-            }
-            //监听网络变化
-            ConnectivityManager.CONNECTIVITY_ACTION->{
-                val info: NetworkInfo? = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO)
-                if (info!!.state.equals(NetworkInfo.State.CONNECTED)) {
-                    val isNet = NetworkInfo.State.CONNECTED == info.state && info.isAvailable
-                    Log.d("debug", "监听网络变化$isNet")
-                    if (isNet)
-                        EventBus.getDefault().post(Constants.NETWORK_CONNECTION_COMPLETE_EVENT)
-                }
             }
             Constants.NET_REFRESH->{
                 if (NetworkUtil.isNetworkConnected()){

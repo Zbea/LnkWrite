@@ -1,7 +1,6 @@
 package com.bll.lnkwrite.ui.fragment
 
 import PopupClick
-import android.media.MediaScannerConnection
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -21,9 +20,7 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.PopupBean
 import com.bll.lnkwrite.ui.adapter.DocumentAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileUploadManager
-import com.bll.lnkwrite.utils.FileUtils
-import com.bll.lnkwrite.utils.SPUtil
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import kotlinx.android.synthetic.main.ac_list_tab.rv_list
 import kotlinx.android.synthetic.main.common_fragment_title.iv_manager
@@ -117,7 +114,7 @@ class DocumentFragment : BaseFragment() {
 
         itemTabTypes.clear()
         documentTypeNames.clear()
-        documentTypeNames=FileUtils.getDirectorys(File(path).parent)
+        documentTypeNames= FileUtils.getDirectorys(File(path).parent)
         for (name in documentTypeNames){
             itemTabTypes.add(ItemTypeBean().apply {
                 title=name

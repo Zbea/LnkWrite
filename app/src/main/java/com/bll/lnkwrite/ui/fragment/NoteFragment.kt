@@ -18,11 +18,11 @@ import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.mvp.model.Note
 import com.bll.lnkwrite.mvp.model.PopupBean
-import com.bll.lnkwrite.mvp.presenter.SmsPresenter
-import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
 import com.bll.lnkwrite.ui.activity.NotebookManagerActivity
 import com.bll.lnkwrite.ui.adapter.NoteAdapter
 import com.bll.lnkwrite.utils.*
+import com.bll.lnkwrite.utils.fileManager.FileUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_list_tab.*
 import kotlinx.android.synthetic.main.common_title.*

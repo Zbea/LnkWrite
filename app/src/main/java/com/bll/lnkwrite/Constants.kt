@@ -69,24 +69,22 @@ object Constants {
         const val SCREENSHOT_MANAGER_EVENT="ScreenshotManagerEvent"//截图管理刷新
         const val PAINTING_TYPE_EVENT="PaintingTypeEvent"//画本管理刷新
 
-        const val PACKAGE_PPT= "com.htfyun.dualdocreader"
         const val PACKAGE_GEOMETRY="com.geometry"
         const val PACKAGE_READER = "com.geniatech.knote.reader"
-        const val PACKAGE_SYSTEM_UPDATE = "com.htfyun.firmwareupdate"
         const val PACKAGE_INSTALLER= "com.android.packageinstaller"
-//        const val PACKAGE_SYSTEM_UPDATE = "com.fctek.firmwareupdate"
-//        const val PACKAGE_PPT= "com.fctek.dualdocreader"
-//        const val PACKAGE_UI_BAR="com.fctek.systemui"
+        const val PACKAGE_SYSTEM_UPDATE = "com.fctek.firmwareupdate"
+        const val PACKAGE_PPT= "com.fctek.dualdocreader"
+        const val PACKAGE_UI_BAR="com.fctek.systemui"
 
-//        const val NET_REFRESH = "com.fctek.systemui.refresh"
-//        const val SYSTEM_APP_STATUS_SHOW = "com.fctek.firmwareupdate.status.show"//判断当前系统更新是否运行
+        const val NET_REFRESH = "com.fctek.systemui.refresh"
+        const val SYSTEM_APP_STATUS_SHOW = "com.fctek.firmwareupdate.status.show"//判断当前系统更新是否运行
         const val ACTION_DAY_REFRESH = "com.bll.lnkwrite.refresh"//每天0刷新
-        const val NET_REFRESH="com.htfyun.blackwhitebar.refresh"
-        const val SYSTEM_APP_STATUS_SHOW = "com.htfyun.firmwareupdate.status.show"//判断当前系统更新是否运行
 
         const val LOGIN_BROADCAST_EVENT="com.bll.lnkwrite.account.login"
         const val LOGOUT_BROADCAST_EVENT="com.bll.lnkwrite.account.logout"
         const val NETWORK_CONNECTION_COMPLETE_EVENT = "NetworkConnectionCompleteEvent"//网络连接成功
+        const val NETWORK_CONNECTION_FAIL_EVENT = "NetworkConnectionFailEvent"//网络连接成功
+        const val WIFI_CONNECTION_FAIL_EVENT = "WIFIConnectionFailEvent"//wifi连接断开
 
         const val INTENT_SCREEN_LABEL = "android.intent.extra.LAUNCH_SCREEN"//打开页面在那个屏
         const val INTENT_DRAWING_FOCUS = "android.intent.extra.KEEP_FOCUS"//手写设置焦点

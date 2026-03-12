@@ -1,6 +1,5 @@
 package com.bll.lnkwrite.ui.activity.book
 
-import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -22,16 +21,14 @@ import com.bll.lnkwrite.mvp.presenter.BookStorePresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.BookStoreAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.DownloadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.liulishuo.filedownloader.BaseDownloadTask
-import kotlinx.android.synthetic.main.ac_bookstore_type.*
 import kotlinx.android.synthetic.main.ac_list_tab.rv_list
 import kotlinx.android.synthetic.main.common_title.tv_subgrade
-import kotlinx.android.synthetic.main.common_title.tv_supply
 import org.greenrobot.eventbus.EventBus
 
 /**

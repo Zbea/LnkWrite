@@ -12,15 +12,11 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.Constants.NETWORK_CONNECTION_COMPLETE_EVENT
 import com.bll.lnkwrite.DataBeanManager
 import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.MethodManager
-import com.bll.lnkwrite.MyApplication
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.dialog.AppUpdateDialog
 import com.bll.lnkwrite.dialog.ProgressDialog
@@ -42,16 +38,16 @@ import com.bll.lnkwrite.ui.activity.ResourceCenterActivity
 import com.bll.lnkwrite.ui.adapter.TabTypeAdapter
 import com.bll.lnkwrite.utils.ActivityManager
 import com.bll.lnkwrite.utils.AppUtils
-import com.bll.lnkwrite.utils.DownloadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.KeyboardUtils
+import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.utils.SPUtil
 import com.bll.lnkwrite.utils.SToast
 import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.widget.FlowLayoutManager
 import com.google.gson.Gson
-import com.htfy.params.ServerParams
 import com.liulishuo.filedownloader.BaseDownloadTask
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.common_fragment_title.tv_title
@@ -159,7 +155,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
         isViewPrepare = true
         EventBus.getDefault().register(this)
 
-        mDownloadManager=DownloadManager()
+        mDownloadManager= DownloadManager()
         if (MethodManager.getUser()==null){
             login()
         }
@@ -429,7 +425,7 @@ abstract class BaseFragment : Fragment(), IBaseView, IContractView.ICommonView,I
         val url= Constants.URL_BASE+"Device/CheckUpdate"
         val jsonBody = JSONObject().apply {
             put(Constants.SN, ToolUtils.getOtaSerialNumber())
-            put(Constants.KEY, ServerParams.getInstance().GetHtMd5Key(ToolUtils.getOtaSerialNumber()))
+            put(Constants.KEY, MD5Utils.digest(ToolUtils.getOtaSerialNumber()))
             put(Constants.VERSION_NO, ToolUtils.getOtaProductVersion())
         }
         VolleyHttpManager.post(

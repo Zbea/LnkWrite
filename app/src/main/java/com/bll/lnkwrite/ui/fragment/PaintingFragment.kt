@@ -6,12 +6,9 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.FileAddress
-import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
-import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.dialog.InputContentDialog
-import com.bll.lnkwrite.dialog.ItemSelectorDialog
 import com.bll.lnkwrite.dialog.LongClickManageDialog
 import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.manager.PaintingContentDaoManager
@@ -21,8 +18,8 @@ import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.ui.activity.drawing.PaintingDrawingActivity
 import com.bll.lnkwrite.ui.adapter.PaintingAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileUploadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.utils.ToolUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco

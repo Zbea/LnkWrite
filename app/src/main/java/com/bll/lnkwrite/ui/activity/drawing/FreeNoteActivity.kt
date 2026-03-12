@@ -20,9 +20,9 @@ import com.bll.lnkwrite.mvp.model.ShareNoteList
 import com.bll.lnkwrite.mvp.presenter.FreeNotePresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IFreeNoteView
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.DownloadManager
-import com.bll.lnkwrite.utils.FileImageUploadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.FileImageUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.utils.ToolUtils
 import kotlinx.android.synthetic.main.ac_free_note.tv_add

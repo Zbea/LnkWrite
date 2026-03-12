@@ -31,7 +31,7 @@ import com.bll.lnkwrite.ui.activity.book.TextbookDetailsActivity;
 import com.bll.lnkwrite.ui.activity.drawing.NoteDrawingActivity;
 import com.bll.lnkwrite.utils.ActivityManager;
 import com.bll.lnkwrite.utils.AppUtils;
-import com.bll.lnkwrite.utils.FileUtils;
+import com.bll.lnkwrite.utils.fileManager.FileUtils;
 import com.bll.lnkwrite.utils.SPUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -247,7 +247,7 @@ public class MethodManager {
                 flags=Constants.SCREEN_LEFT;
             }
             Intent intent = new Intent();
-            intent.setComponent(new ComponentName(Constants.PACKAGE_PPT,"com.htfyun.dualdocreader.OpenFileActivity"));
+            intent.setComponent(new ComponentName(Constants.PACKAGE_PPT,".OpenFileActivity"));
             intent.putExtra("open_mode", 0);  // 0-本地解析打开, 1-微软在线预览
             intent.putExtra("path", path);
             intent.putExtra(Constants.INTENT_SCREEN_LABEL, flags);

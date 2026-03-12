@@ -14,7 +14,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.MethodManager
@@ -31,6 +30,7 @@ import com.bll.lnkwrite.ui.activity.account.AccountLoginActivity
 import com.bll.lnkwrite.ui.activity.account.AccountRegisterActivity
 import com.bll.lnkwrite.ui.adapter.TabTypeAdapter
 import com.bll.lnkwrite.utils.*
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
 import com.bll.lnkwrite.widget.FlowLayoutManager
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
@@ -57,7 +57,7 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
     var itemTabTypes= mutableListOf<ItemTypeBean>()
     var isClickExpend=false //是否是单双屏切换
     var mUser: User?=null
-    var mDownloadManager:DownloadManager?=null
+    var mDownloadManager: DownloadManager?=null
 
     override fun onToken(token: String) {
         onUploadToken(token)
@@ -87,7 +87,7 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
 
         EventBus.getDefault().register(this)
 
-        mDownloadManager=DownloadManager()
+        mDownloadManager= DownloadManager()
         mUser= MethodManager.getUser()
         if (mUser==null){
             if (this !is AccountLoginActivity && this !is AccountRegisterActivity && this !is MainActivity){

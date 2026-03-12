@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.display.DisplayManager
-import android.net.ConnectivityManager
-import android.net.wifi.WifiManager
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +17,7 @@ import com.bll.lnkwrite.ui.activity.account.AccountInfoActivity
 import com.bll.lnkwrite.ui.adapter.MainListAdapter
 import com.bll.lnkwrite.ui.fragment.*
 import com.bll.lnkwrite.utils.*
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import kotlinx.android.synthetic.main.ac_main.*
 import java.io.File
 import java.util.*
@@ -48,15 +47,18 @@ class MainActivity : BaseActivity(){
     private var mTabLefts= mutableListOf<ItemList>()
     private var mTabRights= mutableListOf<ItemList>()
 
+    private val networkMonitorManager by lazy {
+        NetworkMonitorManager(this)
+    }
+
     override fun layoutId(): Int {
         return R.layout.ac_main
     }
 
     override fun initData() {
+        networkMonitorManager.startMonitor()
+
         val intentFilter=IntentFilter()
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
-        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
         intentFilter.addAction(DisplayManager.ACTION_WIFI_DISPLAY_STATUS_CHANGED)
         registerReceiver(myBroadcastReceiver,intentFilter)
 
@@ -257,6 +259,7 @@ class MainActivity : BaseActivity(){
 
     override fun onDestroy() {
         super.onDestroy()
+        networkMonitorManager.stopMonitor()
         unregisterReceiver(myBroadcastReceiver)
     }
 

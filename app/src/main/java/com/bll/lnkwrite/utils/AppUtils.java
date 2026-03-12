@@ -23,6 +23,7 @@ import androidx.core.content.FileProvider;
 import com.bll.lnkwrite.Constants;
 import com.bll.lnkwrite.R;
 import com.bll.lnkwrite.mvp.model.AppBean;
+import com.bll.lnkwrite.utils.fileManager.BitmapUtils;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -380,7 +381,7 @@ public class AppUtils {
                         Canvas canvas =new Canvas(bitmap);
                         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
                         drawable.draw(canvas);
-                        appBean.imageByte=BitmapUtils.drawableToByte(bitmap);
+                        appBean.imageByte= BitmapUtils.drawableToByte(bitmap);
                     }
                     else {
                         appBean.imageByte=BitmapUtils.drawableToByte(drawable);

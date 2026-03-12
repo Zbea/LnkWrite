@@ -23,7 +23,7 @@ import com.bll.lnkwrite.mvp.model.PopupBean
 import com.bll.lnkwrite.ui.activity.ScreenshotManagerActivity
 import com.bll.lnkwrite.ui.adapter.ScreenshotAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.chad.library.adapter.base.BaseQuickAdapter
 import kotlinx.android.synthetic.main.ac_list_tab.rv_list

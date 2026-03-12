@@ -3,11 +3,9 @@ package com.bll.lnkwrite.ui.fragment.resource
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
-import com.bll.lnkwrite.dialog.ImageDialog
 import com.bll.lnkwrite.dialog.PreviewDialog
 import com.bll.lnkwrite.manager.CalenderDaoManager
 import com.bll.lnkwrite.mvp.model.CalenderItemBean
@@ -16,8 +14,8 @@ import com.bll.lnkwrite.mvp.presenter.CalenderPresenter
 import com.bll.lnkwrite.mvp.view.IContractView
 import com.bll.lnkwrite.ui.adapter.CalenderListAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.DownloadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.DownloadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.utils.ToolUtils
@@ -27,7 +25,6 @@ import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloader
 import kotlinx.android.synthetic.main.ac_list.rv_list
-import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 class CalenderDownloadFragment: BaseFragment(), IContractView.ICalenderView {

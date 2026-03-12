@@ -8,7 +8,7 @@ import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.manager.BookDaoManager
 import com.bll.lnkwrite.mvp.model.CloudListBean
 import com.bll.lnkwrite.mvp.model.book.Book
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.cloudManager.CloudUploadUtils.limitedDispatcher
 import com.google.gson.Gson

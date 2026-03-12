@@ -12,7 +12,7 @@ import com.bll.lnkwrite.manager.WallpaperDaoManager
 import com.bll.lnkwrite.mvp.model.WallpaperBean
 import com.bll.lnkwrite.ui.adapter.WallpaperMyAdapter
 import com.bll.lnkwrite.utils.DP2PX
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import com.chad.library.adapter.base.BaseQuickAdapter
 import kotlinx.android.synthetic.main.ac_list.*

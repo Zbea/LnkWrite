@@ -4,7 +4,7 @@ import VolleyCallback
 import VolleyHttpManager
 import com.bll.lnkwrite.Constants
 import com.bll.lnkwrite.mvp.model.CloudListBean
-import com.bll.lnkwrite.utils.FileUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUploadManager
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine

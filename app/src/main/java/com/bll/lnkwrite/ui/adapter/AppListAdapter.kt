@@ -2,7 +2,7 @@ package com.bll.lnkwrite.ui.adapter
 
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.mvp.model.AppBean
-import com.bll.lnkwrite.utils.BitmapUtils
+import com.bll.lnkwrite.utils.fileManager.BitmapUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 

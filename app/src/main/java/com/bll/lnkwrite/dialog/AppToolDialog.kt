@@ -12,7 +12,7 @@ import com.bll.lnkwrite.mvp.model.AppBean
 import com.bll.lnkwrite.ui.activity.drawing.FreeNoteActivity
 import com.bll.lnkwrite.ui.activity.drawing.PlanOverviewActivity
 import com.bll.lnkwrite.utils.AppUtils
-import com.bll.lnkwrite.utils.BitmapUtils
+import com.bll.lnkwrite.utils.fileManager.BitmapUtils
 import com.bll.lnkwrite.utils.DP2PX
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -89,7 +89,8 @@ class AppToolDialog(val context: Context, private val oldScreen:Int, private val
     class MyAdapter(layoutResId: Int, data: List<AppBean>?) : BaseQuickAdapter<AppBean, BaseViewHolder>(layoutResId, data) {
         override fun convert(helper: BaseViewHolder, item: AppBean) {
             helper.setText(R.id.tv_name,item.appName)
-            helper.setImageDrawable(R.id.iv_image,BitmapUtils.byteToDrawable(item.imageByte))
+            helper.setImageDrawable(R.id.iv_image,
+                BitmapUtils.byteToDrawable(item.imageByte))
         }
     }
 

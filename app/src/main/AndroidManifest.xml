@@ -80,10 +80,8 @@
             >
             <intent-filter>
                 <action android:name="com.bll.lnkwrite.refresh"/>
-                <action android:name="com.htfyun.blackwhitebar.refresh"/>
-                <action android:name="com.htfyun.firmwareupdate.status.show"/>
-                <!--                <action android:name="com.fctek.systemui.refresh"/>-->
-                <!--                <action android:name="com.fctek.firmwareupdate.status.show"/>-->
+                <action android:name="com.fctek.systemui.refresh"/>
+                <action android:name="com.fctek.firmwareupdate.status.show"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>

@@ -15,7 +15,7 @@ import com.bll.lnkwrite.mvp.model.book.TextbookBean
 import com.bll.lnkwrite.mvp.model.catalog.CatalogChildBean
 import com.bll.lnkwrite.mvp.model.catalog.CatalogMsg
 import com.bll.lnkwrite.mvp.model.catalog.CatalogParentBean
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.common_drawing_page_number.tv_page_a
@@ -68,7 +68,7 @@ class TextbookDetailsActivity : BaseDrawingActivity(){
             }
         }
         else{
-            pageCount=FileUtils.getFiles(FileAddress().getPathTextBookPicture(book?.bookPath!!)).size
+            pageCount= FileUtils.getFiles(FileAddress().getPathTextBookPicture(book?.bookPath!!)).size
         }
     }
 

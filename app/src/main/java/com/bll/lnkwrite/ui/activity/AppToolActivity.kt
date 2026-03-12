@@ -10,7 +10,7 @@ import com.bll.lnkwrite.manager.AppDaoManager
 import com.bll.lnkwrite.mvp.model.AppBean
 import com.bll.lnkwrite.ui.adapter.AppListAdapter
 import com.bll.lnkwrite.utils.AppUtils
-import com.bll.lnkwrite.utils.BitmapUtils
+import com.bll.lnkwrite.utils.fileManager.BitmapUtils
 import com.bll.lnkwrite.widget.SpaceGridItemDeco
 import kotlinx.android.synthetic.main.ac_app_tool.*
 import kotlinx.android.synthetic.main.common_title.tv_ok

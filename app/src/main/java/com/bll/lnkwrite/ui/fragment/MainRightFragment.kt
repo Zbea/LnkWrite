@@ -17,7 +17,6 @@ import com.bll.lnkwrite.FileAddress
 import com.bll.lnkwrite.MethodManager
 import com.bll.lnkwrite.R
 import com.bll.lnkwrite.base.BaseFragment
-import com.bll.lnkwrite.dialog.CommonDialog
 import com.bll.lnkwrite.dialog.DiaryManageDialog
 import com.bll.lnkwrite.dialog.DiaryUploadListDialog
 import com.bll.lnkwrite.dialog.NumberPasswordDialog
@@ -32,10 +31,8 @@ import com.bll.lnkwrite.mvp.model.StudentBean
 import com.bll.lnkwrite.mvp.model.book.Book
 import com.bll.lnkwrite.mvp.presenter.MessagePresenter
 import com.bll.lnkwrite.mvp.presenter.RelationPresenter
-import com.bll.lnkwrite.mvp.presenter.SmsPresenter
 import com.bll.lnkwrite.mvp.view.IContractView.IMessageView
 import com.bll.lnkwrite.mvp.view.IContractView.IRelationView
-import com.bll.lnkwrite.mvp.view.IContractView.ISmsView
 import com.bll.lnkwrite.ui.activity.DateActivity
 import com.bll.lnkwrite.ui.activity.MessageListActivity
 import com.bll.lnkwrite.ui.activity.drawing.DateEventActivity
@@ -45,8 +42,8 @@ import com.bll.lnkwrite.ui.adapter.BookAdapter
 import com.bll.lnkwrite.ui.adapter.MainNoteAdapter
 import com.bll.lnkwrite.ui.adapter.MessageAdapter
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.FileUploadManager
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUploadManager
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.utils.MD5Utils
 import com.bll.lnkwrite.utils.NetworkUtil
 import com.bll.lnkwrite.utils.SPUtil

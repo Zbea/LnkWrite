@@ -13,7 +13,7 @@ import com.bll.lnkwrite.manager.ItemTypeDaoManager
 import com.bll.lnkwrite.mvp.model.ItemTypeBean
 import com.bll.lnkwrite.utils.DP2PX
 import com.bll.lnkwrite.utils.DateUtils
-import com.bll.lnkwrite.utils.FileUtils
+import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.bll.lnkwrite.widget.SpaceItemDeco
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
