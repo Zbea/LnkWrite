@@ -28,6 +28,7 @@ class MainActivity : BaseActivity(){
     var documentFragment: DocumentFragment? = null
     var appFragment: AppFragment? = null
     var textbookFragment: TextbookFragment? = null
+    var bookFragment:BookFragment?=null
 
     var mainRightFragment: MainRightFragment? = null
     var noteFragment: NoteFragment? = null
@@ -88,6 +89,7 @@ class MainActivity : BaseActivity(){
 
         mainLeftFragment = MainLeftFragment()
         bookcaseFragment = BookcaseManageFragment()
+        bookFragment=BookFragment()
         documentFragment = DocumentFragment()
         appFragment = AppFragment()
         textbookFragment = TextbookFragment()
@@ -109,7 +111,7 @@ class MainActivity : BaseActivity(){
                 updateItem(position, true)//更新新的位置
                 when (position) {
                     0 -> switchFragment(1,mainLeftFragment)//首页
-                    1 -> switchFragment(1,bookcaseFragment)//书架
+                    1 -> switchFragment(1,bookFragment)//书架
                     2 -> switchFragment(1,documentFragment)//课本
                     3 -> switchFragment(1,appFragment)//义教
                     4 -> switchFragment(1,textbookFragment)//应用

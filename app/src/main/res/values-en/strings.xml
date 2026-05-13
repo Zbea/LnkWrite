@@ -139,6 +139,8 @@
     <string name="plan">Plan</string>
     <string name="upload">Upload</string>
 
+    <string name="reading">Reading</string>
+
     <string name="semester_last">Last semester</string>
     <string name="semester_next">Next semester</string>
 
@@ -240,7 +242,7 @@
     <string name="home">Homepage</string>
     <string name="note">Notebook</string>
     <string name="diary">Diary</string>
-    <string name="bookcase">Bookshelf</string>
+    <string name="bookcase">Bookcase</string>
     <string name="document">Documents</string>
     <string name="homework">Exercises</string>
     <string name="teaching">Textbook</string>

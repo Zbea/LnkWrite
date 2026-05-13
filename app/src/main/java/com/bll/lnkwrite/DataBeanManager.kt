@@ -717,7 +717,7 @@ object DataBeanManager {
         val types= mutableListOf("一、"+ mContext.getString(R.string.instruction_main),"二、"+mContext.getString(R.string.instruction_manager),"三、"+mContext.getString(R.string.instruction_tool))
         val mainStrs= mutableListOf(mContext.getString(R.string.register),mContext.getString(R.string.key_interface),mContext.getString(R.string.status_bar),mContext.getString(R.string.diary_freenote)
             ,mContext.getString(R.string.book_note),mContext.getString(R.string.document_screeshot),mContext.getString(R.string.app_draw),mContext.getString(R.string.teaching_homework))
-        val managerStrs= mutableListOf(mContext.getString(R.string.instruction_manager),mContext.getString(R.string.bookstore),mContext.getString(R.string.resource),mContext.getString(R.string.screenshot),mContext.getString(R.string.Toolkit)
+        val managerStrs= mutableListOf(mContext.getString(R.string.instruction_manager),mContext.getString(R.string.resource),mContext.getString(R.string.screenshot),mContext.getString(R.string.Toolkit)
         ,mContext.getString(R.string.calender))
         val toolStrs= mutableListOf(mContext.getString(R.string.painting),mContext.getString(R.string.geometry_title_str))
         val childTypes= mutableListOf(mainStrs,managerStrs,toolStrs)

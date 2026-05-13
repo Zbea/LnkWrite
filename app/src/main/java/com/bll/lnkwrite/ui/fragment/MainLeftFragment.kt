@@ -104,33 +104,39 @@ class MainLeftFragment:BaseFragment(){
      * 是否显示台历
      */
     private fun setCalenderView(){
-        val item=CalenderDaoManager.getInstance().queryCalenderBean()
-        if (item!=null){
-            calenderPath=item.path
-            showView(iv_calender)
-            val calenderUtils=CalenderUtils(DateUtils.longToStringDataNoHour(nowDay))
-            nowDayPos=calenderUtils.elapsedTime()
-            setCalenderBg()
-        }
-        else{
-            disMissView(iv_calender)
-        }
+//        val item=CalenderDaoManager.getInstance().queryCalenderBean()
+//        if (item!=null){
+//            calenderPath=item.path
+//            showView(iv_calender)
+//            val calenderUtils=CalenderUtils(DateUtils.longToStringDataNoHour(nowDay))
+//            nowDayPos=calenderUtils.elapsedTime()
+//            setCalenderBg()
+//        }
+//        else{
+//            disMissView(iv_calender)
+//        }
+        setCalenderBg()
     }
 
     /**
      * 设置台历图片
      */
     private fun setCalenderBg(){
-        val listFiles= FileUtils.getFiles(calenderPath)
-        if (listFiles.size>0){
-            val file=if (listFiles.size>nowDayPos-1){
-                listFiles[nowDayPos-1]
+        if (MethodManager.isCN()){
+            val listFiles= FileUtils.getFiles(calenderPath)
+            if (listFiles.size>0){
+                val file=if (listFiles.size>nowDayPos-1){
+                    listFiles[nowDayPos-1]
+                }
+                else{
+                    listFiles[Random().nextInt(listFiles.size)]
+                }
+                GlideUtils.setImageRoundUrl(requireActivity(),file.path,iv_calender,15)
             }
-            else{
-//                listFiles[listFiles.size-1]
-                listFiles[Random().nextInt(listFiles.size)]
-            }
-            GlideUtils.setImageRoundUrl(requireActivity(),file.path,iv_calender,15)
+        }
+        else{
+            val assetsUri = "file:///android_asset/en/calender_bg.png"
+            GlideUtils.setImageRoundUrl(requireActivity(),assetsUri,iv_calender,15)
         }
     }
 

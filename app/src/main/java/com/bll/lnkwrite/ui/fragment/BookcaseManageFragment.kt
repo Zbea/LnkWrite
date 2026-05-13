@@ -26,11 +26,11 @@ class BookcaseManageFragment: BaseFragment() {
     }
 
     override fun initView() {
-       val tabTitles = arrayListOf("阅读", "书架")
+       val tabTitles = arrayListOf(getString(R.string.reading), getString(R.string.bookcase))
 
         tv_btn?.apply {
             showView(tv_btn)
-            text="书城列表"
+            setText(R.string.bookstore)
             setOnClickListener {
                 customStartActivity(Intent(requireActivity(), BookStoreTypeActivity::class.java))
             }

@@ -26,6 +26,7 @@ import com.bll.lnkwrite.utils.fileManager.FileUtils
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_list_tab.*
 import kotlinx.android.synthetic.main.common_title.*
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 class NoteFragment:BaseFragment() {
@@ -192,6 +193,7 @@ class NoteFragment:BaseFragment() {
                     noteBook.date=System.currentTimeMillis()
                     ItemTypeDaoManager.getInstance().insertOrReplace(noteBook)
                     mTabTypeAdapter?.addData(noteBook)
+                    EventBus.getDefault().post(NOTE_EVENT)
                 }
             }
     }
@@ -231,15 +233,7 @@ class NoteFragment:BaseFragment() {
         FileUtils.deleteFile(File(path))
         mAdapter?.remove(position)
 
-        if (notes.size==0){
-            if (pageIndex>1){
-                pageIndex-=1
-                fetchData()
-            }
-            else{
-                setPageNumber(0)
-            }
-        }
+        EventBus.getDefault().post(NOTE_EVENT)
     }
 
     override fun onEventBusMessage(msgFlag: String) {

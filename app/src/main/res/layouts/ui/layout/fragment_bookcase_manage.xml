@@ -15,7 +15,7 @@
             layout="@layout/common_fragment_title" />
         <com.bll.lnkwrite.widget.TabRadioGroup
             android:id="@+id/tabRadioGroup"
-            android:layout_width="175dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_30"
             app:unselectedTextSize="30sp"

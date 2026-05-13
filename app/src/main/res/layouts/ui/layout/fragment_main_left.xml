@@ -101,7 +101,6 @@
             android:layout_below="@+id/ll_date"
             android:layout_marginTop="@dimen/dp_10"
             android:scaleType="fitCenter"
-            android:visibility="gone"
             />
 
         <ImageView

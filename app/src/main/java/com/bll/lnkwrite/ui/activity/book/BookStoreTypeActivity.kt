@@ -55,7 +55,7 @@ class BookStoreTypeActivity: BaseActivity(), IContractView.IBookStoreView {
     }
 
     override fun layoutId(): Int {
-        return R.layout.ac_list_tab
+        return R.layout.ac_list
     }
 
     override fun initData() {
@@ -64,8 +64,8 @@ class BookStoreTypeActivity: BaseActivity(), IContractView.IBookStoreView {
     }
 
     override fun initView() {
-        setPageTitle("书城")
-        showView(tv_subgrade)
+        setPageTitle(R.string.bookstore)
+//        showView(tv_subgrade)
 
         if (popGrades.size>0){
             grade = popGrades[0].id
@@ -84,7 +84,7 @@ class BookStoreTypeActivity: BaseActivity(), IContractView.IBookStoreView {
         }
 
         initRecyclerView()
-        initTab()
+//        initTab()
 
         fetchData()
     }
@@ -125,15 +125,15 @@ class BookStoreTypeActivity: BaseActivity(), IContractView.IBookStoreView {
             bindToRecyclerView(rv_list)
             setEmptyView(R.layout.common_empty)
             setOnItemClickListener { adapter, view, position ->
-                val book=books[position]
-                val images=if (book.previewUrl.isNullOrEmpty()){
-                    mutableListOf()
-                }
-                else{
-                    book.previewUrl.split(",")
-                }
-                val content="出版社："+book.version+"\n简介："+book.bookDesc
-                PreviewDialog(this@BookStoreTypeActivity,book.bookName,content,images).builder()
+//                val book=books[position]
+//                val images=if (book.previewUrl.isNullOrEmpty()){
+//                    mutableListOf()
+//                }
+//                else{
+//                    book.previewUrl.split(",")
+//                }
+//                val content="出版社："+book.version+"\n简介："+book.bookDesc
+//                PreviewDialog(this@BookStoreTypeActivity,book.bookName,content,images).builder()
             }
             setOnItemChildClickListener { adapter, view, position ->
                 this@BookStoreTypeActivity.position=position
@@ -208,8 +208,8 @@ class BookStoreTypeActivity: BaseActivity(), IContractView.IBookStoreView {
         val map = HashMap<String, Any>()
         map["page"] = pageIndex
         map["size"] = pageSize
-        map["grade"] = grade
-        map["type"] = type
+        map["mainType"]=3
+        map["type"] = 7
         presenter.getBooks(map)
     }
 
